@@ -11,7 +11,7 @@ CORS(app)
 load_dotenv()
 @app.route("/")
 def home():
-    return "Traveller's Paradise Backend Running Successfully!"
+    return "Traveller's Paradise Backend Running Successfully!🤣🤣"
 client = OpenAI(
     api_key=os.getenv("OPENAI_API_KEY")
 )
@@ -23,13 +23,6 @@ def home():
 def result():
     return send_from_directory(".", "result.html")
 
-@app.route("/login.html")
-def login():
-    return send_from_directory(".", "login.html")
-
-@app.route("/signup.html")
-def signup():
-    return send_from_directory(".", "signup.html")
 @app.route("/generate", methods=["POST"])
 def generate_trip():
 
