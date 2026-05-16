@@ -9,9 +9,6 @@ from dotenv import load_dotenv
 app = Flask(__name__)
 CORS(app)
 load_dotenv()
-@app.route("/")
-def home():
-    return "Traveller's Paradise Backend Running Successfully!🤣🤣"
 client = OpenAI(
     api_key=os.getenv("OPENAI_API_KEY")
 )
