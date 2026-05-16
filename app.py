@@ -1,5 +1,6 @@
 import os
 from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 from openai import OpenAI
 from dotenv import load_dotenv
@@ -14,7 +15,21 @@ def home():
 client = OpenAI(
     api_key=os.getenv("OPENAI_API_KEY")
 )
+@app.route("/")
+def home():
+    return send_from_directory(".", "index.html")
 
+@app.route("/result.html")
+def result():
+    return send_from_directory(".", "result.html")
+
+@app.route("/login.html")
+def login():
+    return send_from_directory(".", "login.html")
+
+@app.route("/signup.html")
+def signup():
+    return send_from_directory(".", "signup.html")
 @app.route("/generate", methods=["POST"])
 def generate_trip():
 
