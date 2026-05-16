@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Traveller's Paradise</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;0,700;1,300;1,600&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet" />
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: #080810;
+      color: #f2ede6;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── Noise overlay ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      opacity: 0.03;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 180px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── Navbar ── */
+    .tp-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 22px 48px;
+      position: relative;
+      z-index: 10;
+      border-bottom: 0.5px solid rgba(255,255,255,0.07);
+    }
+
+    .tp-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      color: #f2ede6;
+      text-decoration: none;
+    }
+
+    .tp-logo span { color: #e8c87a; }
+
+    .tp-nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+
+    .tp-nav-links a {
+      font-size: 12px;
+      font-weight: 400;
+      color: rgba(242,237,230,0.45);
+      text-decoration: none;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .tp-nav-links a:hover { color: #f2ede6; }
+
+    .tp-nav-cta {
+      font-size: 12px;
+      font-weight: 500;
+      background: transparent;
+      color: #e8c87a;
+      border: 0.5px solid rgba(232,200,122,0.5);
+      padding: 10px 24px;
+      border-radius: 2px;
+      cursor: pointer;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: all 0.2s;
+    }
+
+    .tp-nav-cta:hover { background: rgba(232,200,122,0.1); border-color: #e8c87a; }
+
+    .tp-auth-status {
+      color: #f2ede6;
+      font-size: 12px;
+      margin-right: 18px;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      white-space: nowrap;
+      align-self: center;
+    }
+    .hidden { display: none !important; }
+    .auth-modal {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+    .auth-modal-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(4px);
+    }
+    .auth-modal-card {
+      position: relative;
+      width: min(420px, 100%);
+      background: #12121f;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      padding: 28px 26px;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.45);
+      z-index: 1;
+    }
+    .auth-close-btn {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      border: none;
+      background: transparent;
+      color: #f2ede6;
+      font-size: 22px;
+      cursor: pointer;
+      opacity: 0.7;
+    }
+    .auth-close-btn:hover { opacity: 1; }
+    .auth-modal-card h2 {
+      margin: 0 0 10px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 26px;
+      color: #f2ede6;
+    }
+    .auth-modal-card p {
+      margin: 0 0 24px;
+      font-size: 13px;
+      color: rgba(242,237,230,0.7);
+      line-height: 1.6;
+    }
+    .auth-google-btn,
+    .auth-email-btn {
+      width: 100%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(232,200,122,0.08);
+      color: #f2ede6;
+      padding: 14px 18px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+      margin-bottom: 16px;
+    }
+    .auth-google-btn:hover,
+    .auth-email-btn:hover { background: rgba(232,200,122,0.14); transform: translateY(-1px); }
+    .auth-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 8px 0 18px;
+      color: rgba(242,237,230,0.55);
+      font-size: 12px;
+    }
+    .auth-divider::before,
+    .auth-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(255,255,255,0.08);
+    }
+    .auth-email-form label {
+      display: block;
+      margin-bottom: 14px;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: rgba(242,237,230,0.55);
+    }
+    .auth-email-form input {
+      width: 100%;
+      margin-top: 8px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 6px;
+      color: #f2ede6;
+      padding: 12px 14px;
+      font-size: 13px;
+      outline: none;
+    }
+    .auth-email-form input:focus {
+      border-color: rgba(232,200,122,0.6);
+      background: rgba(232,200,122,0.08);
+    }
+
+    /* ── Hero ── */
+    .tp-hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 420px;
+      position: relative;
+      z-index: 5;
+    }
+
+    .tp-hero-left {
+      padding: 60px 48px 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .tp-eyebrow {
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #e8c87a;
+      margin-bottom: 22px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .tp-eyebrow::before {
+      content: '';
+      display: block;
+      width: 28px;
+      height: 0.5px;
+      background: #e8c87a;
+    }
+
+    .tp-headline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 64px;
+      font-weight: 700;
+      line-height: 1.0;
+      letter-spacing: -1px;
+      margin-bottom: 22px;
+    }
+
+    .tp-headline em {
+      font-style: italic;
+      font-weight: 300;
+      color: #e8c87a;
+    }
+
+    .tp-sub {
+      font-size: 14px;
+      font-weight: 300;
+      color: rgba(242,237,230,0.55);
+      line-height: 1.8;
+      max-width: 340px;
+      margin-bottom: 36px;
+    }
+
+    /* ── Search box ── */
+    .tp-search-box {
+      background: rgba(255,255,255,0.04);
+      border: 0.5px solid rgba(255,255,255,0.1);
+      border-radius: 4px;
+      padding: 20px;
+      max-width: 440px;
+    }
+
+    .tp-search-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .tp-field label {
+      display: block;
+      font-size: 9px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: rgba(242,237,230,0.3);
+      margin-bottom: 7px;
+    }
+
+    .tp-field input,
+    .tp-field select {
+      width: 100%;
+      background: rgba(255,255,255,0.05);
+      border: 0.5px solid rgba(255,255,255,0.1);
+      border-radius: 3px;
+      color: #f2ede6;
+      font-family: 'Outfit', sans-serif;
+      font-size: 13px;
+      font-weight: 300;
+      padding: 10px 13px;
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    .tp-field input::placeholder { color: rgba(242,237,230,0.25); }
+
+    .tp-field input:focus,
+    .tp-field select:focus {
+      border-color: rgba(232,200,122,0.5);
+      background: rgba(232,200,122,0.04);
+    }
+
+    .tp-field select option { background: #14141e; }
+
+    .tp-plan-btn {
+      width: 100%;
+      background: #e8c87a;
+      color: #080810;
+      border: none;
+      border-radius: 3px;
+      padding: 13px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .tp-plan-btn:hover { background: #f0d896; transform: scale(1.01); }
+
+    /* ── Hero image ── */
+    .tp-hero-right {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tp-featured-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: brightness(0.75) saturate(1.1);
+      transition: transform 6s ease;
+    }
+
+    .tp-hero-right:hover .tp-featured-img { transform: scale(1.04); }
+
+    .tp-featured-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, #080810 0%, transparent 30%);
+      pointer-events: none;
+    }
+
+    .tp-featured-tag {
+      position: absolute;
+      bottom: 28px;
+      right: 28px;
+      background: rgba(8,8,16,0.7);
+      border: 0.5px solid rgba(232,200,122,0.35);
+      border-radius: 3px;
+      padding: 12px 16px;
+      backdrop-filter: blur(8px);
+    }
+
+    .tp-featured-tag-city {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: #f2ede6;
+    }
+
+    .tp-featured-tag-meta {
+      font-size: 10px;
+      color: rgba(242,237,230,0.5);
+      margin-top: 3px;
+      letter-spacing: 0.3px;
+    }
+
+    /* ── Stats bar ── */
+    .tp-stats-bar {
+      display: flex;
+      border-top: 0.5px solid rgba(255,255,255,0.07);
+      border-bottom: 0.5px solid rgba(255,255,255,0.07);
+      position: relative;
+      z-index: 5;
+    }
+
+    .tp-stat {
+      flex: 1;
+      padding: 18px 48px;
+      border-right: 0.5px solid rgba(255,255,255,0.07);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .tp-stat:last-child { border-right: none; }
+
+    .tp-stat-icon {
+      font-size: 20px;
+      color: #e8c87a;
+      opacity: 0.8;
+    }
+
+    .tp-stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 24px;
+      font-weight: 600;
+      color: #f2ede6;
+      line-height: 1;
+    }
+
+    .tp-stat-label {
+      font-size: 10px;
+      color: rgba(242,237,230,0.35);
+      letter-spacing: 0.5px;
+      margin-top: 3px;
+    }
+
+    /* ── Destination cards ── */
+    .tp-destinations {
+      padding: 48px 48px 52px;
+      position: relative;
+      z-index: 5;
+    }
+
+    .tp-section-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 22px;
+    }
+
+    .tp-section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 30px;
+      font-weight: 600;
+      line-height: 1;
+    }
+
+    .tp-section-sub {
+      font-size: 11px;
+      color: rgba(242,237,230,0.35);
+      margin-top: 5px;
+      letter-spacing: 0.3px;
+    }
+
+    .tp-see-all {
+      font-size: 11px;
+      color: #e8c87a;
+      background: none;
+      border: none;
+      cursor: pointer;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+
+    .tp-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .tp-card {
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+      height: 200px;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    .tp-card:hover { transform: translateY(-5px); }
+
+    .tp-card-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: brightness(0.55) saturate(1.1);
+      transition: filter 0.3s;
+    }
+
+    .tp-card:hover .tp-card-img { filter: brightness(0.65) saturate(1.2); }
+
+    .tp-card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(8,8,16,0.9) 0%, rgba(8,8,16,0.2) 50%, transparent 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 16px;
+    }
+
+    .tp-card-city {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 600;
+      color: #fff;
+      line-height: 1.1;
+    }
+
+    .tp-card-country {
+      font-size: 10px;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    .tp-card-price {
+      font-size: 12px;
+      color: #e8c87a;
+      margin-top: 7px;
+    }
+
+    .tp-card-badge {
+      position: absolute;
+      top: 13px;
+      left: 13px;
+      background: rgba(232,200,122,0.15);
+      border: 0.5px solid rgba(232,200,122,0.4);
+      color: #e8c87a;
+      font-size: 9px;
+      font-weight: 500;
+      padding: 4px 9px;
+      border-radius: 2px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      backdrop-filter: blur(4px);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .tp-nav { padding: 18px 20px; }
+      .tp-nav-links { display: none; }
+      .tp-hero { grid-template-columns: 1fr; }
+      .tp-hero-right { height: 260px; }
+      .tp-hero-left { padding: 36px 20px 32px; }
+      .tp-headline { font-size: 44px; }
+      .tp-stats-bar { flex-wrap: wrap; }
+      .tp-stat { flex: 1 1 50%; padding: 14px 20px; }
+      .tp-destinations { padding: 36px 20px 40px; }
+      .tp-cards { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="tp-nav">
+    <a href="#" class="tp-logo">Traveller's <span>Paradise</span></a>
+    <ul class="tp-nav-links">
+      <li><a href="#">Explore</a></li>
+      <li><a href="#">My trips</a></li>
+      <li><a href="#">Guides</a></li>
+    </ul>
+    <div id="authStatus" class="tp-auth-status hidden"></div>
+    <button id="authOpenBtn" class="tp-nav-cta" type="button" onclick="openAuthModal()">Sign Up / Login</button>
+  </nav>
+
+  <div id="authModal" class="auth-modal hidden">
+    <div class="auth-modal-backdrop"></div>
+    <div class="auth-modal-card">
+      <button class="auth-close-btn" aria-label="Close auth dialog">×</button>
+      <h2>Sign Up / Login</h2>
+      <p>Use Google or your email address to continue.</p>
+      <button id="googleSignInOption" class="auth-google-btn" type="button">Continue with Google</button>
+      <div class="auth-divider"><span>or</span></div>
+      <form id="emailSignUpForm" class="auth-email-form">
+        <label>
+          Email
+          <input type="email" id="emailInput" placeholder="you@example.com" required />
+        </label>
+        <label>
+          Password
+          <input type="password" id="passwordInput" placeholder="Create a password" required />
+        </label>
+        <button type="submit" class="auth-email-btn">Continue with Email</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <section class="tp-hero">
+    <div class="tp-hero-left">
+      <div class="tp-eyebrow">AI-powered itineraries</div>
+      <h1 class="tp-headline">Your next<br/><em>adventure</em><br/>awaits.</h1>
+      <p class="tp-sub">Tell us your budget and days — we'll craft a perfect itinerary for any destination on earth, instantly.</p>
+
+      <div class="tp-search-box">
+        <div class="tp-search-grid">
+          <div class="tp-field">
+            <label>Where to?</label>
+            <input type="text" placeholder="Tokyo, Paris, Bali…" />
+          </div>
+          <div class="tp-field">
+            <label>Budget (USD)</label>
+            <input type="text" placeholder="e.g. 1500" />
+          </div>
+          <div class="tp-field">
+            <label>Duration</label>
+            <select>
+              <option>3 days</option>
+              <option selected>5 days</option>
+              <option >7 days</option>
+              <option >10 days</option>
+              <option>14 days</option>
+            </select>
+          </div>
+          <div class="tp-field">
+            <label>Travellers</label>
+            <select>
+              <option>Solo</option>
+              <option>Couple</option>
+              <option>Family</option>
+              <option>Group</option>
+            </select>
+          </div>
+        </div>
+        <button class="tp-plan-btn">✦ Plan my trip</button>
+      </div>
+    </div>
+
+    <div class="tp-hero-right">
+      <img
+        class="tp-featured-img"
+        src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=1200&q=80"
+        alt="Tokyo cityscape at night"
+      />
+      <div class="tp-featured-overlay"></div>
+      <div class="tp-featured-tag">
+        <div class="tp-featured-tag-city">Tokyo, Japan</div>
+        <div class="tp-featured-tag-meta">Featured destination · Summer 2026</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats bar -->
+  <div class="tp-stats-bar">
+    <div class="tp-stat">
+      <i class="ti ti-map-2 tp-stat-icon" aria-hidden="true"></i>
+      <div>
+        <div class="tp-stat-num">Your perfect Guide</div>
+        <div class="tp-stat-label">Trips waitiing to be planned</div>
+      </div>
+    </div>
+    <div class="tp-stat">
+      <i class="ti ti-world tp-stat-icon" aria-hidden="true"></i>
+      <div>
+        <div class="tp-stat-num">120+</div>
+        <div class="tp-stat-label">Destinations</div>
+      </div>
+    </div>
+    <div class="tp-stat">
+      <i class="ti ti-star tp-stat-icon" aria-hidden="true"></i>
+      <div>
+        <div class="tp-stat-num">4.9 / 5</div>
+        <div class="tp-stat-label">User rating</div>
+      </div>
+    </div>
+    <div class="tp-stat">
+      <i class="ti ti-bolt tp-stat-icon" aria-hidden="true"></i>
+      <div>
+        <div class="tp-stat-num">&lt; 10 minutes</div>
+        <div class="tp-stat-label">Itinerary generated</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Destination cards -->
+  <section class="tp-destinations">
+    <div class="tp-section-header">
+      <div>
+        <div class="tp-section-title">Trending destinations</div>
+        <div class="tp-section-sub">Handpicked for this season</div>
+      </div>
+      <a href="#" class="tp-see-all">View all →</a>
+    </div>
+
+    <div class="tp-cards">
+      <div class="tp-card">
+        <img
+          class="tp-card-img"
+          src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=600&q=80"
+          alt="Tokyo, Japan"
+        />
+        <div class="tp-card-overlay">
+          <div class="tp-card-city">Tokyo</div>
+          <div class="tp-card-country">Japan</div>
+          <div class="tp-card-price">From $1,200 · 7 days</div>
+        </div>
+        <div class="tp-card-badge">🔥 Trending</div>
+      </div>
+
+      <div class="tp-card">
+        <img
+          class="tp-card-img"
+          src="https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=600&q=80"
+          alt="Paris, France"
+        />
+        <div class="tp-card-overlay">
+          <div class="tp-card-city">Paris</div>
+          <div class="tp-card-country">France</div>
+          <div class="tp-card-price">From $900 · 5 days</div>
+        </div>
+      </div>
+
+      <div class="tp-card">
+        <img
+          class="tp-card-img"
+          src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=600&q=80"
+          alt="Bali, Indonesia"
+        />
+        <div class="tp-card-overlay">
+          <div class="tp-card-city">Bali</div>
+          <div class="tp-card-country">Indonesia</div>
+          <div class="tp-card-price">From $600 · 7 days</div>
+        </div>
+        <div class="tp-card-badge">💰 Budget pick</div>
+      </div>
+    </div>
+  </section>
+<script>
+  function initializeGoogleSignIn() {
+    if (window.google && google.accounts && google.accounts.id) {
+      google.accounts.id.initialize({
+        client_id: "465283460027-18j7bsge2e9r7684jhql65qmtrap2qdg.apps.googleusercontent.com",
+        callback: handleCredentialResponse,
+        auto_select: false,
+        cancel_on_tap_outside: true
+      });
+
+      const googleBtn = document.getElementById('googleSignInOption');
+      if (googleBtn) {
+        googleBtn.addEventListener('click', function() {
+          google.accounts.id.prompt();
+        });
+      }
+
+      return;
+    }
+    setTimeout(initializeGoogleSignIn, 50);
+  }
+
+  function openAuthModal() {
+    document.getElementById('authModal').classList.remove('hidden');
+  }
+
+  function closeAuthModal() {
+    document.getElementById('authModal').classList.add('hidden');
+  }
+
+  function setAuthUser(name) {
+    const authStatus = document.getElementById('authStatus');
+    const authButton = document.getElementById('authOpenBtn');
+    if (!name) return;
+    authStatus.textContent = 'Welcome, ' + name;
+    authStatus.classList.remove('hidden');
+    authButton.textContent = 'My Account';
+    localStorage.setItem('authUser', JSON.stringify({ name }));
+  }
+
+  function loadAuthUser() {
+    const stored = localStorage.getItem('authUser');
+    if (!stored) return;
+    try {
+      const parsed = JSON.parse(stored);
+      if (parsed && parsed.name) {
+        setAuthUser(parsed.name);
+      }
+    } catch (err) {
+      console.warn('Auth load failed', err);
+    }
+  }
+
+  initializeGoogleSignIn();
+  loadAuthUser();
+
+  document.getElementById('authOpenBtn').addEventListener('click', function() {
+    openAuthModal();
+  });
+
+  document.querySelector('.auth-close-btn').addEventListener('click', function() {
+    closeAuthModal();
+  });
+
+  document.querySelector('.auth-modal-backdrop').addEventListener('click', function() {
+    closeAuthModal();
+  });
+
+  document.getElementById('emailSignUpForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const email = document.getElementById('emailInput').value.trim();
+    const password = document.getElementById('passwordInput').value.trim();
+
+    if (!email || !password) {
+      alert('Please enter both email and password.');
+      return;
+    }
+
+    localStorage.setItem('signedUpEmail', JSON.stringify({ email }));
+    setAuthUser(email);
+    alert('Signed in with email: ' + email);
+    closeAuthModal();
+  });
+
+  document.querySelector('.tp-plan-btn').addEventListener('click', function() {
+  const btn = this;
+  const city = document.querySelector('input[placeholder*="Tokyo"]').value;
+  const budget = document.querySelector('input[placeholder*="1500"]').value;
+  const days = document.querySelector('select').value;
+
+  if (!city || !budget) {
+    alert("Fill in all the fields first!");
+    btn.innerText = "Plan Your Trip";
+    btn.disabled = false;
+    return;
+  }
+
+  btn.innerText = "Generating your trip...";
+  btn.disabled = true;
+  localStorage.setItem("tripData", JSON.stringify({ city, budget, days }));
+
+  setTimeout(() => {
+    window.location.href = "result.html";
+  }, 1000);
+});
+//google login javascript
+function handleCredentialResponse(response) {
+  // 1. Get the encrypted token from Google
+  const responsePayload = decodeJwtResponse(response.credential);
+
+  // 2. Now you can use their info!
+  console.log("ID: " + responsePayload.sub);
+  console.log('Full Name: ' + responsePayload.name);
+  console.log('Email: ' + responsePayload.email);
+  console.log("Image URL: " + responsePayload.picture);
+  
+  alert("Hello, " + responsePayload.name + "! You are logged in.");
+  setAuthUser(responsePayload.name || responsePayload.email);
+  closeAuthModal();
+}
+
+// Simple helper function to decode the token without extra libraries
+function decodeJwtResponse(token) {
+  let base64Url = token.split('.')[1];
+  let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+  let jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+  }).join(''));
+
+  return JSON.parse(jsonPayload);
+}
+
+</script>
+</body>
+</html>
