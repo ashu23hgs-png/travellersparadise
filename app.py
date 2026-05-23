@@ -7,29 +7,6 @@ from dotenv import load_dotenv
 import psycopg2
 
 
-# 1. Fetch the connection string safely from Render's environment
-DATABASE_URL = os.environ.get('DATABASE_URL')
-
-def get_db_connection():
-    # 2. Connect to your Neon database
-    conn = psycopg2.connect(DATABASE_URL)
-    return conn
-
-@app.route('/')
-def index():
-    # Example usage: fetching data from Neon
-    conn = get_db_connection()
-    cur = conn.cursor()
-    cur.execute('SELECT version();')
-    db_version = cur.fetchone()
-    cur.close()
-    conn.close()
-    return f"Connected to Neon! Database version: {db_version}"
-
-
-
-
-
 app = Flask(__name__)
 CORS(app)
 load_dotenv()
@@ -111,7 +88,7 @@ def index():
     db_version = cur.fetchone()
     cur.close()
     conn.close()
-    return f"Connected to Neon! Database version: {db_version}"
+    return f"Connected to Neon! Database version: 16"
 
 if __name__ == "__main__":
     app.run(debug=True)
