@@ -816,6 +816,27 @@
 
     localStorage.setItem('signedUpEmail', JSON.stringify({ email }));
     setAuthUser(email);
+    
+    // Send the data to your Python backend
+fetch('/submit-trip', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json', // Tells Python you are sending JSON data
+    },
+    body: JSON.stringify({
+        email: email,
+        name: name,
+        
+    })
+})
+.then(response => response.json())
+.then(data => {
+    console.log('Success:', data);
+})
+.catch((error) => {
+    console.error('Error: sending data', error);
+});
+
     alert('Signed in with email: ' + email);
     closeAuthModal();
   });

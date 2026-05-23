@@ -90,5 +90,68 @@ def index():
     conn.close()
     return f"Connected to Neon! Database version: 16"
 
+
+
+# ... keep your get_db_connection() and save_user_and_trip() functions from before ...
+
+@app.route('/submit-trip', methods=['POST'])
+def submit_trip():
+    # 1. Parse the incoming JSON data sent by JavaScript
+    data = request.get_json()
+    
+    # 2. Extract the variables using the exact keys used in the JS file
+    email = data.get('email')
+    name = data.get('name')
+    
+
+    # 3. Check to ensure no data is missing
+    if not email or not name:
+        return jsonify({"status": "error", "message": "Missing required data"}), 400
+
+    # 4. Pass the variables to your database function
+    save_user_and_trip(name, email, )
+
+    # 5. Send a confirmation message back to JavaScript
+    return jsonify({"status": "success", "message": f"Saved trip for {email}"})
+
+
+
+def save_user_and_trip(name, email):
+    conn = get_db_connection()
+    cur = conn.cursor()
+    
+    try:
+        # 1. Insert or update the user, and get their ID back
+        # This updates the 'last_login' time automatically if the email already exists
+        cur.execute("""
+            INSERT INTO users (name, email, last_login) 
+            VALUES (%s, %s, CURRENT_TIMESTAMP)
+            ON CONFLICT (email) 
+            DO UPDATE SET last_login = CURRENT_TIMESTAMP, name = EXCLUDED.name
+            RETURNING id;
+        """, (name, email))
+        
+        user_id = cur.fetchone()[0]
+        
+        # 2. Save the trip destination for this specific user
+        cur.execute("""
+            INSERT INTO user_trips (user_id, destination) 
+            VALUES (%s, %s);
+        """, (user_id, "Paris"))
+        
+        # Commit changes to the database
+        conn.commit()
+        print("Successfully saved to database!")
+        
+    except Exception as e:
+        conn.rollback()
+        print(f"Error saving to database: {e}")
+        
+    finally:
+        cur.close()
+        conn.close()
+
+
+
 if __name__ == "__main__":
     app.run(debug=True)
