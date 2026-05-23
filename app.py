@@ -20,6 +20,10 @@ def home():
 def result():
     return send_from_directory(".", "result.html")
 
+@app.route('/ads.txt')
+def ads_txt():
+    return app.send_static_file('ads.txt')
+
 @app.route("/generate", methods=["POST"])
 def generate_trip():
 
