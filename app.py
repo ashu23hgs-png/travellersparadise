@@ -4,6 +4,30 @@ from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 from openai import OpenAI
 from dotenv import load_dotenv
+import psycopg2
+
+
+# 1. Fetch the connection string safely from Render's environment
+DATABASE_URL = os.environ.get('DATABASE_URL')
+
+def get_db_connection():
+    # 2. Connect to your Neon database
+    conn = psycopg2.connect(DATABASE_URL)
+    return conn
+
+@app.route('/')
+def index():
+    # Example usage: fetching data from Neon
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute('SELECT version();')
+    db_version = cur.fetchone()
+    cur.close()
+    conn.close()
+    return f"Connected to Neon! Database version: {db_version}"
+
+
+
 
 
 app = Flask(__name__)
@@ -70,7 +94,24 @@ def generate_trip():
     return jsonify({
         "plan": plan
     })
+# 1. Fetch the connection string safely from Render's environment
+DATABASE_URL = os.environ.get('DATABASE_URL')
 
+def get_db_connection():
+    # 2. Connect to your Neon database
+    conn = psycopg2.connect(DATABASE_URL)
+    return conn
+
+@app.route('/')
+def index():
+    # Example usage: fetching data from Neon
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute('SELECT version();')
+    db_version = cur.fetchone()
+    cur.close()
+    conn.close()
+    return f"Connected to Neon! Database version: {db_version}"
 
 if __name__ == "__main__":
     app.run(debug=True)
