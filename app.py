@@ -22,7 +22,7 @@ def result():
 
 @app.route('/ads.txt')
 def ads_txt():
-    return app.send_static_file('ads.txt')
+    return send_from_directory(".", "ads.txt")
 
 @app.route("/generate", methods=["POST"])
 def generate_trip():
