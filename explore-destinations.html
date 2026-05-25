@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore Destinations - Traveller's Paradise</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="ChatGPT Image May 16, 2026, 08_23_41 PM.png">
+
+    <style>
+        :root {
+            --bg: #080810;
+            --surface: rgba(255, 255, 255, 0.04);
+            --surface-2: rgba(255, 255, 255, 0.07);
+            --border: rgba(255, 255, 255, 0.1);
+            --text: #f2ede6;
+            --muted: rgba(242, 237, 230, 0.68);
+            --accent: #e8c87a;
+            --accent-2: #71d6c9;
+            --danger: #ff9f9f;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: 'Outfit', sans-serif;
+            background:
+                linear-gradient(180deg, rgba(8, 8, 16, 0.35), var(--bg) 48%),
+                radial-gradient(circle at 18% 8%, rgba(113, 214, 201, 0.18), transparent 30%),
+                radial-gradient(circle at 84% 10%, rgba(232, 200, 122, 0.16), transparent 32%),
+                var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 40px 20px 80px;
+            line-height: 1.6;
+        }
+
+        button,
+        input { font: inherit; }
+
+        .app {
+            max-width: 1160px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 34px;
+        }
+
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            letter-spacing: 0.3px;
+        }
+
+        .logo span,
+        .accent { color: var(--accent); }
+
+        .back-button {
+            color: var(--text);
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            padding: 10px 16px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.04);
+            font-size: 14px;
+            transition: all 0.18s ease;
+            white-space: nowrap;
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--accent);
+            transform: translateY(-1px);
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(300px, 430px);
+            gap: 28px;
+            align-items: stretch;
+            margin-bottom: 34px;
+        }
+
+        .hero-copy {
+            min-height: 360px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .eyebrow {
+            color: var(--accent);
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.16em;
+            margin: 0 0 12px;
+            text-transform: uppercase;
+        }
+
+        .title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(3rem, 7vw, 6rem);
+            line-height: 0.95;
+            margin: 0 0 18px;
+            max-width: 740px;
+        }
+
+        .subtitle {
+            color: var(--muted);
+            margin: 0;
+            font-size: clamp(1rem, 2vw, 1.18rem);
+            max-width: 690px;
+        }
+
+        .search-panel {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.035));
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.26);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .search-panel h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            margin: 0 0 8px;
+        }
+
+        .search-panel p {
+            color: var(--muted);
+            margin: 0;
+        }
+
+        .search-form {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        .search-input {
+            min-width: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.24);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 999px;
+            color: var(--text);
+            outline: none;
+            padding: 15px 18px;
+            transition: all 0.2s ease;
+        }
+
+        .search-input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px rgba(232, 200, 122, 0.12);
+        }
+
+        .search-button {
+            border: 0;
+            border-radius: 999px;
+            background: var(--accent);
+            color: #080810;
+            cursor: pointer;
+            font-weight: 600;
+            padding: 0 22px;
+            transition: transform 0.18s ease, box-shadow 0.18s ease;
+        }
+
+        .search-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 14px 28px rgba(232, 200, 122, 0.16);
+        }
+
+        .search-button:disabled {
+            cursor: wait;
+            opacity: 0.7;
+            transform: none;
+        }
+
+        .mini-metrics {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .metric {
+            min-height: 86px;
+            padding: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 12px;
+        }
+
+        .metric strong {
+            display: block;
+            font-size: 1.35rem;
+            color: var(--accent-2);
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .metric span {
+            color: var(--muted);
+            font-size: 0.88rem;
+        }
+
+        .section {
+            margin-top: 34px;
+        }
+
+        .section-head {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            gap: 18px;
+            margin-bottom: 18px;
+        }
+
+        .section-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin: 0;
+        }
+
+        .section-note {
+            color: var(--muted);
+            margin: 0;
+            max-width: 480px;
+            text-align: right;
+        }
+
+        .results {
+            display: none;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 28px;
+            backdrop-filter: blur(10px);
+        }
+
+        .results.active { display: block; }
+
+        .results-top {
+            display: grid;
+            grid-template-columns: minmax(0, 1.15fr) minmax(260px, 0.85fr);
+            gap: 22px;
+            align-items: start;
+            margin-bottom: 22px;
+        }
+
+        .results h2,
+        .results h3 {
+            font-family: 'Cormorant Garamond', serif;
+            margin: 0;
+        }
+
+        .results h2 {
+            color: var(--accent);
+            font-size: clamp(2.2rem, 5vw, 4rem);
+            line-height: 1;
+        }
+
+        .summary {
+            color: var(--muted);
+            font-size: 1.05rem;
+            margin: 14px 0 0;
+        }
+
+        .result-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        .pdf-button {
+            border: 1px solid rgba(232, 200, 122, 0.42);
+            border-radius: 999px;
+            background: rgba(232, 200, 122, 0.12);
+            color: var(--accent);
+            cursor: pointer;
+            font-weight: 600;
+            padding: 12px 18px;
+            transition: all 0.18s ease;
+        }
+
+        .pdf-button:hover {
+            background: var(--accent);
+            color: #080810;
+            transform: translateY(-1px);
+        }
+
+        .pdf-button:disabled {
+            cursor: wait;
+            opacity: 0.68;
+            transform: none;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .stat-card,
+        .analysis-card,
+        .destination-card,
+        .category-card,
+        .trend-card {
+            border: 1px solid var(--border);
+            background: var(--surface);
+            border-radius: 14px;
+        }
+
+        .stat-card {
+            padding: 16px;
+        }
+
+        .stat-card span {
+            color: var(--muted);
+            display: block;
+            font-size: 0.82rem;
+            margin-bottom: 6px;
+        }
+
+        .stat-card strong {
+            color: var(--text);
+            font-size: 1rem;
+        }
+
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .analysis-card {
+            padding: 22px;
+        }
+
+        .analysis-card h3 {
+            color: var(--accent);
+            font-size: 1.6rem;
+            margin-bottom: 14px;
+        }
+
+        .insight-list {
+            display: grid;
+            gap: 13px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .insight-list li {
+            color: var(--muted);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 12px;
+        }
+
+        .insight-list li:first-child {
+            border-top: 0;
+            padding-top: 0;
+        }
+
+        .insight-list strong {
+            color: var(--text);
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .destination-grid,
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .destination-card {
+            min-height: 250px;
+            overflow: hidden;
+            position: relative;
+            background:
+                linear-gradient(180deg, rgba(8, 8, 16, 0.06), rgba(8, 8, 16, 0.86)),
+                var(--surface);
+        }
+
+        .destination-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: var(--image);
+            background-size: cover;
+            background-position: center;
+            opacity: 0.68;
+            transform: scale(1.02);
+            transition: transform 0.28s ease, opacity 0.28s ease;
+        }
+
+        .destination-card:hover::before {
+            opacity: 0.82;
+            transform: scale(1.08);
+        }
+
+        .destination-content {
+            min-height: 250px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: end;
+            padding: 20px;
+            background: linear-gradient(180deg, rgba(8, 8, 16, 0.08), rgba(8, 8, 16, 0.9));
+        }
+
+        .pill {
+            width: fit-content;
+            max-width: 100%;
+            color: #080810;
+            background: var(--accent);
+            border-radius: 999px;
+            padding: 6px 10px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .destination-card h3,
+        .category-card h3,
+        .trend-card h3 {
+            font-family: 'Cormorant Garamond', serif;
+            margin: 0;
+        }
+
+        .destination-card h3 {
+            font-size: 2rem;
+            line-height: 1;
+        }
+
+        .destination-card p,
+        .category-card p,
+        .trend-card p {
+            color: var(--muted);
+            margin: 8px 0 0;
+        }
+
+        .region {
+            color: var(--accent-2);
+            font-size: 0.88rem;
+            margin-top: 6px;
+        }
+
+        .category-card {
+            padding: 20px;
+            min-height: 156px;
+            transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+        }
+
+        .category-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(232, 200, 122, 0.42);
+            background: rgba(255, 255, 255, 0.07);
+        }
+
+        .category-card h3,
+        .trend-card h3 {
+            font-size: 1.6rem;
+            color: var(--accent);
+        }
+
+        .trending-list {
+            display: grid;
+            gap: 12px;
+        }
+
+        .trend-card {
+            display: grid;
+            grid-template-columns: minmax(140px, 0.5fr) minmax(0, 1.4fr) auto;
+            gap: 16px;
+            align-items: center;
+            padding: 18px 20px;
+        }
+
+        .trend-card span {
+            color: var(--accent-2);
+            font-size: 0.92rem;
+            white-space: nowrap;
+        }
+
+        .status {
+            color: var(--muted);
+            margin-top: 12px;
+            min-height: 24px;
+        }
+
+        .status.error { color: var(--danger); }
+
+        .status.success { color: var(--accent-2); }
+
+        .notice {
+            margin-top: 16px;
+            padding: 14px 16px;
+            border: 1px solid rgba(232, 200, 122, 0.2);
+            border-radius: 12px;
+            color: var(--muted);
+            background: rgba(232, 200, 122, 0.06);
+        }
+
+        .skeleton {
+            min-height: 160px;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            background: linear-gradient(90deg, rgba(255,255,255,0.04), rgba(255,255,255,0.09), rgba(255,255,255,0.04));
+            background-size: 220% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+
+        @keyframes shimmer {
+            from { background-position: 200% 0; }
+            to { background-position: -200% 0; }
+        }
+
+        @media (max-width: 900px) {
+            body { padding-top: 28px; }
+
+            .hero,
+            .results-top {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-copy { min-height: auto; }
+            .destination-grid,
+            .category-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .section-head {
+                align-items: start;
+                flex-direction: column;
+            }
+
+            .section-note { text-align: left; }
+        }
+
+        @media (max-width: 640px) {
+            .header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .search-form,
+            .analysis-grid,
+            .stats-grid,
+            .destination-grid,
+            .category-grid,
+            .trend-card {
+                grid-template-columns: 1fr;
+            }
+
+            .search-button { min-height: 50px; }
+            .results,
+            .search-panel { padding: 22px; }
+            .trend-card span { white-space: normal; }
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <header class="header">
+            <div class="logo">Traveller's <span>Paradise</span></div>
+            <a class="back-button" href="index.html">Back to Home</a>
+        </header>
+
+        <main>
+            <section class="hero">
+                <div class="hero-copy">
+                    <p class="eyebrow">AI destination analytics</p>
+                    <h1 class="title">Explore smarter before you go.</h1>
+                    <p class="subtitle">Search any city, island, country, or region and get a sharp travel briefing with packing tips, timing, safety, food, and realistic budget guidance.</p>
+                </div>
+
+                <aside class="search-panel" aria-label="Destination search">
+                    <div>
+                        <h2>Where next?</h2>
+                        <p>Turn a place name into a useful travel snapshot.</p>
+                        <form class="search-form" id="searchForm">
+                            <input class="search-input" id="destinationInput" type="search" placeholder="Try Bali, Tokyo, Paris..." autocomplete="off" required>
+                            <button class="search-button" id="searchButton" type="submit">Analyze</button>
+                        </form>
+                        <div class="status" id="searchStatus" role="status"></div>
+                    </div>
+
+                    <div class="mini-metrics" aria-label="Page highlights">
+                        <div class="metric">
+                            <strong>5</strong>
+                            <span>travel categories analyzed</span>
+                        </div>
+                        <div class="metric">
+                            <strong>AI</strong>
+                            <span>fresh suggestions on page load</span>
+                        </div>
+                        <div class="metric">
+                            <strong>3</strong>
+                            <span>budget levels for planning</span>
+                        </div>
+                        <div class="metric">
+                            <strong>Global</strong>
+                            <span>ideas across travel styles</span>
+                        </div>
+                    </div>
+                </aside>
+            </section>
+
+            <section class="results" id="resultsSection" aria-live="polite"></section>
+
+            <section class="section">
+                <div class="section-head">
+                    <h2 class="section-title">Destination Cards</h2>
+                    <p class="section-note">Fresh AI picks to fill the map in your head before you search.</p>
+                </div>
+                <div class="destination-grid" id="destinationCards">
+                    <div class="skeleton"></div>
+                    <div class="skeleton"></div>
+                    <div class="skeleton"></div>
+                </div>
+            </section>
+
+            <section class="section">
+                <div class="section-head">
+                    <h2 class="section-title">Categories</h2>
+                    <p class="section-note">Quick lanes for matching a trip with your mood, budget, and travel style.</p>
+                </div>
+                <div class="category-grid" id="categoryGrid">
+                    <div class="skeleton"></div>
+                    <div class="skeleton"></div>
+                    <div class="skeleton"></div>
+                </div>
+            </section>
+
+            <section class="section">
+                <div class="section-head">
+                    <h2 class="section-title">Trending Places</h2>
+                    <p class="section-note">Places showing up in modern travel conversations right now.</p>
+                </div>
+                <div class="trending-list" id="trendingList">
+                    <div class="skeleton"></div>
+                    <div class="skeleton"></div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        const form = document.getElementById("searchForm");
+        const input = document.getElementById("destinationInput");
+        const button = document.getElementById("searchButton");
+        const statusBox = document.getElementById("searchStatus");
+        const resultsSection = document.getElementById("resultsSection");
+        const destinationCards = document.getElementById("destinationCards");
+        const categoryGrid = document.getElementById("categoryGrid");
+        const trendingList = document.getElementById("trendingList");
+        const ACCESS_KEY = "bGwMMo8FaJFfZcEvpl0QfMQ9UrLmbcNzHbNt9h3afRA";
+        const imageCache = new Map();
+        const fallbackImage = "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=900&q=80";
+        let currentAnalytics = null;
+
+        const escapeHtml = (value = "") => String(value)
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
+
+        const getUnsplashImage = async (name, region = "") => {
+            const query = `${name || "travel destination"} ${region || "landmark"}`.trim();
+
+            if (imageCache.has(query)) {
+                return imageCache.get(query);
+            }
+
+            const url = `https://api.unsplash.com/search/photos?query=${encodeURIComponent(query)}&per_page=1&orientation=landscape&client_id=${ACCESS_KEY}`;
+
+            try {
+                const response = await fetch(url, {
+                    headers: { "Accept-Version": "v1" }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Unsplash request failed with ${response.status}`);
+                }
+
+                const result = await response.json();
+                const imageUrl = result?.results?.[0]?.urls?.regular || fallbackImage;
+                imageCache.set(query, imageUrl);
+                return imageUrl;
+            } catch (error) {
+                console.error("Unsplash image fetch failed:", query, error);
+                imageCache.set(query, fallbackImage);
+                return fallbackImage;
+            }
+        };
+
+        const slugify = (value = "destination") => {
+            return String(value).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "destination";
+        };
+
+        const setStatus = (message, isError = false) => {
+            statusBox.textContent = message;
+            statusBox.classList.toggle("error", isError);
+            statusBox.classList.toggle("success", !isError && Boolean(message));
+        };
+
+        const fetchJson = async (url, options = {}) => {
+            const response = await fetch(url, options);
+            const text = await response.text();
+            let data = {};
+
+            if (text) {
+                try {
+                    data = JSON.parse(text);
+                } catch (error) {
+                    throw new Error("The server returned a response the page could not read. Please refresh and try again.");
+                }
+            }
+
+            if (!response.ok) {
+                throw new Error(data.error || "Request failed");
+            }
+
+            return data;
+        };
+
+        const renderInsightList = (items, titleKey, detailKey) => {
+            return `
+                <ul class="insight-list">
+                    ${(items || []).map(item => `
+                        <li>
+                            <strong>${escapeHtml(item[titleKey])}</strong>
+                            ${escapeHtml(item[detailKey])}
+                        </li>
+                    `).join("")}
+                </ul>
+            `;
+        };
+
+        const renderAnalytics = (data) => {
+            currentAnalytics = data;
+            const stats = (data.quick_stats || []).map(stat => `
+                <div class="stat-card">
+                    <span>${escapeHtml(stat.label)}</span>
+                    <strong>${escapeHtml(stat.value)}</strong>
+                </div>
+            `).join("");
+
+            resultsSection.innerHTML = `
+                <div class="results-top">
+                    <div>
+                        <h2>${escapeHtml(data.destination || "Destination")}</h2>
+                        <p class="summary">${escapeHtml(data.summary || "")}</p>
+                        <div class="result-actions">
+                            <button class="pdf-button" id="downloadAnalyticsPdf" type="button">Download analytics as PDF</button>
+                        </div>
+                    </div>
+                    <div class="stats-grid">${stats}</div>
+                </div>
+
+                <div class="analysis-grid">
+                    <article class="analysis-card">
+                        <h3>Packing Tips</h3>
+                        ${renderInsightList(data.packing_tips, "title", "detail")}
+                    </article>
+                    <article class="analysis-card">
+                        <h3>Best Time to Visit</h3>
+                        ${renderInsightList(data.best_time_to_visit, "season", "reason")}
+                    </article>
+                    <article class="analysis-card">
+                        <h3>Safety Advice</h3>
+                        ${renderInsightList(data.safety_advice, "title", "detail")}
+                    </article>
+                    <article class="analysis-card">
+                        <h3>Local Food</h3>
+                        ${renderInsightList(data.local_food_recommendations, "dish", "why")}
+                    </article>
+                    <article class="analysis-card">
+                        <h3>Budget Guide</h3>
+                        ${renderInsightList(data.budget_guide, "tier", "daily_cost")}
+                    </article>
+                    <article class="analysis-card">
+                        <h3>Budget Notes</h3>
+                        ${renderInsightList(data.budget_guide, "tier", "notes")}
+                    </article>
+                </div>
+                ${data.source === "fallback" ? `
+                    <div class="notice">
+                        Live Groq AI analytics are unavailable, so Traveller's Paradise is showing a practical planning fallback for now.
+                    </div>
+                ` : ""}
+            `;
+            resultsSection.classList.add("active");
+            document.getElementById("downloadAnalyticsPdf").addEventListener("click", downloadAnalyticsPDF);
+            resultsSection.scrollIntoView({ behavior: "smooth", block: "start" });
+        };
+
+        const renderInspiration = async (data) => {
+            const destinationHtml = await Promise.all((data.destination_cards || []).map(async (card) => {
+                const imageUrl = await getUnsplashImage(card.name, card.region);
+
+                return `
+                <article class="destination-card" style='--image: url("${escapeHtml(imageUrl)}");'>
+                    <div class="destination-content">
+                        <span class="pill">${escapeHtml(card.best_for)}</span>
+                        <h3>${escapeHtml(card.name)}</h3>
+                        <div class="region">${escapeHtml(card.region)}</div>
+                        <p>${escapeHtml(card.hook)}</p>
+                    </div>
+                </article>
+                `;
+            }));
+
+            destinationCards.innerHTML = destinationHtml.join("");
+
+            categoryGrid.innerHTML = (data.categories || []).map(category => `
+                <article class="category-card">
+                    <h3>${escapeHtml(category.name)}</h3>
+                    <p>${escapeHtml(category.description)}</p>
+                </article>
+            `).join("");
+
+            trendingList.innerHTML = (data.trending_places || []).map(place => `
+                <article class="trend-card">
+                    <h3>${escapeHtml(place.name)}</h3>
+                    <p>${escapeHtml(place.why_trending)}</p>
+                    <span>${escapeHtml(place.ideal_trip)}</span>
+                </article>
+            `).join("");
+        };
+
+        const downloadAnalyticsPDF = async () => {
+            if (!currentAnalytics) {
+                setStatus("Generate analytics first, then download the PDF.", true);
+                return;
+            }
+
+            const pdfButton = document.getElementById("downloadAnalyticsPdf");
+            pdfButton.disabled = true;
+            pdfButton.textContent = "Preparing PDF";
+
+            try {
+                const response = await fetch("/download-analytics-pdf", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(currentAnalytics)
+                });
+
+                if (!response.ok) {
+                    const error = await response.json().catch(() => ({}));
+                    throw new Error(error.error || "PDF could not be generated.");
+                }
+
+                const blob = await response.blob();
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement("a");
+                link.href = url;
+                link.download = `${slugify(currentAnalytics.destination)}-travel-analytics.pdf`;
+                document.body.appendChild(link);
+                link.click();
+                link.remove();
+                URL.revokeObjectURL(url);
+
+                setStatus("PDF downloaded.");
+            } catch (error) {
+                console.error("PDF generation failed:", error);
+                setStatus("PDF generation failed. Check the console for details.", true);
+            } finally {
+                pdfButton.disabled = false;
+                pdfButton.textContent = "Download analytics as PDF";
+            }
+        };
+
+        form.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            const destination = input.value.trim();
+
+            if (!destination) {
+                setStatus("Enter a destination first.", true);
+                return;
+            }
+
+            button.disabled = true;
+            button.textContent = "Analyzing";
+            setStatus(`Building analytics for ${destination}...`);
+
+            try {
+                const data = await fetchJson("/destination-analytics", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ destination })
+                });
+                renderAnalytics(data);
+                setStatus(data.source === "fallback" ? "Fallback analytics ready." : "Groq AI analytics ready.");
+            } catch (error) {
+                setStatus(error.message || "Could not generate analytics right now.", true);
+            } finally {
+                button.disabled = false;
+                button.textContent = "Analyze";
+            }
+        });
+
+        const loadInspiration = async () => {
+            try {
+                const data = await fetchJson("/destination-inspiration");
+                await renderInspiration(data);
+            } catch (error) {
+                destinationCards.innerHTML = "";
+                categoryGrid.innerHTML = "";
+                trendingList.innerHTML = "";
+                setStatus("Inspiration could not load. Search still works when Flask is running.", true);
+            }
+        };
+
+        loadInspiration();
+    </script>
+</body>
+</html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Traveller's Paradise</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="ChatGPT Image May 16, 2026, 08_23_41 PM.png">
+
+    <style>
+        :root {
+            --bg: #080810;
+            --surface: rgba(255, 255, 255, 0.04);
+            --surface-2: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.08);
+            --text: #f2ede6;
+            --muted: rgba(242, 237, 230, 0.68);
+            --accent: #e8c87a;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: 'Outfit', sans-serif;
+            background: radial-gradient(circle at top, #12121e 0%, var(--bg) 45%);
+            color: var(--text);
+            padding: 40px 20px 80px;
+            line-height: 1.7;
+        }
+
+        .app { max-width: 960px; margin: 0 auto; }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .back-button {
+            color: var(--text);
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            padding: 10px 16px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.04);
+            font-size: 14px;
+            transition: all 0.18s ease;
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--accent);
+            transform: translateY(-1px);
+        }
+
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            letter-spacing: 0.3px;
+        }
+
+        .title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2.5rem, 4vw, 4rem);
+            margin: 0 0 10px;
+        }
+
+        .subtitle {
+            color: var(--muted);
+            margin: 0 0 32px;
+            font-size: 1.1rem;
+        }
+
+        .content {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 40px;
+            border-radius: 16px;
+            backdrop-filter: blur(8px);
+        }
+
+        .content h2 {
+            font-family: 'Cormorant Garamond', serif;
+            color: var(--accent);
+            margin: 2.2rem 0 1rem;
+            font-size: 1.85rem;
+        }
+
+        .content p {
+            color: var(--muted);
+            margin-bottom: 1.4rem;
+            font-size: 1.05rem;
+        }
+
+        .social-section {
+            margin-top: 50px;
+            padding-top: 35px;
+            border-top: 1px solid var(--border);
+        }
+
+        .social-title {
+            text-align: center;
+            color: var(--accent);
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .social-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 16px;
+        }
+
+        .social-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 28px;
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            color: var(--text);
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            transition: all 0.25s ease;
+            min-width: 180px;
+            justify-content: center;
+        }
+
+        .social-btn:hover {
+            background: var(--accent);
+            color: #080810;
+            border-color: var(--accent);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(232, 200, 122, 0.15);
+        }
+
+        .signature {
+            margin-top: 45px;
+            text-align: center;
+            font-family: 'Cormorant Garamond', serif;
+            color: var(--accent);
+            font-size: 1.35rem;
+        }
+
+        @media (max-width: 640px) {
+            .content { padding: 32px 24px; }
+            .social-btn { min-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <div class="header">
+            <div class="logo">
+                Traveller's <span style="color: #e8c87a;">Paradise</span>
+            </div>
+            <a class="back-button" href="index.html">← Back to Home</a>
+        </div>
+
+        <h1 class="title">About Us</h1>
+        <p class="subtitle">Our story and mission</p>
+
+        <div class="content">
+            <p>Hi, I’m Ayush — a student, creator, and someone deeply passionate about travel, technology, and building ideas from scratch.</p>
+            
+            <h2>Traveller’s Paradise</h2>
+            <p>Traveller’s Paradise started as more than just a website project. I wanted to create a platform that makes travel feel exciting, organized, and accessible for everyone. While most travel websites focus only on bookings, I wanted this space to feel like a companion for explorers.</p>
+            
+            <h2>The Journey of Building</h2>
+            <p>As a student developer, building this website has been a huge learning experience for me. From designing the interface to writing the code and solving countless errors, every part of Traveller’s Paradise represents patience, curiosity, and the willingness to keep improving.</p>
+            
+            <h2>Our Vision</h2>
+            <p>I believe travel changes the way people think. It pushes us out of routines, introduces us to different cultures, and creates memories that stay forever. Through Traveller’s Paradise, I hope to inspire people to explore more and dream bigger.</p>
+            
+            <h2>The Future</h2>
+            <p>This is only the beginning. I plan to keep improving the platform with smarter features, better recommendations, and more interactive experiences in the future.</p>
+
+            <div class="signature">
+                Thank you for visiting Traveller’s Paradise<br>
+                — Ayush Kumar
+            </div>
+
+            <!-- Social Links -->
+            <div class="social-section">
+                <div class="social-title">Connect with Me</div>
+                <div class="social-links">
+                    <a href="https://www.instagram.com/ayush36488/" target="_blank" class="social-btn">
+                        📷 Instagram
+                    </a>
+                    <a href="https://github.com/ashu23hgs-png" target="_blank" class="social-btn">
+                        💻 GitHub
+                    </a>
+                    <a href="mailto:ashu.23.hgs@gmail.com" class="social-btn">
+                        ✉️ Email Me
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

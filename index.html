@@ -566,9 +566,9 @@
   <nav class="tp-nav">
     <a href="#" class="tp-logo">Traveller's <span>Paradise</span></a>
     <ul class="tp-nav-links">
-      <li><a href="#">Explore</a></li>
-      <li><a href="#">My trips</a></li>
-      <li><a href="#">Guides</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="my-trips.html">My trips</a></li>
+      <li><a href="explore-destinations.html">Explore destinations</a></li>
     </ul>
     <div id="authStatus" class="tp-auth-status hidden"></div>
     <button id="authOpenBtn" class="tp-nav-cta" type="button" onclick="openAuthModal()">Sign Up / Login</button>
@@ -808,6 +808,8 @@
     event.preventDefault();
     const email = document.getElementById('emailInput').value.trim();
     const password = document.getElementById('passwordInput').value.trim();
+    // Use the part before '@' as the display name since there's no name input field
+    const name = email.split('@')[0];
 
     if (!email || !password) {
       alert('Please enter both email and password.');
@@ -815,18 +817,18 @@
     }
 
     localStorage.setItem('signedUpEmail', JSON.stringify({ email }));
-    setAuthUser(email);
+    setAuthUser(name);
     
-    // Send the data to your Python backend
-fetch('/submit-trip', {
+    // Send the data to your Python backend (absolute URL so it reaches Flask on port 5000, not Live Server)
+fetch('http://127.0.0.1:5000/submit-trip', {
     method: 'POST',
     headers: {
-        'Content-Type': 'application/json', // Tells Python you are sending JSON data
+        'Content-Type': 'application/json',
     },
     body: JSON.stringify({
         email: email,
         name: name,
-        
+        city: (localStorage.getItem('tripData') ? JSON.parse(localStorage.getItem('tripData')).city : ''),
     })
 })
 .then(response => response.json())
@@ -889,6 +891,16 @@ function decodeJwtResponse(token) {
   return JSON.parse(jsonPayload);
 }
 
+</script>
+
+<script>
+window.addEventListener('load', function () {
+  if (typeof openAuthModal === 'function') {
+    openAuthModal();
+  } else if (typeof openModal === 'function') {
+    openModal('signupModal');
+  }
+});
 </script>
 </body>
 </html>
