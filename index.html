@@ -76,10 +76,12 @@
 
     .tp-nav-links a:hover { color: #f2ede6; }
 
-    .tp-nav-cta {
-      font-size: 12px;
-      font-weight: 500;
-      background: transparent;
+    .tp-nav-mobile-auth { display: none; }
+
+	    .tp-nav-cta {
+	      font-size: 12px;
+	      font-weight: 500;
+	      background: transparent;
       color: #e8c87a;
       border: 0.5px solid rgba(232,200,122,0.5);
       padding: 10px 24px;
@@ -89,8 +91,23 @@
       text-transform: uppercase;
       transition: all 0.2s;
     }
-
-    .tp-nav-cta:hover { background: rgba(232,200,122,0.1); border-color: #e8c87a; }
+	
+	    .tp-nav-cta:hover { background: rgba(232,200,122,0.1); border-color: #e8c87a; }
+	
+	    .tp-nav-toggle {
+	      display: none;
+	      align-items: center;
+	      justify-content: center;
+	      width: 42px;
+	      height: 42px;
+	      background: transparent;
+	      color: #f2ede6;
+	      border: 0.5px solid rgba(255,255,255,0.16);
+	      border-radius: 6px;
+	      cursor: pointer;
+	    }
+	    .tp-nav-toggle:focus-visible { outline: 2px solid rgba(232,200,122,0.7); outline-offset: 2px; }
+	    .tp-nav-toggle svg { width: 22px; height: 22px; }
 
     .tp-auth-status {
       color: #f2ede6;
@@ -322,6 +339,24 @@
 
     .tp-field select option { background: #14141e; }
 
+    .tp-explore-nudge {
+      margin: 4px 0 14px;
+      color: #f2ede6;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.5;
+    }
+
+    .tp-explore-nudge a {
+      color: #e8c87a;
+      text-decoration: underline;
+      text-decoration-thickness: 1.5px;
+      text-underline-offset: 4px;
+      transition: color 0.2s;
+    }
+
+    .tp-explore-nudge a:hover { color: #f0d896; }
+
     .tp-plan-btn {
       width: 100%;
       background: #e8c87a;
@@ -546,13 +581,57 @@
     }
 
     /* ── Responsive ── */
-    @media (max-width: 768px) {
-      .tp-nav { padding: 18px 20px; }
-      .tp-nav-links { display: none; }
-      .tp-hero { grid-template-columns: 1fr; }
-      .tp-hero-right { height: 260px; }
-      .tp-hero-left { padding: 36px 20px 32px; }
-      .tp-headline { font-size: 44px; }
+	    @media (max-width: 768px) {
+	      .tp-nav {
+	        display: grid;
+	        grid-template-columns: 42px 1fr;
+	        gap: 12px;
+	        padding: 18px 20px;
+	      }
+	      .tp-logo {
+	        grid-column: 2;
+	        justify-self: center;
+	      }
+	      .tp-nav-toggle {
+	        display: inline-flex;
+	        grid-column: 1;
+	        grid-row: 1;
+	        justify-self: start;
+	      }
+	      .tp-nav > .tp-nav-cta { display: none; }
+	      .tp-auth-status {
+	        display: none;
+	        margin-right: 0;
+	      }
+	
+	      .tp-nav-links {
+	        display: none;
+	        position: absolute;
+	        left: 12px;
+	        right: 12px;
+	        top: calc(100% + 12px);
+	        flex-direction: column;
+	        gap: 10px;
+	        padding: 14px 14px;
+	        background: rgba(8,8,16,0.92);
+	        border: 0.5px solid rgba(255,255,255,0.10);
+	        border-radius: 12px;
+	        backdrop-filter: blur(10px);
+	        box-shadow: 0 18px 50px rgba(0,0,0,0.45);
+	      }
+	      .tp-nav.is-open .tp-nav-links { display: flex; }
+	      .tp-nav-links a { font-size: 13px; padding: 10px 8px; }
+	      .tp-nav-mobile-auth { display: block; }
+	      .tp-nav-mobile-auth .tp-nav-cta {
+	        display: inline-flex;
+	        justify-content: center;
+	        width: 100%;
+	        padding: 12px 14px;
+	      }
+	      .tp-hero { grid-template-columns: 1fr; }
+	      .tp-hero-right { height: 260px; }
+	      .tp-hero-left { padding: 36px 20px 32px; }
+	      .tp-headline { font-size: 44px; }
       .tp-stats-bar { flex-wrap: wrap; }
       .tp-stat { flex: 1 1 50%; padding: 14px 20px; }
       .tp-destinations { padding: 36px 20px 40px; }
@@ -562,17 +641,25 @@
 </head>
 <body>
 
-  <!-- Navbar -->
-  <nav class="tp-nav">
-    <a href="#" class="tp-logo">Traveller's <span>Paradise</span></a>
-    <ul class="tp-nav-links">
-      <li><a href="about.html">About</a></li>
-      <li><a href="my-trips.html">My trips</a></li>
-      <li><a href="explore-destinations.html">Explore destinations</a></li>
-    </ul>
-    <div id="authStatus" class="tp-auth-status hidden"></div>
-    <button id="authOpenBtn" class="tp-nav-cta" type="button" onclick="openAuthModal()">Sign Up / Login</button>
-  </nav>
+	  <!-- Navbar -->
+	  <nav class="tp-nav">
+	    <a href="#" class="tp-logo">Traveller's <span>Paradise</span></a>
+	    <button class="tp-nav-toggle" id="tpNavToggle" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="tpNavLinks">
+	      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+	        <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+	      </svg>
+	    </button>
+	    <ul class="tp-nav-links" id="tpNavLinks">
+	      <li><a href="about.html">About</a></li>
+	      <li><a href="my-trips.html">My trips</a></li>
+	      <li><a href="explore-destinations.html">Explore destinations</a></li>
+	      <li class="tp-nav-mobile-auth">
+	        <button id="authOpenMenuBtn" class="tp-nav-cta" type="button">Sign Up / Login</button>
+	      </li>
+	    </ul>
+	    <div id="authStatus" class="tp-auth-status hidden"></div>
+	    <button id="authOpenBtn" class="tp-nav-cta" type="button" onclick="openAuthModal()">Sign Up / Login</button>
+	  </nav>
 
   <div id="authModal" class="auth-modal hidden">
     <div class="auth-modal-backdrop"></div>
@@ -633,6 +720,10 @@
             </select>
           </div>
         </div>
+        <p class="tp-explore-nudge">
+          Wanna know more about your destination before planning your trip?
+          <a href="explore-destinations.html">Click Here</a>
+        </p>
         <button class="tp-plan-btn">✦ Plan my trip</button>
       </div>
     </div>
@@ -736,11 +827,39 @@
       </div>
     </div>
   </section>
-<script>
-  function initializeGoogleSignIn() {
-    if (window.google && google.accounts && google.accounts.id) {
-      google.accounts.id.initialize({
-        client_id: "465283460027-18j7bsge2e9r7684jhql65qmtrap2qdg.apps.googleusercontent.com",
+	<script>
+	  // Mobile navbar toggle
+	  (function () {
+	    const nav = document.querySelector('.tp-nav');
+	    const toggle = document.getElementById('tpNavToggle');
+	    const links = document.getElementById('tpNavLinks');
+	    if (!nav || !toggle || !links) return;
+	
+	    function setOpen(next) {
+	      nav.classList.toggle('is-open', next);
+	      toggle.setAttribute('aria-expanded', String(next));
+	      toggle.setAttribute('aria-label', next ? 'Close navigation menu' : 'Open navigation menu');
+	    }
+	
+	    toggle.addEventListener('click', () => setOpen(!nav.classList.contains('is-open')));
+	    document.addEventListener('click', (e) => {
+	      if (!nav.classList.contains('is-open')) return;
+	      if (nav.contains(e.target)) return;
+	      setOpen(false);
+	    });
+	    document.addEventListener('keydown', (e) => {
+	      if (e.key === 'Escape') setOpen(false);
+	    });
+	    links.addEventListener('click', (e) => {
+	      const a = e.target && e.target.closest ? e.target.closest('a') : null;
+	      if (a) setOpen(false);
+	    });
+	  })();
+	
+	  function initializeGoogleSignIn() {
+	    if (window.google && google.accounts && google.accounts.id) {
+	      google.accounts.id.initialize({
+	        client_id: "465283460027-18j7bsge2e9r7684jhql65qmtrap2qdg.apps.googleusercontent.com",
         callback: handleCredentialResponse,
         auto_select: false,
         cancel_on_tap_outside: true
@@ -769,10 +888,12 @@
   function setAuthUser(name) {
     const authStatus = document.getElementById('authStatus');
     const authButton = document.getElementById('authOpenBtn');
+    const authMenuButton = document.getElementById('authOpenMenuBtn');
     if (!name) return;
     authStatus.textContent = 'Welcome, ' + name;
     authStatus.classList.remove('hidden');
     authButton.textContent = 'My Account';
+    authMenuButton.textContent = 'My Account';
     localStorage.setItem('authUser', JSON.stringify({ name }));
   }
 
@@ -793,6 +914,15 @@
   loadAuthUser();
 
   document.getElementById('authOpenBtn').addEventListener('click', function() {
+    openAuthModal();
+  });
+
+  document.getElementById('authOpenMenuBtn').addEventListener('click', function() {
+    const nav = document.querySelector('.tp-nav');
+    const toggle = document.getElementById('tpNavToggle');
+    nav.classList.remove('is-open');
+    toggle.setAttribute('aria-expanded', 'false');
+    toggle.setAttribute('aria-label', 'Open navigation menu');
     openAuthModal();
   });
 
