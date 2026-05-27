@@ -957,8 +957,8 @@
     }
 
     try {
-      // Send the data to your Python backend (absolute URL so it reaches Flask on port 5000, not Live Server)
-      const res = await fetch('http://127.0.0.1:5000/submit-trip', {
+      // Use relative path so it works on Render + locally (same origin).
+      const res = await fetch('/submit-trip', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -1026,7 +1026,7 @@ async function handleCredentialResponse(response) {
   }
 
   try {
-    const res = await fetch('http://127.0.0.1:5000/submit-trip', {
+    const res = await fetch('/submit-trip', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
