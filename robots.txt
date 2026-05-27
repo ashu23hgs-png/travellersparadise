@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://travellers-paradise.onrender.com/sitemap.xml
