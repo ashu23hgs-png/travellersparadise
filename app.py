@@ -68,6 +68,10 @@ def result():
 def ads_txt():
     return send_from_directory(".", "ads.txt")
 
+@app.route('/sitemap.xml')
+def site():
+    return send_from_directory(".","sitemap.xml")
+
 @app.route("/generate", methods=["POST"])
 def generate_trip():
 
