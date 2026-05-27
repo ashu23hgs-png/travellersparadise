@@ -53,7 +53,7 @@ def result():
 def ads_txt():
     return send_from_directory(".", "ads.txt")
 
-@app.route('/googlefe3b2a6c27cef4e0')
+@app.route('/googlefe3b2a6c27cef4e0.html')
 def google_verify():
     return send_from_directory(".","googlefe3b2a6c27cef4e0.html")
 
