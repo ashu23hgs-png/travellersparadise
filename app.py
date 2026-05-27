@@ -21,6 +21,7 @@ CORS(
                 "http://localhost:5500",
                 "http://127.0.0.1:5000",
                 "http://localhost:5000",
+                "https://travellers-paradise.onrender.com/",
             ],
             "methods": ["GET", "POST", "OPTIONS"],
             "allow_headers": ["Content-Type"],
@@ -543,4 +544,6 @@ def save_user_and_trip(name, email, city="Unknown"):
 
 
 if __name__ == "__main__":
+    port = int(os.environ.get("PORT", "5000"))
+    app.run(host="0.0.0.0", port=port, debug=False)
     app.run(debug=True)
