@@ -856,7 +856,9 @@
 	    });
 	  })();
 	
+	  let __googleInitAttempts = 0;
 	  function initializeGoogleSignIn() {
+	    const googleBtn = document.getElementById('googleSignInOption');
 	    if (window.google && google.accounts && google.accounts.id) {
 	      google.accounts.id.initialize({
 	        client_id: "465283460027-18j7bsge2e9r7684jhql65qmtrap2qdg.apps.googleusercontent.com",
@@ -865,7 +867,6 @@
         cancel_on_tap_outside: true
       });
 
-      const googleBtn = document.getElementById('googleSignInOption');
       if (googleBtn) {
         googleBtn.addEventListener('click', function() {
           google.accounts.id.prompt();
@@ -874,7 +875,16 @@
 
       return;
     }
-    setTimeout(initializeGoogleSignIn, 50);
+	    __googleInitAttempts += 1;
+	    if (__googleInitAttempts > 120) { // ~6s
+	      if (googleBtn) {
+	        googleBtn.disabled = true;
+	        googleBtn.textContent = "Google sign-in unavailable (check authorized origins)";
+	      }
+	      console.warn("Google Identity Services failed to initialize. If you see a 403 about origin not allowed, add this site to Authorized JavaScript origins in Google Cloud OAuth client.");
+	      return;
+	    }
+	    setTimeout(initializeGoogleSignIn, 50);
   }
 
   function openAuthModal() {
@@ -934,7 +944,7 @@
     closeAuthModal();
   });
 
-  document.getElementById('emailSignUpForm').addEventListener('submit', function(event) {
+  document.getElementById('emailSignUpForm').addEventListener('submit', async function(event) {
     event.preventDefault();
     const email = document.getElementById('emailInput').value.trim();
     const password = document.getElementById('passwordInput').value.trim();
@@ -946,31 +956,33 @@
       return;
     }
 
-    localStorage.setItem('signedUpEmail', JSON.stringify({ email }));
-    setAuthUser(name);
-    
-    // Send the data to your Python backend (absolute URL so it reaches Flask on port 5000, not Live Server)
-fetch('http://127.0.0.1:5000/submit-trip', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-        email: email,
-        name: name,
-        city: (localStorage.getItem('tripData') ? JSON.parse(localStorage.getItem('tripData')).city : ''),
-    })
-})
-.then(response => response.json())
-.then(data => {
-    console.log('Success:', data);
-})
-.catch((error) => {
-    console.error('Error: sending data', error);
-});
+    try {
+      // Send the data to your Python backend (absolute URL so it reaches Flask on port 5000, not Live Server)
+      const res = await fetch('http://127.0.0.1:5000/submit-trip', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: email,
+          name: name,
+          city: (localStorage.getItem('tripData') ? JSON.parse(localStorage.getItem('tripData')).city : ''),
+        }),
+      });
 
-    alert('Signed in with email: ' + email);
-    closeAuthModal();
+      const payload = await res.json().catch(() => ({}));
+      if (!res.ok || payload.status !== 'success') {
+        console.error('Signup save failed:', payload);
+        alert('Signup failed to save to database. Check console for details.');
+        return;
+      }
+
+      localStorage.setItem('signedUpEmail', JSON.stringify({ email }));
+      setAuthUser(name);
+      alert('Signed up and saved to database: ' + email);
+      closeAuthModal();
+    } catch (error) {
+      console.error('Error: sending data', error);
+      alert('Network error while saving signup. Is Flask running on port 5000?');
+    }
   });
 
   document.querySelector('.tp-plan-btn').addEventListener('click', function() {
@@ -995,7 +1007,7 @@ fetch('http://127.0.0.1:5000/submit-trip', {
   }, 1000);
 });
 //google login javascript
-function handleCredentialResponse(response) {
+async function handleCredentialResponse(response) {
   // 1. Get the encrypted token from Google
   const responsePayload = decodeJwtResponse(response.credential);
 
@@ -1005,9 +1017,40 @@ function handleCredentialResponse(response) {
   console.log('Email: ' + responsePayload.email);
   console.log("Image URL: " + responsePayload.picture);
   
-  alert("Hello, " + responsePayload.name + "! You are logged in.");
-  setAuthUser(responsePayload.name || responsePayload.email);
-  closeAuthModal();
+  const email = (responsePayload.email || "").trim();
+  const name = (responsePayload.name || email.split("@")[0] || "User").trim();
+
+  if (!email) {
+    alert("Google login worked, but no email was returned.");
+    return;
+  }
+
+  try {
+    const res = await fetch('http://127.0.0.1:5000/submit-trip', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: email,
+        name: name,
+        city: (localStorage.getItem('tripData') ? JSON.parse(localStorage.getItem('tripData')).city : ''),
+      }),
+    });
+
+    const payload = await res.json().catch(() => ({}));
+    if (!res.ok || payload.status !== 'success') {
+      console.error('Google signup save failed:', payload);
+      alert('Google login succeeded, but saving to database failed. Check console for details.');
+      return;
+    }
+
+    localStorage.setItem('signedUpEmail', JSON.stringify({ email }));
+    alert("Hello, " + name + "! You are logged in and saved.");
+    setAuthUser(name);
+    closeAuthModal();
+  } catch (error) {
+    console.error('Error saving Google user:', error);
+    alert('Google login succeeded, but network error while saving. Is Flask running on port 5000?');
+  }
 }
 
 // Simple helper function to decode the token without extra libraries

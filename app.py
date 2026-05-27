@@ -11,7 +11,22 @@ except ImportError:
 
 
 app = Flask(__name__)
-CORS(app, origins=["http://127.0.0.1:5500", "http://localhost:5500", "http://127.0.0.1:5000", "http://localhost:5000"])
+# Local dev CORS: Live Server (5500) -> Flask (5000)
+CORS(
+    app,
+    resources={
+        r"/*": {
+            "origins": [
+                "http://127.0.0.1:5500",
+                "http://localhost:5500",
+                "http://127.0.0.1:5000",
+                "http://localhost:5000",
+            ],
+            "methods": ["GET", "POST", "OPTIONS"],
+            "allow_headers": ["Content-Type"],
+        }
+    },
+)
 load_dotenv()
 GROQ_API_KEY = (
     os.getenv("GROQ_API_KEY")
@@ -52,10 +67,6 @@ def result():
 @app.route('/ads.txt')
 def ads_txt():
     return send_from_directory(".", "ads.txt")
-
-@app.route('/googlefe3b2a6c27cef4e0.html')
-def google_verify():
-    return send_from_directory(".","googlefe3b2a6c27cef4e0.html")
 
 @app.route("/generate", methods=["POST"])
 def generate_trip():
@@ -426,69 +437,107 @@ def destination_inspiration():
                 {"name": "Madeira", "why_trending": "Cliff hikes, ocean views, and year-round mild weather.", "ideal_trip": "Nature week"}
             ]
         })
-# 1. Fetch the connection string safely from Render's environment
-DATABASE_URL = os.environ.get('DATABASE_URL')
+# Database (Neon)
+DATABASE_URL = os.getenv("DATABASE_URL") or os.environ.get("DATABASE_URL")
+
+def ensure_schema(conn):
+    with conn.cursor() as cur:
+        cur.execute("""
+            CREATE TABLE IF NOT EXISTS users (
+                id SERIAL PRIMARY KEY,
+                name TEXT NOT NULL,
+                email TEXT UNIQUE NOT NULL,
+                last_login TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+            );
+        """)
+        cur.execute("""
+            CREATE TABLE IF NOT EXISTS user_trips (
+                id SERIAL PRIMARY KEY,
+                user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+                destination TEXT NOT NULL,
+                created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+            );
+        """)
+        conn.commit()
 
 def get_db_connection():
     if psycopg2 is None:
         raise RuntimeError("psycopg2 is not installed. Run: pip install psycopg2-binary")
 
     # 2. Connect to your Neon database
-    conn = psycopg2.connect(DATABASE_URL)
+    if not DATABASE_URL:
+        raise RuntimeError("DATABASE_URL is not configured in .env")
+
+    # Keep requests snappy during local dev if Neon is unreachable.
+    conn = psycopg2.connect(
+        DATABASE_URL,
+        connect_timeout=3,
+        options="-c statement_timeout=3000",
+    )
     return conn
 
+
+@app.route("/health", methods=["GET"])
+def health():
+    try:
+        conn = get_db_connection()
+        try:
+            with conn.cursor() as cur:
+                cur.execute("SELECT 1;")
+                cur.fetchone()
+            return jsonify({"status": "ok"})
+        finally:
+            conn.close()
+    except Exception as error:
+        return jsonify({"status": "error", "error": str(error)}), 500
 
 
 @app.route('/submit-trip', methods=['POST'])
 def submit_trip():
-    data = request.get_json()
+    data = request.get_json(silent=True) or {}
     
-    email = data.get('email')
-    name = data.get('name')
-    city = data.get('city', 'Unknown')   # capture city from frontend
+    email = (data.get("email") or "").strip()
+    name = (data.get("name") or "").strip()
+    city = (data.get("city") or "Unknown").strip()   # capture city from frontend
 
     if not email or not name:
         return jsonify({"status": "error", "message": "Missing required data"}), 400
 
-    save_user_and_trip(name, email, city)
-
-    return jsonify({"status": "success", "message": f"Saved trip for {email}"})
+    try:
+        saved = save_user_and_trip(name, email, city)
+        return jsonify({"status": "success", "message": f"Saved trip for {email}", "user_id": saved["user_id"]})
+    except Exception as error:
+        return jsonify({"status": "error", "message": str(error)}), 500
 
 
 
 def save_user_and_trip(name, email, city="Unknown"):
     conn = get_db_connection()
-    cur = conn.cursor()
-    
     try:
-        # 1. Insert or update the user, and get their ID back
-        # This updates the 'last_login' time automatically if the email already exists
-        cur.execute("""
-            INSERT INTO users (name, email, last_login) 
-            VALUES (%s, %s, CURRENT_TIMESTAMP)
-            ON CONFLICT (email) 
-            DO UPDATE SET last_login = CURRENT_TIMESTAMP, name = EXCLUDED.name
-            RETURNING id;
-        """, (name, email))
-        
-        user_id = cur.fetchone()[0]
-        
-        # 2. Save the trip destination for this specific user
-        cur.execute("""
-            INSERT INTO user_trips (user_id, destination) 
-            VALUES (%s, %s);
-        """, (user_id, city))
-        
-        # Commit changes to the database
+        ensure_schema(conn)
+        with conn.cursor() as cur:
+            cur.execute("""
+                INSERT INTO users (name, email, last_login)
+                VALUES (%s, %s, CURRENT_TIMESTAMP)
+                ON CONFLICT (email)
+                DO UPDATE SET last_login = CURRENT_TIMESTAMP, name = EXCLUDED.name
+                RETURNING id;
+            """, (name, email))
+
+            row = cur.fetchone()
+            if not row:
+                raise RuntimeError("Failed to create/update user.")
+            user_id = row[0]
+
+            cur.execute("""
+                INSERT INTO user_trips (user_id, destination)
+                VALUES (%s, %s);
+            """, (user_id, city or "Unknown"))
+
         conn.commit()
-        print("Successfully saved to database!")
-        
-    except Exception as e:
-        conn.rollback()
-        print(f"Error saving to database: {e}")
-        
+        return {"user_id": user_id}
     finally:
-        cur.close()
         conn.close()
 
 
