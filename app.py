@@ -83,6 +83,12 @@ def robots_txt():
 @app.route('/sitemap.xml')
 def sitemap():
     return send_from_directory(".", "sitemap.xml")
+@app.route('/BingSiteAuth.xml')
+def BingSiteAuth():
+    return send_from_directory(".", "BingSiteAuth.xml")
+@app.route('/googlefe3b2a6c27cef4e0.html')
+def google_verification():
+    return send_from_directory(".", "googlefe3b2a6c27cef4e0.html")
 
 GENERIC_PLACE_PATTERNS = [
     re.compile(
