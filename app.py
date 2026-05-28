@@ -112,40 +112,79 @@ def get_travel_level(budget):
     return "budget"
 
 
+def extract_place_name(slot):
+    if not isinstance(slot, dict):
+        return ""
+
+    for key in ("place", "venue", "location", "name", "destination", "spot"):
+        value = slot.get(key)
+        if value:
+            return str(value).strip()
+
+    return ""
+
+
+def extract_activity_text(slot):
+    if not isinstance(slot, dict):
+        return ""
+
+    for key in ("activity", "description", "plan", "details", "experience"):
+        value = slot.get(key)
+        if value:
+            return str(value).strip()
+
+    return ""
+
+
+def place_label_from_slot(slot):
+    if isinstance(slot, str):
+        return slot.strip()
+
+    return format_slot_label(extract_place_name(slot), extract_activity_text(slot))
+
+
 def is_generic_place_name(place, city=""):
+    """Only flag obvious template placeholders, not real short venue names."""
     text = str(place or "").strip()
-    if not text or len(text) < 4:
+    if not text or len(text) < 3:
         return True
 
+    lowered = text.lower()
     for pattern in GENERIC_PLACE_PATTERNS:
-        if pattern.search(text):
+        if pattern.search(lowered):
             return True
 
     city_token = str(city or "").strip().lower()
-    if city_token and text.lower() == city_token:
+    if city_token and lowered == city_token:
         return True
 
-    generic_words = (
-        "walk",
-        "lane",
-        "square",
-        "district",
-        "quarter",
-        "area",
-        "spot",
-        "stop",
-        "stroll",
-        "explore",
-        "relax",
-        "dinner",
-        "local",
-    )
-    tokens = re.findall(r"[a-zA-Z']+", text.lower())
-    if len(tokens) <= 3 and any(token in generic_words for token in tokens):
-        if not re.search(r"\b(falls|temple|palace|fort|park|museum|beach|lake|market|monastery|viewpoint|garden|sanctuary|resort|station|church|mosque|bazaar|dam|cave|peak|valley|plantation)\b", text, re.I):
+    if city_token and lowered.startswith(city_token + " "):
+        suffix = lowered[len(city_token) + 1 :].strip()
+        generic_suffixes = (
+            "old town",
+            "old town walk",
+            "public square",
+            "street food lane",
+            "city center",
+            "top attraction",
+            "local market",
+            "shopping street",
+            "night market",
+            "museum exterior",
+            "riverside walk",
+        )
+        if suffix in generic_suffixes:
             return True
 
     return False
+
+
+def place_part_from_label(label):
+    text = str(label or "").strip()
+    for separator in ("—", "–", "-", "|"):
+        if separator in text:
+            return text.split(separator, 1)[0].strip()
+    return text
 
 
 def format_slot_label(place, activity):
@@ -157,33 +196,34 @@ def format_slot_label(place, activity):
 
 
 def normalize_itinerary_payload(payload, expected_days):
-    raw_days = payload.get("days") or []
+    raw_days = payload.get("days") or payload.get("itinerary") or []
     normalized = []
 
-    for index, day_entry in enumerate(raw_days[:expected_days]):
-        slots = day_entry.get("slots") if isinstance(day_entry, dict) else None
-        if not isinstance(slots, list):
-            continue
-
+    for day_entry in raw_days[:expected_days]:
         labels = []
-        for slot_name in SLOT_ORDER:
-            slot = next(
-                (
-                    item
-                    for item in slots
-                    if str(item.get("time", "")).strip().lower() == slot_name.lower()
-                ),
-                None,
-            )
-            if not slot and len(slots) > len(labels):
-                slot = slots[len(labels)]
 
-            if not isinstance(slot, dict):
-                continue
+        if isinstance(day_entry, list):
+            labels = [place_label_from_slot(item) for item in day_entry]
+            labels = [label for label in labels if label]
+        elif isinstance(day_entry, dict):
+            slots = day_entry.get("slots") or day_entry.get("activities") or day_entry.get("plan")
+            if isinstance(slots, list):
+                for slot_name in SLOT_ORDER:
+                    slot = next(
+                        (
+                            item
+                            for item in slots
+                            if str(item.get("time", item.get("period", ""))).strip().lower()
+                            == slot_name.lower()
+                        ),
+                        None,
+                    )
+                    if not slot and len(slots) > len(labels):
+                        slot = slots[len(labels)]
 
-            label = format_slot_label(slot.get("place"), slot.get("activity"))
-            if label:
-                labels.append(label)
+                    label = place_label_from_slot(slot)
+                    if label:
+                        labels.append(label)
 
         if labels:
             normalized.append(labels)
@@ -191,13 +231,17 @@ def normalize_itinerary_payload(payload, expected_days):
     return normalized
 
 
-def itinerary_has_generic_places(days, city):
+def count_generic_slots(days, city):
+    generic_count = 0
+    total = 0
+
     for day in days:
         for label in day:
-            place_part = str(label).split("—", 1)[0].strip()
-            if is_generic_place_name(place_part, city):
-                return True
-    return False
+            total += 1
+            if is_generic_place_name(place_part_from_label(label), city):
+                generic_count += 1
+
+    return generic_count, total
 
 
 def build_itinerary_prompt(city, budget, days, level, strict=False):
@@ -293,36 +337,45 @@ def generate_trip():
         return jsonify({"error": str(error)}), 500
 
     try:
-        payload = request_itinerary_json(city, budget, days, level, strict=False)
-        normalized_days = normalize_itinerary_payload(payload, days)
+        normalized_days = []
+        payload = {}
+        warning = None
 
-        if len(normalized_days) < days or itinerary_has_generic_places(normalized_days, city):
-            payload = request_itinerary_json(city, budget, days, level, strict=True)
+        for attempt, strict in enumerate((False, True, True)):
+            payload = request_itinerary_json(city, budget, days, level, strict=strict)
             normalized_days = normalize_itinerary_payload(payload, days)
+            generic_count, total = count_generic_slots(normalized_days, city)
+            generic_ratio = generic_count / total if total else 0
+
+            if len(normalized_days) < days:
+                continue
+
+            if generic_ratio <= 0.34:
+                break
+
+            if attempt == 2:
+                warning = (
+                    "Some stops may be approximate — tap Regenerate for another AI pass."
+                )
+                break
 
         if len(normalized_days) < days:
             return jsonify(
                 {
-                    "error": "The AI returned an incomplete itinerary. Please try again.",
-                }
-            ), 502
-
-        if itinerary_has_generic_places(normalized_days, city):
-            return jsonify(
-                {
-                    "error": "Could not generate specific places for this destination. Try a more specific city name.",
+                    "error": "The AI returned an incomplete itinerary. Please tap Regenerate to try again.",
                 }
             ), 502
 
         destination = (payload.get("destination") or city).strip()
+        response_body = {
+            "destination": destination,
+            "level": level,
+            "days": normalized_days,
+        }
+        if warning:
+            response_body["warning"] = warning
 
-        return jsonify(
-            {
-                "destination": destination,
-                "level": level,
-                "days": normalized_days,
-            }
-        )
+        return jsonify(response_body)
     except json.JSONDecodeError:
         return jsonify({"error": "The AI returned an invalid response. Please try again."}), 502
     except Exception as error:

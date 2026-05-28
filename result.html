@@ -664,8 +664,9 @@
 
             const level = payload.level || getLuxuryLevel(budget);
             const destination = payload.destination || city;
+            const warning = payload.warning || "";
 
-            return { level, plan, destination };
+            return { level, plan, destination, warning };
         }
 
         // Fetches an image for a place from Unsplash and caches the result.
@@ -743,12 +744,14 @@
             let level;
             let plan;
             let destination = city;
+            let warning = "";
 
             try {
                 const result = await generateItinerary(city, days, budget);
                 level = result.level;
                 plan = result.plan;
                 destination = result.destination || city;
+                warning = result.warning || "";
                 lastItinerary = { level, plan, destination, city, days, budget };
             } catch (error) {
                 console.error("AI generation failed:", error);
@@ -767,8 +770,10 @@
                 return;
             }
 
-            document.getElementById("aiNote").textContent =
-                `AI-generated itinerary for ${destination} (${level.charAt(0).toUpperCase() + level.slice(1)} style).`;
+            const styleLabel = level.charAt(0).toUpperCase() + level.slice(1);
+            document.getElementById("aiNote").textContent = warning
+                ? `AI itinerary for ${destination} (${styleLabel} style). ${warning}`
+                : `AI-generated itinerary for ${destination} (${styleLabel} style).`;
 
             document.getElementById("costBox").innerHTML =
                 `<strong>Estimated Budget:</strong> $${budget}<br>` +
