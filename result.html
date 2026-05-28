@@ -234,6 +234,26 @@
             margin: 60px auto;
         }
 
+        .trip-error-banner {
+            display: none;
+            margin: 0 0 22px;
+            padding: 16px 18px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 120, 120, 0.35);
+            background: rgba(255, 80, 80, 0.08);
+            color: #ffd8d8;
+            line-height: 1.55;
+            font-size: 14px;
+        }
+
+        .trip-error-banner.visible {
+            display: block;
+        }
+
+        .trip-error-banner strong {
+            color: #ffb4b4;
+        }
+
         @keyframes spin {
             to {
                 transform: rotate(360deg);
@@ -367,14 +387,15 @@
             display: none !important;
         }
 
-        @media (max-width: 640px) {
-            body {
-                padding: 24px 14px 48px;
-            }
-
-            .header {
-                align-items: flex-start;
-            }
+	        @media (max-width: 640px) {
+	            body {
+	                padding: 24px 14px 48px;
+	            }
+	
+	            .header {
+	                align-items: flex-start;
+	                flex-direction: column;
+	            }
 
             .toolbar {
                 flex-direction: column;
@@ -521,6 +542,7 @@
         <h1 class="title" id="tripTitle"></h1>
         <p class="subtitle" id="tripInfo"></p>
         <p class="ai-note" id="aiNote"></p>
+        <div class="trip-error-banner" id="tripError" role="alert"></div>
 
         <div class="toolbar">
             <button class="action-button" id="regenBtn">Regenerate itinerary</button>
@@ -567,6 +589,9 @@
             budget: 1200
         };
 
+        // Last successful itinerary from /generate (used for PDF without re-fetching).
+        let lastItinerary = null;
+
         // Reads trip data from localStorage.
         function getStoredTripData() {
             try {
@@ -587,86 +612,60 @@
             return "budget";
         }
 
-        // Parses the AI-generated plan text into an array of days, each day an array of activities.
-        function parsePlan(planText, days) {
-            const lines = planText.split('\n').map(l => l.trim()).filter(l => l);
-            const daysArray = [];
-            let currentDay = [];
-            for (let line of lines) {
-                if (line.match(/^Day \d+:$/i)) {
-                    if (currentDay.length > 0) {
-                        daysArray.push(currentDay);
-                        currentDay = [];
-                    }
-                } else if (line.includes(':')) {
-                    const parts = line.split(':');
-                    if (parts.length >= 2) {
-                        const activity = parts.slice(1).join(':').trim();
-                        if (activity) {
-                            currentDay.push(activity);
-                        }
-                    }
-                }
+        function showTripError(message) {
+            const banner = document.getElementById("tripError");
+            if (!banner) return;
+
+            if (message) {
+                banner.innerHTML = `<strong>Could not generate itinerary.</strong> ${message}`;
+                banner.classList.add("visible");
+            } else {
+                banner.textContent = "";
+                banner.classList.remove("visible");
             }
-            if (currentDay.length > 0) {
-                daysArray.push(currentDay);
-            }
-            // Ensure we have exactly 'days' number of days, pad if necessary
-            while (daysArray.length < days) {
-                daysArray.push(['Rest and relax', 'Explore locally', 'Dinner']);
-            }
-            return daysArray.slice(0, days);
         }
 
-        // Generates the itinerary using AI backend.
+        function escapeHtml(value) {
+            return String(value || "")
+                .replaceAll("&", "&amp;")
+                .replaceAll("<", "&lt;")
+                .replaceAll(">", "&gt;")
+                .replaceAll('"', "&quot;")
+                .replaceAll("'", "&#039;");
+        }
+
+        // Generates the itinerary using the Flask /generate API (same origin on Render).
         async function generateItinerary(city, days, budget) {
-            try {
-                const response = await fetch('http://127.0.0.1:5000/generate', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ city, budget, days })
-                });
-                if (!response.ok) {
-                    throw new Error('Failed to generate itinerary from AI');
+            const response = await fetch("/generate", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ city, budget, days }),
+            });
+
+            let payload = {};
+            const raw = await response.text();
+
+            if (raw) {
+                try {
+                    payload = JSON.parse(raw);
+                } catch (error) {
+                    throw new Error("The server returned a response the page could not read.");
                 }
-                const data = await response.json();
-                const planText = data.plan;
-                const plan = parsePlan(planText, days);
-                return { level: getLuxuryLevel(budget), plan };
-            } catch (error) {
-                console.error('AI generation failed:', error);
-                // Fallback to old logic if AI fails
-                const level = getLuxuryLevel(budget);
-                const c = String(city || "City").trim() || "City";
-                const defaults = {
-                    budget: [
-                        [`${c} old town walk`, `${c} public square`, `${c} street food lane`],
-                        [`${c} museum exterior`, `${c} local market`, `${c} riverside walk`],
-                        [`${c} viewpoint`, `${c} shopping street`, `${c} night market`],
-                        [`${c} hidden alleys`, `${c} cafe stop`, `${c} sunset stroll`],
-                        [`${c} souvenir street`, `${c} public garden`, `${c} easy evening`]
-                    ],
-                    standard: [
-                        [`${c} city center`, `${c} top attraction`, `${c} dinner district`],
-                        [`${c} museum`, `${c} cafe quarter`, `${c} skyline view`],
-                        [`${c} cultural spot`, `${c} shopping avenue`, `${c} evening walk`],
-                        [`${c} famous landmark`, `${c} gardens`, `${c} live music area`],
-                        [`${c} local neighborhood`, `${c} market`, `${c} relaxed night out`]
-                    ],
-                    luxury: [
-                        [`${c} premium landmark`, `${c} curated city tour`, `${c} rooftop dinner`],
-                        [`${c} iconic museum`, `${c} luxury shopping`, `${c} fine dining`],
-                        [`${c} private viewpoint`, `${c} designer district`, `${c} cocktail lounge`],
-                        [`${c} palace or heritage site`, `${c} spa break`, `${c} sunset cruise`],
-                        [`${c} boutique quarter`, `${c} gourmet tasting`, `${c} elegant night walk`]
-                    ]
-                };
-                const selected = defaults[level];
-                return {
-                    level,
-                    plan: selected.slice(0, Math.max(1, parseInt(days, 10) || 1))
-                };
             }
+
+            if (!response.ok) {
+                throw new Error(payload.error || "Failed to generate itinerary from AI.");
+            }
+
+            const plan = Array.isArray(payload.days) ? payload.days : [];
+            if (!plan.length) {
+                throw new Error("The AI returned an empty itinerary. Please try again.");
+            }
+
+            const level = payload.level || getLuxuryLevel(budget);
+            const destination = payload.destination || city;
+
+            return { level, plan, destination };
         }
 
         // Fetches an image for a place from Unsplash and caches the result.
@@ -739,11 +738,37 @@
 
             const itineraryDiv = document.getElementById("itinerary");
             itineraryDiv.innerHTML = "";
+            showTripError("");
 
-            const { level, plan } = await generateItinerary(city, days, budget);
+            let level;
+            let plan;
+            let destination = city;
+
+            try {
+                const result = await generateItinerary(city, days, budget);
+                level = result.level;
+                plan = result.plan;
+                destination = result.destination || city;
+                lastItinerary = { level, plan, destination, city, days, budget };
+            } catch (error) {
+                console.error("AI generation failed:", error);
+                showTripError(
+                    `${error.message || "Please check your connection and try Regenerate."} ` +
+                    "If this persists on Render, confirm GROQ_API_KEY is set in Environment."
+                );
+                itineraryDiv.innerHTML = `
+                    <div class="error-box">
+                        <h2 style="margin-top:0;">No itinerary yet</h2>
+                        <p>We could not reach the AI planner. Use <strong>Regenerate itinerary</strong> to try again.</p>
+                    </div>
+                `;
+                document.getElementById("aiNote").textContent = "Itinerary unavailable — generation failed.";
+                hideLoading();
+                return;
+            }
 
             document.getElementById("aiNote").textContent =
-                `AI-generated itinerary (${level.charAt(0).toUpperCase() + level.slice(1)} style).`;
+                `AI-generated itinerary for ${destination} (${level.charAt(0).toUpperCase() + level.slice(1)} style).`;
 
             document.getElementById("costBox").innerHTML =
                 `<strong>Estimated Budget:</strong> $${budget}<br>` +
@@ -751,7 +776,7 @@
                 `Includes stay, food, and travel.`;
 
             document.getElementById("mapFrame").src =
-                `https://www.google.com/maps?q=${encodeURIComponent(city)}&output=embed`;
+                `https://www.google.com/maps?q=${encodeURIComponent(destination)}&output=embed`;
 
             const slots = ["Morning", "Afternoon", "Evening"];
             const pending = [];
@@ -763,15 +788,15 @@
                     if (placeIndex < slots.length) {
                         const blockId = `img-${dayIndex}-${placeIndex}`;
 
-                        pending.push({ blockId, place });
+                        pending.push({ blockId, place, destination });
 
                         blocks.push(`
                             <div class="time-block loading" id="${blockId}">
                                 <div class="time-label">${slots[placeIndex]}</div>
                                 <div class="place-card">
-                                    <img src="${fallbackImage}" alt="${place}" loading="lazy">
+                                    <img src="${fallbackImage}" alt="${escapeHtml(place)}" loading="lazy">
                                     <div class="place-copy">
-                                        <div class="place-name">${place}</div>
+                                        <div class="place-name">${escapeHtml(place)}</div>
                                         <span class="place-tag">${createTag(level)}</span>
                                     </div>
                                 </div>
@@ -792,8 +817,8 @@
             });
 
             await Promise.all(
-                pending.map(async ({ blockId, place }) => {
-                    const imageUrl = await getImage(place, city);
+                pending.map(async ({ blockId, place, destination: mapCity }) => {
+                    const imageUrl = await getImage(place, mapCity || destination || city);
                     const block = document.getElementById(blockId);
 
                     if (!block) return;
@@ -856,8 +881,14 @@
                 pdfText += `Travel Style: ${level.charAt(0).toUpperCase() + level.slice(1)}\n\n`;
                 pdfText += `${'='.repeat(40)}\n\n`;
 
-                // Get the itinerary from the current plan
-                const { plan } = await generateItinerary(city, days, budget);
+                let plan;
+                if (lastItinerary && lastItinerary.plan) {
+                    plan = lastItinerary.plan;
+                } else {
+                    const generated = await generateItinerary(city, days, budget);
+                    plan = generated.plan;
+                }
+
                 const slots = ["Morning", "Afternoon", "Evening"];
 
                 plan.forEach((dayPlaces, dayIndex) => {

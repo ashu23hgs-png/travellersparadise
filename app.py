@@ -1,5 +1,6 @@
 import json
 import os
+import re
 from flask import Flask, Response, request, jsonify, send_from_directory
 from flask_cors import CORS
 from openai import OpenAI
@@ -11,17 +12,25 @@ except ImportError:
 
 
 app = Flask(__name__)
-# Local dev CORS: Live Server (5500) -> Flask (5000)
+# Local dev CORS: Live Server (5500) -> Flask (5000). Production via env.
+_default_cors_origins = [
+    "http://127.0.0.1:5500",
+    "http://localhost:5500",
+    "http://127.0.0.1:5000",
+    "http://localhost:5000",
+    "https://travellers-paradise.onrender.com",
+]
+_extra_cors = os.getenv("CORS_ORIGINS", "")
+CORS_ORIGINS = _default_cors_origins + [
+    origin.strip()
+    for origin in _extra_cors.split(",")
+    if origin.strip()
+]
 CORS(
     app,
     resources={
         r"/*": {
-            "origins": [
-                "http://127.0.0.1:5500",
-                "http://localhost:5500",
-                "http://127.0.0.1:5000",
-                "http://localhost:5000",
-            ],
+            "origins": CORS_ORIGINS,
             "methods": ["GET", "POST", "OPTIONS"],
             "allow_headers": ["Content-Type"],
         }
@@ -68,65 +77,256 @@ def result():
 def ads_txt():
     return send_from_directory(".", "ads.txt")
 
-@app.route('/sitemap.xml')
-def site():
-    return send_from_directory(".","sitemap.xml")
- 
-@app.route('/robots.txt')
-def robot():
-    return send_from_directory(".","robots.txt")  
+GENERIC_PLACE_PATTERNS = [
+    re.compile(
+        r"\b(old town walk|public square|street food lane|city center|top attraction|"
+        r"dinner district|museum exterior|riverside walk|hidden alleys|sunset stroll|"
+        r"easy evening|souvenir street|public garden|shopping street|night market|"
+        r"cafe stop|local market|cultural spot|evening walk|live music area|"
+        r"relaxed night out|premium landmark|curated city tour|rooftop dinner|"
+        r"designer district|cocktail lounge|gourmet tasting|elegant night walk)\b",
+        re.IGNORECASE,
+    ),
+    re.compile(
+        r"^(?P<city>[\w\s'.-]+)\s+"
+        r"(old town|public square|street food|city center|top attraction|viewpoint|"
+        r"shopping street|night market|museum|local market|hidden alleys|"
+        r"souvenir street|public garden|cultural spot|famous landmark|dinner district)\b",
+        re.IGNORECASE,
+    ),
+]
 
-@app.route("/generate", methods=["POST"])
-def generate_trip():
+SLOT_ORDER = ["Morning", "Afternoon", "Evening"]
 
-    data = request.json
 
-    city = data.get("city")
-    budget = data.get("budget")
-    days = data.get("days")
-
-    prompt = f"""
-    Create a luxury-looking travel itinerary.
-
-    Destination: {city}
-    Budget: ${budget}
-    Duration: {days}
-
-    STRICT FORMAT:
-
-    Day 1:
-    Morning: ...
-    Afternoon: ...
-    Evening: ...
-
-    Day 2:
-    Morning: ...
-    Afternoon: ...
-    Evening: ...
-
-    Keep activities realistic and concise.
-    """
-
+def get_travel_level(budget):
     try:
-        ai_client = create_ai_client()
-    except RuntimeError as error:
-        return jsonify({"error": str(error)}), 500
+        amount = float(budget or 0)
+    except (TypeError, ValueError):
+        amount = 0
+
+    if amount > 2000:
+        return "luxury"
+    if amount > 1000:
+        return "standard"
+    return "budget"
+
+
+def is_generic_place_name(place, city=""):
+    text = str(place or "").strip()
+    if not text or len(text) < 4:
+        return True
+
+    for pattern in GENERIC_PLACE_PATTERNS:
+        if pattern.search(text):
+            return True
+
+    city_token = str(city or "").strip().lower()
+    if city_token and text.lower() == city_token:
+        return True
+
+    generic_words = (
+        "walk",
+        "lane",
+        "square",
+        "district",
+        "quarter",
+        "area",
+        "spot",
+        "stop",
+        "stroll",
+        "explore",
+        "relax",
+        "dinner",
+        "local",
+    )
+    tokens = re.findall(r"[a-zA-Z']+", text.lower())
+    if len(tokens) <= 3 and any(token in generic_words for token in tokens):
+        if not re.search(r"\b(falls|temple|palace|fort|park|museum|beach|lake|market|monastery|viewpoint|garden|sanctuary|resort|station|church|mosque|bazaar|dam|cave|peak|valley|plantation)\b", text, re.I):
+            return True
+
+    return False
+
+
+def format_slot_label(place, activity):
+    place = str(place or "").strip()
+    activity = str(activity or "").strip()
+    if place and activity:
+        return f"{place} — {activity}"
+    return place or activity
+
+
+def normalize_itinerary_payload(payload, expected_days):
+    raw_days = payload.get("days") or []
+    normalized = []
+
+    for index, day_entry in enumerate(raw_days[:expected_days]):
+        slots = day_entry.get("slots") if isinstance(day_entry, dict) else None
+        if not isinstance(slots, list):
+            continue
+
+        labels = []
+        for slot_name in SLOT_ORDER:
+            slot = next(
+                (
+                    item
+                    for item in slots
+                    if str(item.get("time", "")).strip().lower() == slot_name.lower()
+                ),
+                None,
+            )
+            if not slot and len(slots) > len(labels):
+                slot = slots[len(labels)]
+
+            if not isinstance(slot, dict):
+                continue
+
+            label = format_slot_label(slot.get("place"), slot.get("activity"))
+            if label:
+                labels.append(label)
+
+        if labels:
+            normalized.append(labels)
+
+    return normalized
+
+
+def itinerary_has_generic_places(days, city):
+    for day in days:
+        for label in day:
+            place_part = str(label).split("—", 1)[0].strip()
+            if is_generic_place_name(place_part, city):
+                return True
+    return False
+
+
+def build_itinerary_prompt(city, budget, days, level, strict=False):
+    strict_note = (
+        "Your previous answer used generic placeholders. "
+        "Use ONLY real, searchable venue names that exist in or near this destination."
+        if strict
+        else ""
+    )
+
+    return f"""
+Create a detailed travel itinerary for Traveller's Paradise.
+
+Destination: {city}
+Total budget: ${budget} USD (entire trip)
+Duration: {days} day(s)
+Travel style: {level}
+
+Rules:
+- Every slot must name a REAL place (landmark, park, waterfall, temple, market, cafe, restaurant, plantation, viewpoint, museum, theme park, etc.).
+- Use the official or commonly known name (examples for Bengaluru: Lalbagh Botanical Garden, Vidhana Soudha, Wonderla Bengaluru, Cubbon Park, Commercial Street).
+- Forbidden generic labels: "old town walk", "public square", "street food lane", "city center", "top attraction", or "{city.lower()} + generic noun".
+- Match the {level} budget (hostels/street food vs boutique hotels/fine dining).
+- Spread famous sights across days; avoid repeating the same place.
+- Keep each activity to one short sentence.
+{strict_note}
+
+Return this exact JSON shape:
+{{
+  "destination": "clean destination name with region/country if helpful",
+  "days": [
+    {{
+      "day": 1,
+      "slots": [
+        {{"time": "Morning", "place": "Real Place Name", "activity": "what to do"}},
+        {{"time": "Afternoon", "place": "Real Place Name", "activity": "what to do"}},
+        {{"time": "Evening", "place": "Real Place Name", "activity": "what to do"}}
+      ]
+    }}
+  ]
+}}
+
+Provide exactly {days} day object(s), each with exactly 3 slots (Morning, Afternoon, Evening).
+"""
+
+
+def request_itinerary_json(city, budget, days, level, strict=False):
+    prompt = build_itinerary_prompt(city, budget, days, level, strict=strict)
+    ai_client = create_ai_client()
 
     response = ai_client.chat.completions.create(
         model=GROQ_MODEL,
+        response_format={"type": "json_object"},
         messages=[
             {
-                "role": "user",
-                "content": prompt
-            }
-        ]
+                "role": "system",
+                "content": (
+                    "You are an expert travel planner for Traveller's Paradise. "
+                    "Return only valid JSON. Use real venues that travelers can find on Google Maps. "
+                    "Never invent generic place names."
+                ),
+            },
+            {"role": "user", "content": prompt},
+        ],
+        temperature=0.35,
     )
 
-    plan = response.choices[0].message.content
+    content = response.choices[0].message.content
+    return json.loads(content)
 
-    return jsonify({
-        "plan": plan
-    })
+
+@app.route("/generate", methods=["POST"])
+def generate_trip():
+    data = request.get_json(silent=True) or {}
+
+    city = (data.get("city") or "").strip()
+    budget = data.get("budget")
+    days_raw = data.get("days")
+
+    if not city:
+        return jsonify({"error": "Please provide a destination city."}), 400
+
+    try:
+        days = max(1, min(14, int(days_raw)))
+    except (TypeError, ValueError):
+        days = 3
+
+    level = get_travel_level(budget)
+
+    try:
+        create_ai_client()
+    except RuntimeError as error:
+        return jsonify({"error": str(error)}), 500
+
+    try:
+        payload = request_itinerary_json(city, budget, days, level, strict=False)
+        normalized_days = normalize_itinerary_payload(payload, days)
+
+        if len(normalized_days) < days or itinerary_has_generic_places(normalized_days, city):
+            payload = request_itinerary_json(city, budget, days, level, strict=True)
+            normalized_days = normalize_itinerary_payload(payload, days)
+
+        if len(normalized_days) < days:
+            return jsonify(
+                {
+                    "error": "The AI returned an incomplete itinerary. Please try again.",
+                }
+            ), 502
+
+        if itinerary_has_generic_places(normalized_days, city):
+            return jsonify(
+                {
+                    "error": "Could not generate specific places for this destination. Try a more specific city name.",
+                }
+            ), 502
+
+        destination = (payload.get("destination") or city).strip()
+
+        return jsonify(
+            {
+                "destination": destination,
+                "level": level,
+                "days": normalized_days,
+            }
+        )
+    except json.JSONDecodeError:
+        return jsonify({"error": "The AI returned an invalid response. Please try again."}), 502
+    except Exception as error:
+        return jsonify({"error": f"Itinerary generation failed: {error}"}), 500
 
 def get_ai_json(prompt):
     ai_client = create_ai_client()
