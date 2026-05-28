@@ -76,6 +76,13 @@ def result():
 @app.route('/ads.txt')
 def ads_txt():
     return send_from_directory(".", "ads.txt")
+    
+@app.route('/robots.txt')
+def robots_txt():
+    return send_from_directory(".", "robots.txt")
+@app.route('/sitemap.xml')
+def sitemap():
+    return send_from_directory(".", "sitemap.xml")
 
 GENERIC_PLACE_PATTERNS = [
     re.compile(
