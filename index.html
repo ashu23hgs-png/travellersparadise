@@ -637,6 +637,55 @@
       .tp-destinations { padding: 36px 20px 40px; }
       .tp-cards { grid-template-columns: 1fr; }
     }
+
+    .tp-articles {
+      padding: 0 48px 56px;
+    }
+    .tp-articles-label {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #e8c87a;
+      margin: 0 0 14px;
+    }
+    .tp-articles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 10px;
+    }
+    .tp-article-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 15px 16px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      text-decoration: none;
+      color: rgba(242,237,230,0.7);
+      font-size: 14px;
+      transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+    }
+    .tp-article-link:hover {
+      background: rgba(232,200,122,0.07);
+      border-color: rgba(232,200,122,0.32);
+      color: #f2ede6;
+    }
+    .tp-article-icon { font-size: 18px; flex-shrink: 0; }
+    .tp-article-title { flex: 1; line-height: 1.4; }
+    .tp-article-arrow {
+      color: #e8c87a;
+      opacity: 0.65;
+      font-size: 15px;
+      flex-shrink: 0;
+      transition: opacity 0.18s, transform 0.18s;
+    }
+    .tp-article-link:hover .tp-article-arrow { opacity: 1; transform: translateX(3px); }
+    @media (max-width: 768px) {
+      .tp-articles { padding: 0 20px 40px; }
+      .tp-articles-grid { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
@@ -827,6 +876,28 @@
       </div>
     </div>
   </section>
+
+  <div class="tp-articles">
+    <p class="tp-articles-label">From the Blog</p>
+    <div class="tp-articles-grid">
+      <a class="tp-article-link" href="meteor-shower-calendar-india-2026.html">
+        <span class="tp-article-icon">🌠</span>
+        <span class="tp-article-title">Meteor Shower Calendar India 2026</span>
+        <span class="tp-article-arrow">→</span>
+      </a>
+      <a class="tp-article-link" href="things-to-do-in-bangalore-at-night.html">
+        <span class="tp-article-icon">🌙</span>
+        <span class="tp-article-title">Things to Do in Bangalore at Night</span>
+        <span class="tp-article-arrow">→</span>
+      </a>
+      <a class="tp-article-link" href="best-stargazing-places-near-bangalore-2026-guide.html">
+        <span class="tp-article-icon">⭐</span>
+        <span class="tp-article-title">Best Stargazing Places Near Bangalore 2026</span>
+        <span class="tp-article-arrow">→</span>
+      </a>
+    </div>
+  </div>
+
 	<script>
 	  // Mobile navbar toggle
 	  (function () {
@@ -970,8 +1041,9 @@
 
       const payload = await res.json().catch(() => ({}));
       if (!res.ok || payload.status !== 'success') {
+        const errorMsg = payload?.message || 'Unknown database error';
         console.error('Signup save failed:', payload);
-        alert('Signup failed to save to database. Check console for details.');
+        alert(`Failed to save: ${errorMsg}\n\nPlease check:\n1. Flask server is running\n2. DATABASE_URL is set in environment\n3. Network connection is stable`);
         return;
       }
 
@@ -981,7 +1053,7 @@
       closeAuthModal();
     } catch (error) {
       console.error('Error: sending data', error);
-      alert('Network error while saving signup. Is Flask running on port 5000?');
+      alert('Network error while saving signup. Make sure:\n1. Flask server is running on port 5000\n2. You are connected to the internet\n3. Check browser console for details');
     }
   });
 
@@ -1038,8 +1110,9 @@ async function handleCredentialResponse(response) {
 
     const payload = await res.json().catch(() => ({}));
     if (!res.ok || payload.status !== 'success') {
+      const errorMsg = payload?.message || 'Unknown database error';
       console.error('Google signup save failed:', payload);
-      alert('Google login succeeded, but saving to database failed. Check console for details.');
+      alert(`Google login worked, but saving failed:\n${errorMsg}\n\nPlease check:\n1. Flask server is running\n2. DATABASE_URL is set in environment\n3. Network connection is stable`);
       return;
     }
 
@@ -1049,7 +1122,7 @@ async function handleCredentialResponse(response) {
     closeAuthModal();
   } catch (error) {
     console.error('Error saving Google user:', error);
-    alert('Google login succeeded, but network error while saving. Is Flask running on port 5000?');
+    alert('Google login succeeded, but network error while saving.\nMake sure:\n1. Flask server is running on port 5000\n2. You are connected to the internet\n3. Check browser console for details');
   }
 }
 

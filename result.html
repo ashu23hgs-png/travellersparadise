@@ -202,6 +202,56 @@
             font-size: 14px;
         }
 
+        .articles-section {
+            margin-top: 36px;
+            padding-top: 28px;
+            border-top: 1px solid var(--border);
+        }
+        .articles-label {
+            font-size: 0.72rem;
+            font-weight: 500;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin: 0 0 14px;
+        }
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 10px;
+        }
+        .article-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px 16px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            text-decoration: none;
+            color: var(--muted);
+            font-size: 14px;
+            transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+        }
+        .article-link:hover {
+            background: rgba(232, 200, 122, 0.07);
+            border-color: rgba(232, 200, 122, 0.32);
+            color: var(--text);
+        }
+        .article-icon { font-size: 18px; flex-shrink: 0; }
+        .article-title { flex: 1; line-height: 1.4; }
+        .article-arrow {
+            color: var(--accent);
+            opacity: 0.65;
+            font-size: 15px;
+            flex-shrink: 0;
+            transition: opacity 0.18s, transform 0.18s;
+        }
+        .article-link:hover .article-arrow { opacity: 1; transform: translateX(3px); }
+        @media (max-width: 640px) {
+            .articles-grid { grid-template-columns: 1fr; }
+        }
+
         .map-wrap {
             position: relative;
             overflow: hidden;
@@ -569,6 +619,27 @@
             Images are fetched from Unsplash based on the place and city. If storage is unavailable,
             the page loads demo trip data so the layout still works.
         </p>
+
+        <div class="articles-section">
+            <p class="articles-label">From the Blog</p>
+            <div class="articles-grid">
+                <a class="article-link" href="meteor-shower-calendar-india-2026.html">
+                    <span class="article-icon">🌠</span>
+                    <span class="article-title">Meteor Shower Calendar India 2026</span>
+                    <span class="article-arrow">→</span>
+                </a>
+                <a class="article-link" href="things-to-do-in-bangalore-at-night.html">
+                    <span class="article-icon">🌙</span>
+                    <span class="article-title">Things to Do in Bangalore at Night</span>
+                    <span class="article-arrow">→</span>
+                </a>
+                <a class="article-link" href="best-stargazing-places-near-bangalore-2026-guide.html">
+                    <span class="article-icon">⭐</span>
+                    <span class="article-title">Best Stargazing Places Near Bangalore 2026</span>
+                    <span class="article-arrow">→</span>
+                </a>
+            </div>
+        </div>
     </div>
 
     <script>
