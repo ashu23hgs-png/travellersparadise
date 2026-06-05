@@ -60,7 +60,9 @@ def create_ai_client():
 @app.route("/")
 def home():
     return send_from_directory(".", "index.html")
-
+@app.route("/my-trips.html")
+def trips():
+    return send_from_directory(".", "my-trips.html")
 @app.route("/index.html")
 def index_page():
     return send_from_directory(".", "index.html")
