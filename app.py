@@ -1,6 +1,7 @@
 import json
 import os
 import re
+import logging
 from flask import Flask, Response, request, jsonify, send_from_directory
 from flask_cors import CORS
 from openai import OpenAI
@@ -9,6 +10,9 @@ try:
     import psycopg2
 except ImportError:
     psycopg2 = None
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 app = Flask(__name__)
@@ -89,7 +93,15 @@ def BingSiteAuth():
 @app.route('/googlefe3b2a6c27cef4e0.html')
 def google_verification():
     return send_from_directory(".", "googlefe3b2a6c27cef4e0.html")
-
+@app.route('/meteor-shower-calendar-india-2026.html')
+def meteor_shower_calendar():
+    return send_from_directory(".", "meteor-shower-calendar-india-2026.html")
+@app.route('/things-to-do-in-bangalore.html')
+def things_to_do_in_bangalore():
+    return send_from_directory(".", "things-to-do-in-bangalore.html")
+@app.route('/best-stargazing-places-near-bangalore-2026.html')
+def best_stargazing_places_near_bangalore():
+    return send_from_directory(".", "best-stargazing-places-near-bangalore-2026.html")
 GENERIC_PLACE_PATTERNS = [
     re.compile(
         r"\b(old town walk|public square|street food lane|city center|top attraction|"
@@ -739,17 +751,18 @@ def get_db_connection():
     if psycopg2 is None:
         raise RuntimeError("psycopg2 is not installed. Run: pip install psycopg2-binary")
 
-    # 2. Connect to your Neon database
     if not DATABASE_URL:
-        raise RuntimeError("DATABASE_URL is not configured in .env")
+        raise RuntimeError("DATABASE_URL is not configured. Add it to your environment variables or .env file")
 
-    # Keep requests snappy during local dev if Neon is unreachable.
-    conn = psycopg2.connect(
-        DATABASE_URL,
-        connect_timeout=3,
-        options="-c statement_timeout=3000",
-    )
-    return conn
+    try:
+        conn = psycopg2.connect(
+            DATABASE_URL,
+            connect_timeout=5,
+            options="-c statement_timeout=5000",
+        )
+        return conn
+    except psycopg2.OperationalError as e:
+        raise RuntimeError(f"Failed to connect to database: {str(e)}")
 
 
 @app.route("/health", methods=["GET"])
@@ -760,29 +773,43 @@ def health():
             with conn.cursor() as cur:
                 cur.execute("SELECT 1;")
                 cur.fetchone()
-            return jsonify({"status": "ok"})
+            logger.info("Database health check passed")
+            return jsonify({"status": "ok", "message": "Database connection successful"})
         finally:
             conn.close()
     except Exception as error:
-        return jsonify({"status": "error", "error": str(error)}), 500
+        error_msg = str(error)
+        logger.error(f"Health check failed: {error_msg}")
+        return jsonify({"status": "error", "error": error_msg}), 500
 
 
 @app.route('/submit-trip', methods=['POST'])
 def submit_trip():
     data = request.get_json(silent=True) or {}
-    
+
     email = (data.get("email") or "").strip()
     name = (data.get("name") or "").strip()
-    city = (data.get("city") or "Unknown").strip()   # capture city from frontend
+    city = (data.get("city") or "Unknown").strip()
+
+    logger.info(f"Received login request: email={email}, name={name}, city={city}")
 
     if not email or not name:
-        return jsonify({"status": "error", "message": "Missing required data"}), 400
+        error_msg = "Missing required email and name"
+        logger.warning(f"{error_msg}: email={email}, name={name}")
+        return jsonify({"status": "error", "message": error_msg}), 400
 
     try:
         saved = save_user_and_trip(name, email, city)
+        logger.info(f"Successfully saved user {email} to database")
         return jsonify({"status": "success", "message": f"Saved trip for {email}", "user_id": saved["user_id"]})
+    except RuntimeError as error:
+        error_msg = str(error)
+        logger.error(f"RuntimeError saving user {email}: {error_msg}")
+        return jsonify({"status": "error", "message": error_msg}), 500
     except Exception as error:
-        return jsonify({"status": "error", "message": str(error)}), 500
+        error_msg = f"{type(error).__name__}: {str(error)}"
+        logger.error(f"Unexpected error saving user {email}: {error_msg}", exc_info=True)
+        return jsonify({"status": "error", "message": error_msg}), 500
 
 
 
@@ -790,7 +817,9 @@ def save_user_and_trip(name, email, city="Unknown"):
     conn = get_db_connection()
     try:
         ensure_schema(conn)
+
         with conn.cursor() as cur:
+            # Insert or update user
             cur.execute("""
                 INSERT INTO users (name, email, last_login)
                 VALUES (%s, %s, CURRENT_TIMESTAMP)
@@ -801,16 +830,29 @@ def save_user_and_trip(name, email, city="Unknown"):
 
             row = cur.fetchone()
             if not row:
-                raise RuntimeError("Failed to create/update user.")
+                raise RuntimeError("Failed to create/update user in database.")
             user_id = row[0]
 
+            # Insert trip record
             cur.execute("""
                 INSERT INTO user_trips (user_id, destination)
                 VALUES (%s, %s);
             """, (user_id, city or "Unknown"))
 
         conn.commit()
-        return {"user_id": user_id}
+        return {"user_id": user_id, "email": email}
+    except psycopg2.Error as db_error:
+        try:
+            conn.rollback()
+        except:
+            pass
+        raise RuntimeError(f"Database error: {str(db_error)}")
+    except Exception as error:
+        try:
+            conn.rollback()
+        except:
+            pass
+        raise
     finally:
         conn.close()
 
