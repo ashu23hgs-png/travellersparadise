@@ -102,6 +102,9 @@ def things_to_do_in_bangalore():
 @app.route('/best-stargazing-places-near-bangalore-2026.html')
 def best_stargazing_places_near_bangalore():
     return send_from_directory(".", "best-stargazing-places-near-bangalore-2026.html")
+    @app.rout('/pintrest-e90f8.html')
+    def pin():
+        return send_from_directory(".","pintrest-e90f8.html")
 GENERIC_PLACE_PATTERNS = [
     re.compile(
         r"\b(old town walk|public square|street food lane|city center|top attraction|"
