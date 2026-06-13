@@ -60,9 +60,7 @@ def create_ai_client():
 @app.route("/")
 def home():
     return send_from_directory(".", "index.html")
-@app.route("/my-trips.html")
-def trips():
-    return send_from_directory(".", "my-trips.html")
+
 @app.route("/index.html")
 def index_page():
     return send_from_directory(".", "index.html")
@@ -98,12 +96,12 @@ def google_verification():
 @app.route('/meteor-shower-calendar-india-2026.html')
 def meteor_shower_calendar():
     return send_from_directory(".", "meteor-shower-calendar-india-2026.html")
-@app.route('/things-to-do-in-bangalore-at-night.html')
+@app.route('/things-to-do-in-bangalore.html')
 def things_to_do_in_bangalore():
-    return send_from_directory(".", "things-to-do-in-bangalore-at-night.html")
-@app.route('/best-stargazing-places-near-bangalore-2026-guide.html')
+    return send_from_directory(".", "things-to-do-in-bangalore.html")
+@app.route('/best-stargazing-places-near-bangalore-2026.html')
 def best_stargazing_places_near_bangalore():
-    return send_from_directory(".", "best-stargazing-places-near-bangalore-2026-guide.html")
+    return send_from_directory(".", "best-stargazing-places-near-bangalore-2026.html")
 GENERIC_PLACE_PATTERNS = [
     re.compile(
         r"\b(old town walk|public square|street food lane|city center|top attraction|"
@@ -271,7 +269,7 @@ def count_generic_slots(days, city):
     return generic_count, total
 
 
-def build_itinerary_prompt(city, budget, days, level, strict=False):
+def build_itinerary_prompt(city, budget, days, level, strict=False, short_trip=False):
     strict_note = (
         "Your previous answer used generic placeholders. "
         "Use ONLY real, searchable venue names that exist in or near this destination."
@@ -296,6 +294,24 @@ Rules:
 - Keep each activity to one short sentence.
 {strict_note}
 
+""" + (
+f"""
+Return this exact JSON shape:
+{{
+  "destination": "clean destination name with region/country if helpful",
+  "days": [
+    {{
+      "day": 1,
+      "slots": [
+        {{"time": "Afternoon", "place": "Real Place Name", "activity": "what to do"}},
+        {{"time": "Evening", "place": "Real Place Name", "activity": "what to do"}}
+      ]
+    }}
+  ]
+}}
+
+Provide exactly 1 day object with exactly 2 slots (Afternoon, Evening) representing a short half-day local outing.
+""" if short_trip else f"""
 Return this exact JSON shape:
 {{
   "destination": "clean destination name with region/country if helpful",
@@ -312,11 +328,11 @@ Return this exact JSON shape:
 }}
 
 Provide exactly {days} day object(s), each with exactly 3 slots (Morning, Afternoon, Evening).
-"""
+""")
 
 
-def request_itinerary_json(city, budget, days, level, strict=False):
-    prompt = build_itinerary_prompt(city, budget, days, level, strict=strict)
+def request_itinerary_json(city, budget, days, level, strict=False, short_trip=False):
+    prompt = build_itinerary_prompt(city, budget, days, level, strict=strict, short_trip=short_trip)
     ai_client = create_ai_client()
 
     response = ai_client.chat.completions.create(
@@ -347,6 +363,7 @@ def generate_trip():
     city = (data.get("city") or "").strip()
     budget = data.get("budget")
     days_raw = data.get("days")
+    short_trip = bool(data.get("short_trip", False))
 
     if not city:
         return jsonify({"error": "Please provide a destination city."}), 400
@@ -369,7 +386,7 @@ def generate_trip():
         warning = None
 
         for attempt, strict in enumerate((False, True, True)):
-            payload = request_itinerary_json(city, budget, days, level, strict=strict)
+            payload = request_itinerary_json(city, budget, days, level, strict=strict, short_trip=short_trip)
             normalized_days = normalize_itinerary_payload(payload, days)
             generic_count, total = count_generic_slots(normalized_days, city)
             generic_ratio = generic_count / total if total else 0

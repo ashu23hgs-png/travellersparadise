@@ -640,6 +640,19 @@
                 </a>
             </div>
         </div>
+        <div style="text-align: center; padding: 32px 48px 56px; position: relative; z-index: 5;">
+          <p style="font-size: 13px; color: rgba(242,237,230,0.55); margin-bottom: 16px; letter-spacing: 0.3px;">
+            Want to research your destination before you go?
+          </p>
+          <a href="explore-destinations.html"
+             style="display: inline-block; background: transparent; color: #e8c87a;
+                    border: 0.5px solid rgba(232,200,122,0.5); padding: 13px 32px;
+                    border-radius: 3px; font-family: 'Outfit', sans-serif; font-size: 12px;
+                    font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase;
+                    text-decoration: none; transition: background 0.2s, border-color 0.2s;">
+            ✦ Explore Destinations
+          </a>
+        </div>
     </div>
 
     <script>
@@ -706,11 +719,11 @@
         }
 
         // Generates the itinerary using the Flask /generate API (same origin on Render).
-        async function generateItinerary(city, days, budget) {
+        async function generateItinerary(city, days, budget, shortTrip = false) {
             const response = await fetch("/generate", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ city, budget, days }),
+                body: JSON.stringify({ city, budget, days, short_trip: shortTrip }),
             });
 
             let payload = {};
@@ -802,11 +815,14 @@
         // Renders the whole itinerary UI, including map, budget, and images.
         async function renderItinerary() {
             const city = String(data.city || "Paris");
-            const days = Math.max(1, parseInt(data.days, 10) || 1);
+            const isShortTrip = (data.days === 'half-day');
+            const days = isShortTrip ? 1 : Math.max(1, parseInt(data.days, 10) || 1);
             const budget = Number(data.budget) || 1200;
 
             document.getElementById("tripTitle").textContent = `Trip to ${city}`;
-            document.getElementById("tripInfo").textContent = `${days} day trip planned within $${budget}`;
+            document.getElementById("tripInfo").textContent = isShortTrip
+              ? `Half day trip planned within $${budget}`
+              : `${days} day trip planned within $${budget}`;
 
             const itineraryDiv = document.getElementById("itinerary");
             itineraryDiv.innerHTML = "";
@@ -818,7 +834,7 @@
             let warning = "";
 
             try {
-                const result = await generateItinerary(city, days, budget);
+                const result = await generateItinerary(city, days, budget, isShortTrip);
                 level = result.level;
                 plan = result.plan;
                 destination = result.destination || city;
@@ -945,7 +961,8 @@
 
             try {
                 const city = String(data.city || "Paris");
-                const days = Math.max(1, parseInt(data.days, 10) || 1);
+                const isShortTrip = (data.days === 'half-day');
+                const days = isShortTrip ? 1 : Math.max(1, parseInt(data.days, 10) || 1);
                 const budget = Number(data.budget) || 1200;
                 const level = getLuxuryLevel(budget);
 
