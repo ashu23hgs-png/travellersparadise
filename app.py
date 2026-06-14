@@ -105,11 +105,13 @@ def best_stargazing_places_near_bangalore():
     @app.route('/pintrest-e90f8.html')
     def pin():
         return send_from_directory(".","pintrest-e90f8.html")
-          @app.route('/noctourism-india.html')
-    def pin():
+          
+        @app.route('/noctourism-india.html')
+    def noc():
         return send_from_directory(".","noctourism-india.html")
+       
         @app.route('/meteor-shower-calendar-india-2027.html')
-    def pin():
+    def mete():
         return send_from_directory(".","meteor-shower-calendar-india-2027.html")
 GENERIC_PLACE_PATTERNS = [
     re.compile(
