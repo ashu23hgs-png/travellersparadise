@@ -98,10 +98,10 @@ def meteor_shower_calendar():
     return send_from_directory(".", "meteor-shower-calendar-india-2026.html")
 @app.route('/things-to-do-in-bangalore-at-night.html')
 def things_to_do_in_bangalore():
-    return send_from_directory(".", "things-to-do-in-bangalore-night.html")
-@app.route('/best-stargazing-places-near-bangalore-2026.html')
+    return send_from_directory(".", "things-to-do-in-bangalore-at-night.html")
+@app.route('/best-stargazing-places-near-bangalore-2026-guide.html')
 def best_stargazing_places_near_bangalore():
-    return send_from_directory(".", "best-stargazing-places-near-bangalore-2026.html")
+    return send_from_directory(".", "best-stargazing-places-near-bangalore-2026-guide.html")
 @app.route('/pintrest-e90f8.html')
     def pin():
         return send_from_directory(".","pintrest-e90f8.html")
