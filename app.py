@@ -96,9 +96,9 @@ def google_verification():
 @app.route('/meteor-shower-calendar-india-2026.html')
 def meteor_shower_calendar():
     return send_from_directory(".", "meteor-shower-calendar-india-2026.html")
-@app.route('/things-to-do-in-bangalore.html')
+@app.route('/things-to-do-in-bangalore-at-night.html')
 def things_to_do_in_bangalore():
-    return send_from_directory(".", "things-to-do-in-bangalore.html")
+    return send_from_directory(".", "things-to-do-in-bangalore-night.html")
 @app.route('/best-stargazing-places-near-bangalore-2026.html')
 def best_stargazing_places_near_bangalore():
     return send_from_directory(".", "best-stargazing-places-near-bangalore-2026.html")
