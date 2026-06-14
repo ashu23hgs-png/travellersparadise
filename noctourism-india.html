@@ -1,0 +1,2381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Noctourism in India: 15 Incredible Night Experiences | Traveller's Paradise</title>
+  <meta name="description" content="Discover 15 breathtaking noctourism experiences in India—from stargazing in Ladakh to bioluminescent beaches in Andaman. Your ultimate guide to night travel in India." />
+  <meta name="keywords" content="noctourism in India, night tourism India, stargazing India, night safari India, bioluminescent beaches India, dark sky tourism India, astrotourism India" />
+  <link rel="canonical" href="https://travellersparadise.in/noctourism-in-india-night-experiences" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Noctourism in India: 15 Incredible Night Experiences" />
+  <meta property="og:description" content="India after dark is a world of its own. Explore 15 unforgettable night experiences—from Milky Way skies to firefly forests." />
+  <meta property="og:type" content="article" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Lora:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ============================================
+       DESIGN TOKENS
+       Palette: Midnight cosmos meets golden hour
+    ============================================ */
+    :root {
+      --midnight:     #070B14;
+      --deep-navy:    #0D1424;
+      --navy:         #111E35;
+      --navy-card:    #141D30;
+      --navy-border:  #1E2D4A;
+      --gold:         #E8B84B;
+      --gold-light:   #F5D47A;
+      --gold-glow:    rgba(232,184,75,0.15);
+      --teal:         #00C9A7;
+      --teal-dim:     rgba(0,201,167,0.12);
+      --nebula:       #7B5EA7;
+      --nebula-dim:   rgba(123,94,167,0.15);
+      --stardust:     #E8ECF4;
+      --muted:        #8896B0;
+      --faint:        #3A4A66;
+      --white:        #FFFFFF;
+    }
+
+    /* ============================================
+       RESET & BASE
+    ============================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--midnight);
+      color: var(--stardust);
+      font-family: 'Inter', sans-serif;
+      font-size: 17px;
+      line-height: 1.75;
+      overflow-x: hidden;
+    }
+
+    /* ============================================
+       ANIMATED STAR FIELD (signature element)
+    ============================================ */
+    #star-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.45;
+    }
+
+    /* ============================================
+       TYPOGRAPHY
+    ============================================ */
+    h1, h2, h3, h4 {
+      font-family: 'Cinzel', serif;
+      letter-spacing: 0.02em;
+      line-height: 1.2;
+      color: var(--white);
+    }
+
+    h1 { font-size: clamp(2rem, 5vw, 3.8rem); font-weight: 700; }
+    h2 { font-size: clamp(1.5rem, 3vw, 2.4rem); font-weight: 600; }
+    h3 { font-size: clamp(1.15rem, 2.2vw, 1.6rem); font-weight: 600; }
+    h4 { font-size: 1rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: var(--gold); }
+
+    p { margin-bottom: 1.25rem; color: var(--stardust); }
+
+    a { color: var(--gold); text-decoration: none; transition: color 0.2s; }
+    a:hover { color: var(--gold-light); }
+
+    strong { color: var(--white); font-weight: 600; }
+
+    blockquote {
+      font-family: 'Lora', serif;
+      font-style: italic;
+      font-size: 1.15rem;
+      color: var(--gold-light);
+      border-left: 3px solid var(--gold);
+      padding: 0.75rem 0 0.75rem 1.5rem;
+      margin: 2rem 0;
+    }
+
+    /* ============================================
+       LAYOUT
+    ============================================ */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .container--wide {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    section { position: relative; z-index: 1; }
+
+    /* ============================================
+       SITE HEADER
+    ============================================ */
+    .site-header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(7,11,20,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--navy-border);
+      padding: 0.9rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .site-logo {
+      font-family: 'Cinzel', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: 0.05em;
+    }
+    .site-logo span { color: var(--gold); }
+
+    .site-nav a {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-left: 1.5rem;
+    }
+    .site-nav a:hover { color: var(--gold); }
+
+    /* ============================================
+       HERO
+    ============================================ */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 7rem 1.5rem 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(123,94,167,0.25) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 20% 80%, rgba(0,201,167,0.12) 0%, transparent 50%),
+        radial-gradient(ellipse 50% 50% at 80% 70%, rgba(232,184,75,0.08) 0%, transparent 50%);
+      z-index: 0;
+    }
+
+    .hero > * { position: relative; z-index: 1; }
+
+    .hero-eyebrow {
+      display: inline-block;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      border: 1px solid rgba(232,184,75,0.4);
+      padding: 0.35rem 1rem;
+      border-radius: 2rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .hero h1 {
+      max-width: 800px;
+      margin-bottom: 1.5rem;
+      text-shadow: 0 0 60px rgba(123,94,167,0.5);
+    }
+
+    .hero-subtitle {
+      font-family: 'Lora', serif;
+      font-style: italic;
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      color: var(--muted);
+      max-width: 580px;
+      margin: 0 auto 2.5rem;
+    }
+
+    .hero-meta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      font-size: 0.78rem;
+      color: var(--faint);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      flex-wrap: wrap;
+    }
+
+    .hero-meta span { display: flex; align-items: center; gap: 0.4rem; }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.7rem;
+      color: var(--faint);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      animation: bounce 2s infinite;
+      z-index: 1;
+    }
+
+    .scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(6px); }
+    }
+
+    /* ============================================
+       SEO BLOCK
+    ============================================ */
+    .seo-block {
+      background: var(--navy-card);
+      border: 1px solid var(--navy-border);
+      border-radius: 16px;
+      padding: 2rem 2.5rem;
+      margin: 3rem 0;
+    }
+
+    .seo-block h4 { margin-bottom: 1rem; }
+
+    .seo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .seo-item label {
+      display: block;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      margin-bottom: 0.3rem;
+    }
+
+    .seo-item p {
+      font-size: 0.88rem;
+      color: var(--stardust);
+      margin: 0;
+      background: var(--midnight);
+      padding: 0.6rem 0.9rem;
+      border-radius: 8px;
+      border: 1px solid var(--navy-border);
+    }
+
+    .seo-item--full { grid-column: 1 / -1; }
+
+    /* ============================================
+       INTRO SECTION
+    ============================================ */
+    .intro {
+      padding: 5rem 0 3rem;
+    }
+
+    /* ============================================
+       SECTION DIVIDER
+    ============================================ */
+    .section-header {
+      text-align: center;
+      padding: 5rem 0 3rem;
+    }
+
+    .section-number {
+      font-family: 'Cinzel', serif;
+      font-size: 5rem;
+      font-weight: 900;
+      color: transparent;
+      -webkit-text-stroke: 1px var(--navy-border);
+      line-height: 1;
+      margin-bottom: -0.5rem;
+      display: block;
+    }
+
+    .section-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.25em;
+      color: var(--gold);
+      margin-bottom: 0.75rem;
+    }
+
+    .section-rule {
+      width: 60px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+      margin: 1.5rem auto 0;
+    }
+
+    /* ============================================
+       EXPERIENCE CARDS
+    ============================================ */
+    .experience-grid {
+      display: grid;
+      gap: 1.5rem;
+      padding: 2rem 0 4rem;
+    }
+
+    .exp-card {
+      background: var(--navy-card);
+      border: 1px solid var(--navy-border);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .exp-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(232,184,75,0.15);
+    }
+
+    .exp-card-inner {
+      padding: 2rem 2.5rem;
+    }
+
+    .exp-number {
+      font-family: 'Cinzel', serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .exp-card h3 {
+      margin-bottom: 1rem;
+      color: var(--white);
+    }
+
+    .exp-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .tag {
+      font-size: 0.7rem;
+      font-weight: 500;
+      padding: 0.25rem 0.75rem;
+      border-radius: 2rem;
+      letter-spacing: 0.05em;
+    }
+
+    .tag--gold { background: var(--gold-glow); color: var(--gold); border: 1px solid rgba(232,184,75,0.25); }
+    .tag--teal { background: var(--teal-dim); color: var(--teal); border: 1px solid rgba(0,201,167,0.25); }
+    .tag--nebula { background: var(--nebula-dim); color: #b39fe0; border: 1px solid rgba(123,94,167,0.25); }
+
+    .exp-body p { font-size: 0.95rem; color: var(--muted); margin-bottom: 1rem; }
+    .exp-body p:last-child { margin-bottom: 0; }
+
+    .exp-details {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--navy-border);
+    }
+
+    .exp-detail-item {
+      background: var(--midnight);
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+    }
+
+    .exp-detail-item .detail-label {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--faint);
+      margin-bottom: 0.25rem;
+      display: block;
+    }
+
+    .exp-detail-item .detail-value {
+      font-size: 0.88rem;
+      color: var(--stardust);
+      font-weight: 500;
+    }
+
+    /* ============================================
+       DARK SKY TABLE
+    ============================================ */
+    .dark-sky-section { padding: 2rem 0 4rem; }
+
+    .dark-sky-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .sky-card {
+      background: var(--navy-card);
+      border: 1px solid var(--navy-border);
+      border-radius: 16px;
+      padding: 1.75rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sky-card::after {
+      content: '';
+      position: absolute;
+      top: -40px; right: -40px;
+      width: 120px; height: 120px;
+      border-radius: 50%;
+      opacity: 0.06;
+    }
+
+    .sky-card.gold::after { background: var(--gold); }
+    .sky-card.teal::after { background: var(--teal); }
+    .sky-card.nebula::after { background: var(--nebula); }
+
+    .sky-card h3 { font-size: 1.15rem; margin-bottom: 0.35rem; }
+    .sky-card .sky-location { font-size: 0.75rem; color: var(--gold); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1rem; }
+
+    .sky-stat {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      padding: 0.4rem 0;
+      border-bottom: 1px solid var(--navy-border);
+      color: var(--muted);
+    }
+    .sky-stat:last-child { border-bottom: none; }
+    .sky-stat strong { color: var(--stardust); }
+
+    .bortle-badge {
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 700;
+    }
+    .bortle-1 { background: rgba(0,201,167,0.15); color: var(--teal); }
+    .bortle-2 { background: rgba(232,184,75,0.12); color: var(--gold); }
+    .bortle-3 { background: rgba(123,94,167,0.15); color: #b39fe0; }
+
+    /* ============================================
+       PHOTOGRAPHY GUIDE
+    ============================================ */
+    .photo-section { padding: 2rem 0 4rem; }
+
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.25rem;
+      margin-top: 2rem;
+    }
+
+    .photo-card {
+      background: var(--navy-card);
+      border: 1px solid var(--navy-border);
+      border-radius: 16px;
+      padding: 1.75rem;
+    }
+
+    .photo-icon {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+    }
+
+    .photo-icon.gold { background: var(--gold-glow); }
+    .photo-icon.teal { background: var(--teal-dim); }
+    .photo-icon.nebula { background: var(--nebula-dim); }
+
+    .photo-card h3 { font-size: 1rem; margin-bottom: 0.6rem; }
+    .photo-card p { font-size: 0.88rem; color: var(--muted); margin: 0; }
+
+    /* ============================================
+       SETTINGS TABLE
+    ============================================ */
+    .settings-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 2rem 0;
+      font-size: 0.88rem;
+    }
+
+    .settings-table th {
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--gold);
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid var(--navy-border);
+      text-align: left;
+    }
+
+    .settings-table td {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid rgba(30,45,74,0.5);
+      color: var(--muted);
+    }
+
+    .settings-table td:first-child { color: var(--stardust); font-weight: 500; }
+    .settings-table tr:last-child td { border-bottom: none; }
+    .settings-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+    /* ============================================
+       SAFETY SECTION
+    ============================================ */
+    .safety-section { padding: 2rem 0 4rem; }
+
+    .safety-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 1.25rem;
+      margin-top: 2rem;
+    }
+
+    .safety-card {
+      background: var(--navy-card);
+      border: 1px solid var(--navy-border);
+      border-radius: 16px;
+      padding: 1.75rem;
+    }
+
+    .safety-card h3 {
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      color: var(--white);
+    }
+
+    .safety-list {
+      list-style: none;
+    }
+
+    .safety-list li {
+      font-size: 0.88rem;
+      color: var(--muted);
+      padding: 0.4rem 0;
+      padding-left: 1.25rem;
+      position: relative;
+      border-bottom: 1px solid rgba(30,45,74,0.5);
+    }
+    .safety-list li:last-child { border-bottom: none; }
+
+    .safety-list li::before {
+      content: '›';
+      position: absolute;
+      left: 0;
+      color: var(--gold);
+      font-size: 1rem;
+    }
+
+    /* ============================================
+       FUTURE SECTION
+    ============================================ */
+    .future-section { padding: 2rem 0 4rem; }
+
+    .future-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.25rem;
+      margin-top: 2rem;
+    }
+
+    .future-card {
+      background: linear-gradient(135deg, var(--navy-card), var(--navy));
+      border: 1px solid var(--navy-border);
+      border-radius: 16px;
+      padding: 1.75rem;
+    }
+
+    .future-card .future-icon {
+      font-size: 1.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .future-card h3 { font-size: 1rem; margin-bottom: 0.5rem; }
+    .future-card p { font-size: 0.88rem; color: var(--muted); margin: 0; }
+
+    /* ============================================
+       PULL QUOTE
+    ============================================ */
+    .pull-quote {
+      background: linear-gradient(135deg, rgba(123,94,167,0.1), rgba(232,184,75,0.05));
+      border: 1px solid rgba(123,94,167,0.2);
+      border-radius: 20px;
+      padding: 3rem;
+      text-align: center;
+      margin: 3rem 0;
+    }
+
+    .pull-quote p {
+      font-family: 'Lora', serif;
+      font-style: italic;
+      font-size: clamp(1.1rem, 2vw, 1.4rem);
+      color: var(--white);
+      line-height: 1.6;
+      margin: 0 0 1rem;
+    }
+
+    .pull-quote cite {
+      font-size: 0.78rem;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-style: normal;
+    }
+
+    /* ============================================
+       FAQ SECTION
+    ============================================ */
+    .faq-section { padding: 2rem 0 5rem; }
+
+    .faq-item {
+      border-bottom: 1px solid var(--navy-border);
+    }
+
+    .faq-question {
+      width: 100%;
+      background: none;
+      border: none;
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      font-weight: 500;
+      text-align: left;
+      padding: 1.25rem 0;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      transition: color 0.2s;
+    }
+
+    .faq-question:hover { color: var(--gold); }
+
+    .faq-chevron {
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      border: 1px solid var(--navy-border);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      color: var(--gold);
+      font-size: 0.75rem;
+      transition: transform 0.3s, background 0.2s;
+    }
+
+    .faq-item.open .faq-chevron {
+      transform: rotate(180deg);
+      background: var(--gold-glow);
+    }
+
+    .faq-answer {
+      font-size: 0.92rem;
+      color: var(--muted);
+      line-height: 1.8;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.3s;
+    }
+
+    .faq-answer p { margin: 0 0 0.75rem; }
+    .faq-answer p:last-child { margin: 0; }
+
+    .faq-item.open .faq-answer {
+      max-height: 600px;
+      padding-bottom: 1.25rem;
+    }
+
+    /* ============================================
+       BONUS SECTIONS
+    ============================================ */
+    .bonus-section {
+      background: var(--navy-card);
+      border: 1px solid var(--navy-border);
+      border-radius: 20px;
+      padding: 2.5rem;
+      margin: 2rem 0;
+    }
+
+    .bonus-section h3 {
+      font-size: 1.15rem;
+      margin-bottom: 1.25rem;
+      color: var(--gold);
+    }
+
+    .link-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 0.5rem;
+    }
+
+    .link-list li {
+      font-size: 0.88rem;
+    }
+
+    .link-list li a {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 0;
+      color: var(--muted);
+      border-bottom: 1px solid rgba(30,45,74,0.5);
+    }
+    .link-list li a:hover { color: var(--gold); }
+    .link-list li a::before { content: '→'; color: var(--gold); }
+
+    .social-caption {
+      background: linear-gradient(135deg, var(--nebula-dim), var(--gold-glow));
+      border: 1px solid rgba(232,184,75,0.2);
+      border-radius: 16px;
+      padding: 2rem;
+      font-family: 'Lora', serif;
+      font-style: italic;
+      font-size: 0.95rem;
+      color: var(--stardust);
+      line-height: 1.7;
+    }
+
+    /* ============================================
+       CONCLUSION
+    ============================================ */
+    .conclusion {
+      text-align: center;
+      padding: 5rem 1.5rem;
+      position: relative;
+    }
+
+    .conclusion::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 100% at 50% 50%, rgba(123,94,167,0.18) 0%, transparent 70%);
+      z-index: 0;
+    }
+
+    .conclusion > * { position: relative; z-index: 1; }
+
+    .conclusion-star {
+      font-size: 3rem;
+      margin-bottom: 1.5rem;
+      display: block;
+      animation: twinkle 3s ease-in-out infinite;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(0.92); }
+    }
+
+    .conclusion h2 { margin-bottom: 1.25rem; }
+
+    .conclusion p {
+      font-family: 'Lora', serif;
+      font-style: italic;
+      font-size: clamp(1rem, 2vw, 1.15rem);
+      color: var(--muted);
+      max-width: 600px;
+      margin: 0 auto 2.5rem;
+    }
+
+    .cta-btn {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--gold), #c99b2e);
+      color: var(--midnight);
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 1rem 2.5rem;
+      border-radius: 4px;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .cta-btn:hover { opacity: 0.88; transform: translateY(-2px); color: var(--midnight); }
+
+    /* ============================================
+       FOOTER
+    ============================================ */
+    .site-footer {
+      border-top: 1px solid var(--navy-border);
+      padding: 2.5rem 1.5rem;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--faint);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ============================================
+       PROSE CONTENT
+    ============================================ */
+    .prose { max-width: 760px; margin: 0 auto; }
+    .prose p { font-size: 1rem; line-height: 1.85; color: var(--stardust); }
+    .prose p + p { margin-top: 0; }
+
+    /* ============================================
+       RESPONSIVE
+    ============================================ */
+    @media (max-width: 640px) {
+      .seo-grid { grid-template-columns: 1fr; }
+      .exp-details { grid-template-columns: 1fr 1fr; }
+      .pull-quote { padding: 2rem 1.5rem; }
+      .site-nav { display: none; }
+      .hero-meta { gap: 1rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; }
+    }
+
+    /* ============================================
+       BACK BUTTON
+    ============================================ */
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 0.4rem 0.9rem;
+      border: 1px solid var(--navy-border);
+      border-radius: 2rem;
+      transition: color 0.2s, border-color 0.2s, background 0.2s;
+    }
+
+    .back-btn:hover {
+      color: var(--gold);
+      border-color: rgba(232,184,75,0.4);
+      background: var(--gold-glow);
+    }
+
+    .back-btn svg {
+      width: 12px;
+      height: 12px;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Animated Star Field Canvas -->
+<canvas id="star-canvas" aria-hidden="true"></canvas>
+
+<!-- ============================================
+     SITE HEADER
+============================================ -->
+<header class="site-header">
+  <a href="index.html" class="back-btn" aria-label="Back to homepage">
+    <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M8 1L3 6L8 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Back
+  </a>
+  <div class="site-logo">Traveller's <span>Paradise</span></div>
+  <nav class="site-nav">
+    <a href="#experiences">Experiences</a>
+    <a href="#dark-sky">Dark Skies</a>
+    <a href="#photography">Photography</a>
+    <a href="#faq">FAQ</a>
+  </nav>
+</header>
+
+<!-- ============================================
+     HERO
+============================================ -->
+<section class="hero" aria-label="Hero section">
+  <span class="hero-eyebrow">✦ Night Travel Guide · India</span>
+  <h1>Noctourism in India:<br />15 Incredible Night Experiences</h1>
+  <p class="hero-subtitle">
+    When the sun dips below the horizon, a different India stirs — one of Milky Way skies, glowing seas, and forests alive with the sounds of the night.
+  </p>
+  <div class="hero-meta">
+    <span>✦ 15 Curated Experiences</span>
+    <span>✦ All-India Guide</span>
+    <span>✦ Photography &amp; Safety Tips</span>
+  </div>
+  <div class="hero-scroll" aria-hidden="true">
+    <div class="scroll-line"></div>
+    Scroll to explore
+  </div>
+</section>
+
+<!-- ============================================
+     SEO BLOCK
+============================================ -->
+<div class="container" style="padding-top:3rem;">
+  <div class="seo-block">
+    <h4>SEO &amp; Publishing Details</h4>
+    <div class="seo-grid">
+      <div class="seo-item">
+        <label>SEO Title (57 chars)</label>
+        <p>Noctourism in India: 15 Incredible Night Experiences</p>
+      </div>
+      <div class="seo-item">
+        <label>URL Slug</label>
+        <p>/noctourism-in-india-night-experiences</p>
+      </div>
+      <div class="seo-item seo-item--full">
+        <label>Meta Description (158 chars)</label>
+        <p>Discover 15 breathtaking noctourism experiences in India—from stargazing in Ladakh to bioluminescent beaches in Andaman. Your ultimate guide to night travel in India.</p>
+      </div>
+      <div class="seo-item">
+        <label>Primary Keyword</label>
+        <p>Noctourism in India</p>
+      </div>
+      <div class="seo-item">
+        <label>Secondary Keywords</label>
+        <p>night tourism India · stargazing India · night safari India · dark sky tourism India · astrotourism India</p>
+      </div>
+      <div class="seo-item seo-item--full">
+        <label>Image Alt Text Suggestions</label>
+        <p>Milky Way over Hanle dark sky reserve Ladakh India · Bioluminescent waves at night Andaman Islands India · Night safari jeep at Pench National Park India · Fireflies glowing in forest Maharashtra India · Stargazing camp Spiti Valley Himachal Pradesh India</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================
+     INTRODUCTION
+============================================ -->
+<section class="intro" id="intro">
+  <div class="container">
+    <div class="prose">
+      <p>
+        Picture standing on a ridge in Ladakh at midnight, 14,000 feet above sea level, the air so thin and clear it feels like breathing through glass. Above you, the Milky Way is not a faint smear — it's a torrent, a river of light so dense it casts faint shadows at your feet. There are no city lights for hundreds of kilometres. Just you, the cold, and an ancient sky that civilisations have read like a book.
+      </p>
+      <p>
+        Or imagine wading knee-deep into the warm Arabian Sea off a beach in Andaman after dark, your every step sending sparks of blue-green light scattering through the water — bioluminescent plankton turning the ocean into a living, breathing constellation.
+      </p>
+      <p>
+        This is <strong>noctourism</strong>: the art of travelling after dark. And India — with its vast geography, ancient heritage, unbroken wilderness, and sky-island altitudes — is arguably the most extraordinary noctourism destination on the planet.
+      </p>
+      <p>
+        Globally, night travel is one of the fastest-growing travel trends of the decade. Travellers are increasingly pushing past sundown, drawn by cooler temperatures, thinner crowds, extraordinary wildlife activity, and the unique magic that only darkness can reveal. In India, a country of breathtaking biodiversity and cultural depth, the night unlocks a dimension of travel that daylight simply cannot offer.
+      </p>
+      <p>
+        From firefly valleys in Maharashtra to moonlit ruins in Hampi, from nocturnal tigers in Satpura to astronomy camps in Spiti, India after dark is a world that most tourists never see — and one that every traveller should experience at least once.
+      </p>
+      <p>
+        This guide is your complete introduction to noctourism in India: what it is, where to go, how to get there, what to expect, and how to do it safely, responsibly, and with a camera ready.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     SECTION 1: WHAT IS NOCTOURISM
+============================================ -->
+<section id="section1">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-number" aria-hidden="true">01</span>
+      <div class="section-label">The Trend</div>
+      <h2>What Is Noctourism &amp; Why Is It Trending?</h2>
+      <div class="section-rule"></div>
+    </div>
+
+    <div class="prose">
+      <p>
+        <strong>Noctourism</strong> — sometimes written as "nocturism" — refers to a category of travel experiences specifically designed for or best enjoyed during nighttime hours. Unlike simply staying out late, noctourism is intentional: it plans, curates, and celebrates what happens after sunset as its central feature.
+      </p>
+      <p>
+        The global travel industry began formally tracking noctourism as a distinct trend around 2019. By 2023, it had entered mainstream tourism vocabulary, with destinations across Europe, Australia, and Asia developing dedicated night tourism infrastructure — night museums, stargazing reserves, firefly tourism circuits, nocturnal wildlife safaris, and bioluminescent kayaking trails.
+      </p>
+
+      <h3 style="margin: 2rem 0 1rem;">Why Travellers Are Choosing the Dark</h3>
+      <p>
+        Several converging forces are driving noctourism's rise. The most immediate is <strong>overtourism</strong>: the Taj Mahal at noon receives thousands of visitors; at midnight (during special full-moon viewings), it becomes a profoundly different — and far more moving — experience. Darkness is nature's best crowd-control mechanism.
+      </p>
+      <p>
+        <strong>Climate</strong> is another driver. India's summers are increasingly unforgiving, with heat waves reaching 45°C in the plains. Night travel sidesteps the worst of the heat, making the same destinations dramatically more comfortable and accessible.
+      </p>
+      <p>
+        Then there's <strong>technology</strong>: modern smartphone cameras and affordable mirrorless systems have democratised astrophotography. The ability to capture a Milky Way photograph on a phone was unimaginable a decade ago. Today it fuels an enormous appetite for dark-sky destinations.
+      </p>
+      <p>
+        Finally, <strong>wildlife</strong>: the majority of India's jungle inhabitants — leopards, civets, owls, nightjars, flying squirrels, wolf spiders — are nocturnal or crepuscular. A daytime jungle safari shows you perhaps 10% of the ecosystem. A night walk or nocturnal safari reveals the other 90%.
+      </p>
+
+      <blockquote>
+        "Darkness is not the absence of experience — it is the beginning of a different one. In India, night reveals what day conceals."
+      </blockquote>
+
+      <h3 style="margin: 2rem 0 1rem;">India's Unique Advantage</h3>
+      <p>
+        India's geography spans from equatorial beaches to sub-Arctic Himalayan plateaus, from the driest deserts to the wettest tropical forests. This range means India has something for every type of noctourist: dark-sky altitudes in Ladakh and Spiti, bioluminescent seas in the Andamans, firefly forests in the Sahyadri, nocturnal forests in Madhya Pradesh, desert moon landscapes in Rajasthan, and ancient monument corridors in Karnataka and Rajasthan that come alive under full moon light.
+      </p>
+      <p>
+        India also has relatively low light pollution across vast swathes of its territory — particularly in the Himalayas, the deserts of Rajasthan and Gujarat, and the Deccan Plateau — making it one of the few countries where genuine dark-sky experiences are accessible by road.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     SECTION 2: 15 EXPERIENCES
+============================================ -->
+<section id="experiences">
+  <div class="container--wide">
+    <div class="section-header">
+      <span class="section-number" aria-hidden="true">02</span>
+      <div class="section-label">The List</div>
+      <h2>15 Incredible Night Experiences in India</h2>
+      <div class="section-rule"></div>
+    </div>
+
+    <div class="experience-grid">
+
+      <!-- 1 -->
+      <div class="exp-card">
+        <div class="exp-card-inner">
+          <span class="exp-number">Experience 01</span>
+          <h3>Stargazing in Hanle, Ladakh</h3>
+          <div class="exp-tags">
+            <span class="tag tag--gold">Dark Sky Reserve</span>
+            <span class="tag tag--teal">Astrotourism</span>
+            <span class="tag tag--nebula">Photography</span>
+          </div>
+          <div class="exp-body">
+            <p>At 4,500 metres above sea level in the cold high desert of eastern Ladakh, Hanle is home to India's first — and one of Asia's highest — Dark Sky Reserves. The Indian Astronomical Observatory sits here, not by accident but by mandate of the sky: this is one of the least light-polluted places on Earth. On moonless nights, the Milky Way is not just visible — it is overwhelming, filling the entire sky from horizon to horizon with a density that makes first-time visitors stop mid-sentence.</p>
+            <p>The Hanle Dark Sky Reserve, established in 2022, encompasses 1,073 square kilometres and works with local communities to minimise artificial light. Visitors can attend free stargazing sessions and interact with astronomers stationed at the IAO.</p>
+            <p><strong>Photography opportunity:</strong> Milky Way core rises above the Changthang plateau between May and August. The foreground of monasteries, yaks, and ancient rock formations creates compositions that professional astrophotographers travel from around the world to capture.</p>
+          </div>
+          <div class="exp-details">
+            <div class="exp-detail-item">
+              <span class="detail-label">Best Season</span>
+              <span class="detail-value">May – September</span>
+            </div>
+            <div class="exp-detail-item">
+              <span class="detail-label">Estimated Cost</span>
+              <span class="detail-value">₹3,000–8,000/night (homestay)</span>
+            </div>
+            <div class="exp-detail-item">
+              <span class="detail-label">Nearest Access</span>
+              <span class="detail-value">Leh (250 km, ~6 hrs by road)</span>
+            </div>
+            <div class="exp-detail-item">
+              <span class="detail-label">Bortle Class</span>
+              <span class="detail-value">Class 1–2 (Pristine)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2 -->
+      <div class="exp-card">
+        <div class="exp-card-inner">
+          <span class="exp-number">Experience 02</span>
+          <h3>Night Sky Photography in Spiti Valley</h3>
+          <div class="exp-tags">
+            <span class="tag tag--nebula">Photography</span>
+            <span class="tag tag--gold">Dark Sky</span>
+          </div>
+          <div class="exp-body">
+            <p>Spiti Valley in Himachal Pradesh is India's most accessible high-altitude dark-sky destination, reachable by bus from Shimla or Manali without requiring the special permits that Hanle demands. The valley sits at an average elevation of 3,800 metres and receives fewer than 250mm of rain per year — meaning clear skies are the norm, not the exception.</p>
+            <p>Villages like Kaza, Langza, Komic, and Hikkim offer homestays where local families have begun incorporating stargazing sessions into their hospitality. The world's highest post office at Hikkim sits under some of Spiti's most spectacular skies. The Kaza-Chicham-Kibber circuit is a photographer's holy grail: ancient monasteries clinging to cliffs, with Andromeda and the Milky Way arching overhead.</p>
+            <p><strong>Photography opportunity:</strong> Star trail photography across the ancient Dhankar monastery gompa is one of India's most iconic astrophotography compositions.</p>
+          </div>
+          <div class="exp-details">
+            <div class="exp-detail-item">
+              <span class="detail-label">Best Season</span>
+              <span class="detail-value">June – October</span>
+            </div>
+            <div class="exp-detail-item">
+              <span class="detail-label">Estimated Cost</span>
+              <span class="detail-value">₹800–2,500/night (homestay)</span>
+            </div>
+            <div class="exp-detail-item">
+              <span class="detail-label">Nearest Access</span>
+              <span class="detail-value">Shimla (412 km) or Manali (201 km)</span>
+            </div>
+            <div class="exp-detail-item">
+              <span class="detail-label">Permit Required</span>
+              <span class="detail-value">No (Inner Line not needed)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3 -->
+      <div class="exp-card">
+        <div class="exp-card-inner">
+          <span class="exp-number">Experience 03</span>
+          <h3>Bioluminescent Beach Experiences, Andaman Islands</h3>
+          <div class="exp-tags">
+            <span class="tag tag--teal">Bioluminescence</span>
+            <span class="tag tag--gold">Beach</span>
+          </div>
+          <div class="exp-body">
+            <p>On certain moonless nights between October and May, the shorelines of Havelock Island (Swaraj Dweep) and Neil Island (Shaheed Dweep) in the Andaman archipelago transform into something genuinely otherworldly. Tiny marine organisms — primarily dinoflagellates of the Noctiluca genus — emit pulses of cold blue-green light when disturbed, turning breaking waves, splashing footsteps, and swimming strokes into streams of living fire.</p>
+            <p>The phenomenon is most visible during the new moon phase when the sky is completely dark. Stand at the water's edge and drag a stick through the shallows: an explosion of cool aquamarine light spreads from the contact point. Wade in deeper and your legs trail light like a comet. The experience is, without exaggeration, one of the most magical natural phenomena available on Indian soil.</p>
+            <p>Radhanagar Beach and the northern end of Elephant Beach on Havelock are the most reliable locations. Local boat operators also offer night kayaking tours specifically targeting bioluminescent hotspots in the mangrove-lined creeks.</p>
+          </div>
+          <div class="exp-details">
+            <div class="exp-detail-item">
+              <span class="detail-label">Best Season</span>
+              <span class="detail-value">Oct – May (New Moon nights)</span>
+            </div>
+            <div class="exp-detail-item">
+              <span class="detail-label">Estimated Cost</span>
+              <span class="detail-value">₹600–1,500 (kayak tours)</span>
+            </div>
+            <div class="exp-detail-item">
+              <span class="detail-label">Nearest Access</span>
+              <span class="detail-value">Ferry from Port Blair (2 hrs)</span>
+            </div>
+            <div class="exp-detail-item">
+              <span class="detail-label">Photography Tip</span>
+              <span class="detail-value">Long exposure 20–30s, ISO 3200</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 -->
+      <div class="exp-card">
+        <div class="exp-card-inner">
+          <span class="exp-number">Experience 04</span>
+          <h3>Night Safari, Pench National Park</h3>
+          <div class="exp-tags">
+            <span class="tag tag--gold">Wildlife</span>
+            <span class="tag tag--teal">Night Safari</span>
+          </div>
+          <div class="exp-body">
+            <p>Pench National Park in Madhya Pradesh — the forest that inspired Rudyard Kipling's <em>The Jungle Book</em> — runs some of India's most atmospheric night safaris within its buffer zone. As the park's main zone closes at dusk, the buffer zone transforms into a stage. Spotted deer freeze in jeep headlights. Hyenas lope across the road. Leopards move like shadows between bamboo groves. If you're particularly fortunate, a tiger's eyes catch the light like two amber coals floating in the dark.</p>
+            <p>Pench is also exceptional for birding at night: Indian nightjars perch on the roads, brown fish owls call from the riverine forests, and Indian scops owls are found in almost every tree.</p>
+            <p><strong>Photography opportunity:</strong> Use a spotlight (provided by guides) with a fast telephoto lens for wildlife portraits. Eye-shine — the reflection of light from nocturnal animals' tapetum — creates hauntingly beautiful images that are impossible to achieve in daylight.</p>
+          </div>
+          <div class="exp-details">
+            <div class="exp-detail-item">
+              <span class="detail-label">Best Season</span>
+              <span class="detail-value">October – May</span>
+            </div>
+            <div class="exp-detail-item">
+              <span class="detail-label">Estimated Cost</span>
+              <span class="detail-value">₹2,000–6,000/jeep (4–6 pax)</span>
+            </div>
+            <div class="exp-detail-item">
+              <span class="detail-label">Nearest Access</span>
+              <span class="detail-value">Nagpur (90 km) or Seoni (30 km)</span>
+            </div>
+            <div class="exp-detail-item">
+              <span class="detail-label">Booking</span>
+              <span class="detail-value">Through resort; 7-day advance</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5 -->
+      <div class="exp-card">
+        <div class="exp-card-inner">
+          <span class="exp-number">Experience 05</span>
+          <h3>Night Safari &amp; Night Walks, Satpura National Park</h3>
+          <div class="exp-tags">
+            <span class="tag tag--gold">Wildlife</span>
+            <span class="tag tag--nebula">Walking Safari</span>
+            <span class="tag tag--teal">Camping</span>
+          </div>
+          <div class="exp-body">
+            <p>Satpura Tiger Reserve in Madhya Pradesh is India's most progressive wildlife destination for night-time experiences. Uniquely, Satpura permits guided night walks on foot — a rarity in Indian wildlife tourism — giving travellers the closest possible encounter with the jungle after dark. Walking into the Satpura darkness with a naturalist guide, listening to a sambar alarm call echo across a valley, or spotting a porcupine shuffling through leaf litter inches from your feet, is a visceral experience that no vehicle-based safari can replicate.</p>
+            <p>Satpura also allows overnight camping in the forest zone (through permitted camps like Forsyth Lodge), where you fall asleep listening to the sounds of the jungle and wake before dawn to the calling of crested serpent eagles. The lodge's open-air machan (platform) is one of the finest places in India to watch the night sky.</p>
+          </div>
+          <div class="exp-details">
+            <div class="exp-detail-item">
+              <span class="detail-label">Best Season</span>
+              <span class="detail-value">November – April</span>
+            </div>
+            <div class="exp-detail-item">
+              <span class="detail-label">Estimated Cost</span>
+              <span class="detail-value">₹15,000–40,000/night (all-inclusive)</span>
+            </div>
+            <div class="exp-detail-item">
+              <span class="detail-label">Nearest Access</span>
+              <span class="detail-value">Bhopal (165 km) or Pipariya (55 km)</span>
+            </div>
+            <div class="exp-detail-item">
+              <span class="detail-label">Permit</span>
+              <span class="detail-value">Via authorised resorts only</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6 -->
+      <div class="exp-card">
+        <div class="exp-card-inner">
+          <span class="exp-number">Experience 06</span>
+          <h3>Desert Stargazing in the Rann of Kutch, Gujarat</h3>
+          <div class="exp-tags">
+            <span class="tag tag--gold">Stargazing</span>
+            <span class="tag tag--nebula">Desert</span>
+          </div>
+          <div class="exp-body">
+            <p>During the Rann Utsav festival (November to February), the white salt desert of the Rann of Kutch becomes one of the most surreal stargazing environments on Earth. The flat, unbroken salt pan stretches to the horizon in every direction. On a moonlit night, the salt glows silver and the sky becomes a mirror above. During the new moon, the darkness is absolute — and the Milky Way reflects in pools of shallow brine water left after the monsoon.</p>
+            <p>Tent City, the state government's luxury tent accommodation set up during Utsav, organises dedicated stargazing sessions with telescopes. Independent travellers can camp at Dhordo village and hire local guides for a raw, less curated — and more authentic — night experience on the Rann.</p>
+            <p><strong>Photography tip:</strong> The combination of foreground salt crystals, reflected starlight in water pools, and the full arc of the Milky Way makes this one of India's most unique astrophotography compositions.</p>
+          </div>
+          <div class="exp-details">
+            <div class="exp-detail-item">
+              <span class="detail-label">Best Season</span>
+              <span class="detail-value">November – February</span>
+            </div>
+            <div class="exp-detail-item">
+              <span class="detail-label">Estimated Cost</span>
+              <span class="detail-value">₹5,000–25,000/night</span>
+            </div>
+            <div class="exp-detail-item">
+              <span class="detail-label">Nearest Access</span>
+              <span class="detail-value">Bhuj (85 km)</span>
+            </div>
+            <div class="exp-detail-item">
+              <span class="detail-label">Permit</span>
+              <span class="detail-value">Entry at Dhordo checkpoint</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 7 -->
+      <div class="exp-card">
+        <div class="exp-card-inner">
+          <span class="exp-number">Experience 07</span>
+          <h3>Moonlit Exploration around Hampi, Karnataka</h3>
+          <div class="exp-tags">
+            <span class="tag tag--gold">Heritage</span>
+            <span class="tag tag--nebula">Full Moon</span>
+          </div>
+          <div class="exp-body">
+            <p>The ruined capital of the Vijayanagara Empire spreads across 26 square kilometres of giant boulders, paddy fields, and ancient temple corridors in northern Karnataka. By day, it's magnificent. By full moon, it becomes genuinely transcendent. Moonlight turns the ancient granite boulders silver, throws long shadows from the Virupaksha temple gopuram, and fills the empty stone mandapas with something approaching the sacred.</p>
+            <p>The Archaeological Survey of India periodically opens Hampi's main monuments for full-moon night viewings. Independent travellers staying at Virupapur Gaddi (across the Tungabhadra) can cross by boat in the evening and walk the boulder fields under moonlight. The Matanga Hill sunrise walk begins in pre-dawn darkness and is one of South India's finest trekking experiences.</p>
+          </div>
+          <div class="exp-details">
+            <div class="exp-detail-item">
+              <span class="detail-label">Best Season</span>
+              <span class="detail-value">October – February</span>
+            </div>
+            <div class="exp-detail-item">
+              <span class="detail-label">Estimated Cost</span>
+              <span class="detail-value">₹500–3,000/night (guesthouse)</span>
+            </div>
+            <div class="exp-detail-item">
+              <span class="detail-label">Nearest Access</span>
+              <span class="detail-value">Hospet (13 km) / Hubli (155 km)</span>
+            </div>
+            <div class="exp-detail-item">
+              <span class="detail-label">Tip</span>
+              <span class="detail-value">Plan visit around full moon dates</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 8 -->
+      <div class="exp-card">
+        <div class="exp-card-inner">
+          <span class="exp-number">Experience 08</span>
+          <h3>Night Kayaking Through Mangroves, Kerala &amp; Andaman</h3>
+          <div class="exp-tags">
+            <span class="tag tag--teal">Water</span>
+            <span class="tag tag--nebula">Eco-Tourism</span>
+          </div>
+          <div class="exp-body">
+            <p>Night kayaking through mangrove tunnels is one of India's most intimate ecological experiences. Operators in Munroe Island (Kerala), Pichavaram (Tamil Nadu), and Baratang (Andaman) run after-dark kayaking tours where the only sounds are paddle strokes and the calls of kingfishers settling in for the night. Mangroves at night are a different ecosystem — mudskippers feed on the banks, fireflies pulse in the canopy roots, and bioluminescent algae occasionally illuminates the water below your kayak.</p>
+            <p>The Pichavaram mangroves near Chidambaram in Tamil Nadu are among the largest in the world and offer a particularly atmospheric nocturnal experience. Fishermen who operate the boats have an encyclopedic knowledge of which channels produce bioluminescence and at which season.</p>
+          </div>
+          <div class="exp-details">
+            <div class="exp-detail-item">
+              <span class="detail-label">Best Season</span>
+              <span class="detail-value">October – March</span>
+            </div>
+            <div class="exp-detail-item">
+              <span class="detail-label">Estimated Cost</span>
+              <span class="detail-value">₹500–2,000/person</span>
+            </div>
+            <div class="exp-detail-item">
+              <span class="detail-label">Nearest Access</span>
+              <span class="detail-value">Chidambaram / Kollam</span>
+            </div>
+            <div class="exp-detail-item">
+              <span class="detail-label">Best For</span>
+              <span class="detail-value">Families, nature lovers</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 9 -->
+      <div class="exp-card">
+        <div class="exp-card-inner">
+          <span class="exp-number">Experience 09</span>
+          <h3>Full Moon Trekking in the Himalayas</h3>
+          <div class="exp-tags">
+            <span class="tag tag--gold">Trekking</span>
+            <span class="tag tag--nebula">Full Moon</span>
+          </div>
+          <div class="exp-body">
+            <p>Full moon trekking in the Indian Himalayas occupies a category of its own. When a full moon rises over snow-covered peaks, the light is bright enough to cast crisp shadows and navigate trails without a head torch. The Valley of Flowers National Park (Uttarakhand), the Chadar frozen river walk (Ladakh), Triund near McLeod Ganj, and the Kedarkantha summit trail are all routinely done under full moon light.</p>
+            <p>Trekking agencies in Manali, Leh, and Rishikesh offer dedicated full moon departures timed precisely to lunar calendars. The experience of arriving at a high-altitude pass at midnight, watching moonlight flood a snow-filled valley, has been described by veteran trekkers as among the most powerful experiences of their lives.</p>
+          </div>
+          <div class="exp-details">
+            <div class="exp-detail-item">
+              <span class="detail-label">Best Season</span>
+              <span class="detail-value">May – October (varies by trail)</span>
+            </div>
+            <div class="exp-detail-item">
+              <span class="detail-label">Estimated Cost</span>
+              <span class="detail-value">₹3,000–15,000 (guided trek)</span>
+            </div>
+            <div class="exp-detail-item">
+              <span class="detail-label">Key Trails</span>
+              <span class="detail-value">Triund, Kedarkantha, Chopta</span>
+            </div>
+            <div class="exp-detail-item">
+              <span class="detail-label">Fitness Level</span>
+              <span class="detail-value">Moderate to Strenuous</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 10 -->
+      <div class="exp-card">
+        <div class="exp-card-inner">
+          <span class="exp-number">Experience 10</span>
+          <h3>Olive Ridley Turtle Nesting Observations, Odisha</h3>
+          <div class="exp-tags">
+            <span class="tag tag--teal">Wildlife</span>
+            <span class="tag tag--gold">Conservation</span>
+          </div>
+          <div class="exp-body">
+            <p>Every November to March, Gahirmatha Beach in Odisha's Bhitarkanika National Park hosts the world's largest mass sea turtle nesting event — the Olive Ridley <em>arribada</em>. Up to 800,000 turtles can come ashore in a single night to lay eggs, a spectacle with no parallel on Earth. The nesting is strictly nocturnal — turtles are sensitive to light and come ashore only in darkness.</p>
+            <p>The Forest Department operates controlled nightly viewings with red-light torches (white light disrupts turtle navigation) from viewing platforms. The experience of watching hundreds of ancient creatures hauling themselves ashore simultaneously, digging with measured precision, and laying eggs by moonlight, is one of the most humbling wildlife encounters available in India.</p>
+            <p><strong>Ethical note:</strong> Photography with flash is strictly prohibited. Use only certified wildlife tourism operators and follow Forest Department guidelines at all times.</p>
+          </div>
+          <div class="exp-details">
+            <div class="exp-detail-item">
+              <span class="detail-label">Best Season</span>
+              <span class="detail-value">January – March (peak nesting)</span>
+            </div>
+            <div class="exp-detail-item">
+              <span class="detail-label">Estimated Cost</span>
+              <span class="detail-value">₹1,000–4,000 (guided group)</span>
+            </div>
+            <div class="exp-detail-item">
+              <span class="detail-label">Nearest Access</span>
+              <span class="detail-value">Bhubaneswar (165 km)</span>
+            </div>
+            <div class="exp-detail-item">
+              <span class="detail-label">Permit</span>
+              <span class="detail-value">Required — via Forest Department</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 11 -->
+      <div class="exp-card">
+        <div class="exp-card-inner">
+          <span class="exp-number">Experience 11</span>
+          <h3>Astronomy Camps in Ladakh</h3>
+          <div class="exp-tags">
+            <span class="tag tag--nebula">Astrotourism</span>
+            <span class="tag tag--gold">Education</span>
+          </div>
+          <div class="exp-body">
+            <p>Several operators in Leh, Nubra Valley, and around Hanle now offer structured astronomy camps lasting three to five nights, with professional telescopes, guided sky sessions, astrophotography workshops, and lectures by astronomers. These are not generic stargazing events — they are immersive science experiences led by people who have studied the same sky professionally for decades.</p>
+            <p>At the Hanle Dark Sky Reserve, the Indian Institute of Astrophysics coordinates public outreach sessions during clear winter nights, offering access to the 2-metre Himalayan Chandra Telescope under supervision. Seeing Jupiter's bands and moons, Saturn's rings, or a distant galaxy cluster through a research-grade telescope, under one of Earth's darkest skies, is an experience that permanently recalibrates your sense of scale.</p>
+          </div>
+          <div class="exp-details">
+            <div class="exp-detail-item">
+              <span class="detail-label">Best Season</span>
+              <span class="detail-value">June – September</span>
+            </div>
+            <div class="exp-detail-item">
+              <span class="detail-label">Estimated Cost</span>
+              <span class="detail-value">₹8,000–25,000 (3–5 nights)</span>
+            </div>
+            <div class="exp-detail-item">
+              <span class="detail-label">Operators</span>
+              <span class="detail-value">Snow Leopard Adventures, Leh</span>
+            </div>
+            <div class="exp-detail-item">
+              <span class="detail-label">Best For</span>
+              <span class="detail-value">Families, photographers, students</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 12 -->
+      <div class="exp-card">
+        <div class="exp-card-inner">
+          <span class="exp-number">Experience 12</span>
+          <h3>Night Photography Tours in Old Cities</h3>
+          <div class="exp-tags">
+            <span class="tag tag--nebula">Photography</span>
+            <span class="tag tag--gold">Heritage</span>
+          </div>
+          <div class="exp-body">
+            <p>India's old cities undergo a remarkable transformation after dark. The narrow galis of Varanasi's old town, the illuminated ghats reflected in the Ganga during Ganga Aarti, the blue-washed lanes of Jodhpur's old city glowing under street lamps, the medieval lanes of Old Delhi around Jama Masjid, or the palaces of Mysore bathed in thousands of light bulbs on Sundays — these are visual experiences that no daytime photograph can replicate.</p>
+            <p>Photography collectives in Varanasi, Jaipur, Jodhpur, and Delhi now offer guided night photo walks lasting three to four hours, taking participants to locations, timings, and vantage points that casual tourists never find. The evening Ganga Aarti at Dashashwamedh Ghat — with its massive brass lamps, incense smoke, and priests in synchronised ritual — is one of India's most photographed spectacles for good reason.</p>
+          </div>
+          <div class="exp-details">
+            <div class="exp-detail-item">
+              <span class="detail-label">Best Season</span>
+              <span class="detail-value">October – March</span>
+            </div>
+            <div class="exp-detail-item">
+              <span class="detail-label">Estimated Cost</span>
+              <span class="detail-value">₹1,000–5,000/person</span>
+            </div>
+            <div class="exp-detail-item">
+              <span class="detail-label">Key Cities</span>
+              <span class="detail-value">Varanasi, Jaipur, Jodhpur, Delhi</span>
+            </div>
+            <div class="exp-detail-item">
+              <span class="detail-label">Equipment</span>
+              <span class="detail-value">Tripod essential; 24–70mm lens</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 13 -->
+      <div class="exp-card">
+        <div class="exp-card-inner">
+          <span class="exp-number">Experience 13</span>
+          <h3>Firefly Festivals in Maharashtra's Sahyadri Forests</h3>
+          <div class="exp-tags">
+            <span class="tag tag--teal">Wildlife</span>
+            <span class="tag tag--nebula">Monsoon</span>
+          </div>
+          <div class="exp-body">
+            <p>For a window of approximately four to six weeks between May and mid-June, the teak forests of the Sahyadri mountains in Maharashtra host one of India's most enchanting natural phenomena: synchronised firefly displays. Thousands of fireflies — specifically <em>Pteroptyx tener</em> — gather on specific trees and flash in near-perfect unison, creating a pulsing, alien light show that has no parallel in the Indian subcontinent.</p>
+            <p>The forests around Purushwadi, Bhandardara, Rajmachi, and Igatpuri are the primary hotspots. The Maharashtra Tourism Development Corporation and several adventure operators run dedicated Firefly Festival camps from late May onwards. Tents are set up in forest clearings; guides lead walking tours after 8 PM when the display reaches its peak intensity. The experience tends to sell out months in advance.</p>
+          </div>
+          <div class="exp-details">
+            <div class="exp-detail-item">
+              <span class="detail-label">Best Season</span>
+              <span class="detail-value">Late May – mid-June (pre-monsoon)</span>
+            </div>
+            <div class="exp-detail-item">
+              <span class="detail-label">Estimated Cost</span>
+              <span class="detail-value">₹3,000–8,000 (camp + meals)</span>
+            </div>
+            <div class="exp-detail-item">
+              <span class="detail-label">Nearest Access</span>
+              <span class="detail-value">Mumbai (3–4 hrs) / Pune (2–3 hrs)</span>
+            </div>
+            <div class="exp-detail-item">
+              <span class="detail-label">Book</span>
+              <span class="detail-value">2–3 months in advance</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 14 -->
+      <div class="exp-card">
+        <div class="exp-card-inner">
+          <span class="exp-number">Experience 14</span>
+          <h3>Night Camping Under the Stars, Rajasthan</h3>
+          <div class="exp-tags">
+            <span class="tag tag--gold">Desert</span>
+            <span class="tag tag--nebula">Camping</span>
+          </div>
+          <div class="exp-body">
+            <p>The Thar Desert of Rajasthan offers night camping experiences that range from the ultra-luxurious — private camps with butlers and gourmet dinners under chandeliers suspended from desert sky — to the raw and authentic, sleeping on a <em>charpoy</em> outside a Bishnoi village with camel herders and hyenas calling in the distance.</p>
+            <p>The dunes near Jaisalmer (Sam and Khuri), the desert camps at Pushkar, and the wilderness camps near Barmer are all excellent bases. The Western Thar has low light pollution across vast areas, and the desert air is remarkably clear in winter (October–February). The winter sky over the Jaisalmer desert between November and January includes both Scorpius and the winter hexagon, making it one of India's richest seasonal stargazing windows.</p>
+            <p>The cultural dimension adds further depth: Rajasthani folk music performed by firelight, with the Milky Way overhead, is an experience that stays with travellers for decades.</p>
+          </div>
+          <div class="exp-details">
+            <div class="exp-detail-item">
+              <span class="detail-label">Best Season</span>
+              <span class="detail-value">October – February</span>
+            </div>
+            <div class="exp-detail-item">
+              <span class="detail-label">Estimated Cost</span>
+              <span class="detail-value">₹3,000–50,000/night (range)</span>
+            </div>
+            <div class="exp-detail-item">
+              <span class="detail-label">Nearest Access</span>
+              <span class="detail-value">Jaisalmer (40 km to Sam dunes)</span>
+            </div>
+            <div class="exp-detail-item">
+              <span class="detail-label">Best Lunar Phase</span>
+              <span class="detail-value">New moon (stars) / Full moon (dunes)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 15 -->
+      <div class="exp-card">
+        <div class="exp-card-inner">
+          <span class="exp-number">Experience 15</span>
+          <h3>Dark-Sky Tourism in Emerging Destinations</h3>
+          <div class="exp-tags">
+            <span class="tag tag--gold">Dark Sky</span>
+            <span class="tag tag--teal">Off-Beat</span>
+          </div>
+          <div class="exp-body">
+            <p>Beyond the established destinations, a constellation of emerging dark-sky locations is quietly developing across India. <strong>Chopta</strong> (Uttarakhand) — the "Mini Switzerland of India" — has low light pollution and 3,000-metre elevation. <strong>Coorg and Chikkamagaluru</strong> in Karnataka combine coffee estate hospitality with genuinely dark skies on clear winter nights. <strong>Khimsar</strong> in western Rajasthan has a private dune sanctuary with negligible artificial light. <strong>Tirthan Valley</strong> in Himachal Pradesh's Great Himalayan National Park buffer zone is among the least-visited and most unspoiled stargazing destinations in the Western Himalayas.</p>
+            <p>The International Dark-Sky Association has not yet formally designated any Indian site, but advocacy groups are actively working to certify Hanle as India's first IDA-recognised dark-sky reserve. When that designation comes, it will likely trigger a significant increase in noctourism infrastructure investment across the region.</p>
+          </div>
+          <div class="exp-details">
+            <div class="exp-detail-item">
+              <span class="detail-label">Key Destinations</span>
+              <span class="detail-value">Chopta, Coorg, Khimsar, Tirthan</span>
+            </div>
+            <div class="exp-detail-item">
+              <span class="detail-label">Best Season</span>
+              <span class="detail-value">Year-round (varies by location)</span>
+            </div>
+            <div class="exp-detail-item">
+              <span class="detail-label">Access</span>
+              <span class="detail-value">Mostly road / self-drive</span>
+            </div>
+            <div class="exp-detail-item">
+              <span class="detail-label">Accommodation</span>
+              <span class="detail-value">Homestays to boutique resorts</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /experience-grid -->
+  </div>
+</section>
+
+<!-- ============================================
+     SECTION 3: DARK SKY DESTINATIONS
+============================================ -->
+<section id="dark-sky">
+  <div class="container--wide">
+    <div class="section-header">
+      <span class="section-number" aria-hidden="true">03</span>
+      <div class="section-label">Dark Skies</div>
+      <h2>Best Dark-Sky Destinations in India</h2>
+      <div class="section-rule"></div>
+    </div>
+
+    <div class="container">
+      <div class="prose" style="margin-bottom:2rem;">
+        <p>
+          Light pollution is measured on the Bortle Scale, ranging from Class 1 (pristine dark sky, no light pollution) to Class 9 (inner-city sky, almost no stars visible). Most Indian cities sit at Class 7–9. But India's geography means that within hours of major cities, it's possible to find Class 2–4 skies — some of the darkest accessible to any urban population on Earth.
+        </p>
+      </div>
+    </div>
+
+    <div class="dark-sky-section">
+      <div class="container--wide">
+        <div class="dark-sky-grid">
+
+          <div class="sky-card gold">
+            <h3>Hanle, Ladakh</h3>
+            <p class="sky-location">Jammu &amp; Kashmir · 4,500m elevation</p>
+            <div class="sky-stat">Light Pollution <strong><span class="bortle-badge bortle-1">Bortle 1–2</span></strong></div>
+            <div class="sky-stat">Accessibility <strong>Road from Leh (250 km)</strong></div>
+            <div class="sky-stat">Best Months <strong>May – September</strong></div>
+            <div class="sky-stat">Inner Line Permit <strong>Required (easy process)</strong></div>
+            <div class="sky-stat">Accommodation <strong>Homestays, tents</strong></div>
+          </div>
+
+          <div class="sky-card teal">
+            <h3>Spiti Valley</h3>
+            <p class="sky-location">Himachal Pradesh · 3,800m avg elevation</p>
+            <div class="sky-stat">Light Pollution <strong><span class="bortle-badge bortle-2">Bortle 2–3</span></strong></div>
+            <div class="sky-stat">Accessibility <strong>Road from Shimla or Manali</strong></div>
+            <div class="sky-stat">Best Months <strong>June – October</strong></div>
+            <div class="sky-stat">Permit Required <strong>No</strong></div>
+            <div class="sky-stat">Accommodation <strong>Homestays, guesthouses</strong></div>
+          </div>
+
+          <div class="sky-card nebula">
+            <h3>Nubra Valley, Ladakh</h3>
+            <p class="sky-location">Jammu &amp; Kashmir · 3,100m elevation</p>
+            <div class="sky-stat">Light Pollution <strong><span class="bortle-badge bortle-1">Bortle 2</span></strong></div>
+            <div class="sky-stat">Accessibility <strong>Leh via Khardung La (120 km)</strong></div>
+            <div class="sky-stat">Best Months <strong>May – September</strong></div>
+            <div class="sky-stat">Special Features <strong>Sand dunes + stars</strong></div>
+            <div class="sky-stat">Accommodation <strong>Camps, guesthouses</strong></div>
+          </div>
+
+          <div class="sky-card gold">
+            <h3>Rann of Kutch, Gujarat</h3>
+            <p class="sky-location">Gujarat · ~8m elevation (salt flat)</p>
+            <div class="sky-stat">Light Pollution <strong><span class="bortle-badge bortle-2">Bortle 3–4</span></strong></div>
+            <div class="sky-stat">Accessibility <strong>Bhuj → Dhordo (85 km)</strong></div>
+            <div class="sky-stat">Best Months <strong>November – February</strong></div>
+            <div class="sky-stat">Special Features <strong>Salt reflection, flat horizon</strong></div>
+            <div class="sky-stat">Accommodation <strong>Tent City, village homestay</strong></div>
+          </div>
+
+          <div class="sky-card teal">
+            <h3>Bhandardara, Maharashtra</h3>
+            <p class="sky-location">Maharashtra · 760m elevation</p>
+            <div class="sky-stat">Light Pollution <strong><span class="bortle-badge bortle-3">Bortle 4</span></strong></div>
+            <div class="sky-stat">Accessibility <strong>Mumbai (165 km), 3 hrs</strong></div>
+            <div class="sky-stat">Best Months <strong>December – February</strong></div>
+            <div class="sky-stat">Special Features <strong>Lake reflection stargazing</strong></div>
+            <div class="sky-stat">Accommodation <strong>Resorts, campsites, MTDC</strong></div>
+          </div>
+
+          <div class="sky-card nebula">
+            <h3>Coorg &amp; Chikkamagaluru, Karnataka</h3>
+            <p class="sky-location">Karnataka · 1,000–1,800m elevation</p>
+            <div class="sky-stat">Light Pollution <strong><span class="bortle-badge bortle-3">Bortle 3–4</span></strong></div>
+            <div class="sky-stat">Accessibility <strong>Bangalore (250–280 km)</strong></div>
+            <div class="sky-stat">Best Months <strong>November – February</strong></div>
+            <div class="sky-stat">Special Features <strong>Coffee estate ambiance</strong></div>
+            <div class="sky-stat">Accommodation <strong>Boutique estate stays</strong></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================
+     SECTION 4: WILDLIFE
+============================================ -->
+<section id="wildlife">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-number" aria-hidden="true">04</span>
+      <div class="section-label">Wildlife</div>
+      <h2>Night Wildlife Experiences in India</h2>
+      <div class="section-rule"></div>
+    </div>
+
+    <div class="prose">
+      <p>
+        India is home to over 90,000 animal species, and a significant proportion of them are active primarily at night. The nocturnal roster includes leopards, striped hyenas, Indian foxes, porcupines, pangolins, civets, civets, galagos, flying squirrels, wolf spiders, caecilians, and dozens of owl species. The nocturnal ecosystem is, in many ways, richer than the diurnal one — yet most wildlife tourism in India ignores it entirely.
+      </p>
+
+      <h3 style="margin:2rem 0 1rem;">Nocturnal Animals to Watch For</h3>
+      <p>
+        <strong>Leopards</strong> are primarily crepuscular and nocturnal, far more reliably spotted on night drives than daytime safaris. <strong>Striped hyenas</strong> emerge after dark from rocky outcrops across central and western India. <strong>Indian nightjars</strong> and their relatives roost on jungle roads, nearly invisible until headlights catch their eyes. <strong>Brown fish owls</strong> and <strong>mottled wood owls</strong> call from riverine trees. <strong>Indian flying squirrels</strong> glide between trees in the Shola forests of the Western Ghats. And <strong>fireflies</strong>, arguably among the most mesmerising of all nocturnal wildlife, put on displays in the right season that rival any tropical light show.
+      </p>
+
+      <h3 style="margin:2rem 0 1rem;">Ethical Night Wildlife Tourism</h3>
+      <p>
+        Responsible noctourism around wildlife demands specific practices. Bright white lights stress nocturnal animals and disrupt their hunting and navigation — guides should use red-filtered torches when spotlighting. Vehicles should maintain distance and never use flash photography on wildlife. Night walks require experienced naturalist guides who can read forest sounds and movement. Avoid any operator who drives vehicles off-road after dark, makes excessive noise, or uses drones near wildlife.
+      </p>
+      <p>
+        The best night safari operators — concentrated around Satpura, Pench, Bandhavgarh, Corbett (buffer zone), and Kabini — invest in naturalist training and maintain strict protocols. Booking directly through a good resort that takes its ecology seriously is the best guarantee of an ethical experience.
+      </p>
+
+      <blockquote>
+        "The difference between a day safari and a night safari is the difference between watching a theatre production from the lobby and sitting in the front row."
+        <br /><cite>— Indian Wildlife Naturalist</cite>
+      </blockquote>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================
+     SECTION 5: PHOTOGRAPHY
+============================================ -->
+<section id="photography">
+  <div class="container--wide">
+    <div class="section-header">
+      <span class="section-number" aria-hidden="true">05</span>
+      <div class="section-label">Capture the Dark</div>
+      <h2>Night Photography Guide for India</h2>
+      <div class="section-rule"></div>
+    </div>
+
+    <div class="photo-section">
+      <div class="container">
+        <div class="prose" style="margin-bottom:2rem;">
+          <p>Night photography has a reputation for being technically demanding, but modern cameras have democratised the dark. Whether you're shooting on a Samsung S24 Ultra or a Nikon Z8 with a 14mm prime, these principles will help you bring India's night skies home.</p>
+        </div>
+
+        <div class="photo-grid">
+
+          <div class="photo-card">
+            <div class="photo-icon gold">📱</div>
+            <h3>Smartphone Photography</h3>
+            <p>Use Pro or Night mode. Set ISO between 800–3200. Use a small tripod or rock to stabilise. Shoot in RAW if available. Enable 30-second exposure manually. Avoid digital zoom after dark — crop in post-processing instead. iPhone 15 Pro and Samsung S24 Ultra both have capable Astrophoto modes.</p>
+          </div>
+
+          <div class="photo-card">
+            <div class="photo-icon teal">📷</div>
+            <h3>DSLR / Mirrorless Settings</h3>
+            <p>For Milky Way: f/2.8 or wider, ISO 1600–6400, 15–25 second exposures (use the 500 Rule: 500 ÷ focal length = max seconds before star trails begin). Shoot RAW always. Use a remote shutter release. Mirror lock-up on DSLRs. Manual focus to infinity (slightly backed off).</p>
+          </div>
+
+          <div class="photo-card">
+            <div class="photo-icon nebula">🌌</div>
+            <h3>Astrophotography Basics</h3>
+            <p>Plan shoots around the new moon (no lunar interference). Use PhotoPills or Stellarium apps to locate Milky Way core position and rise time. Include an interesting foreground — temple, mountain, person silhouette. Stack multiple exposures to reduce noise in post-production.</p>
+          </div>
+
+          <div class="photo-card">
+            <div class="photo-icon gold">💡</div>
+            <h3>Long Exposure Techniques</h3>
+            <p>Star trails require exposures from 20 minutes to several hours. Use Bulb mode and a quality shutter release. Stack multiple 4-minute exposures in StarStax (free software) for cleaner results. Circular trails require pointing toward Polaris (North Star). Include a lit subject in the foreground for scale.</p>
+          </div>
+
+          <div class="photo-card">
+            <div class="photo-icon teal">🎒</div>
+            <h3>Recommended Equipment</h3>
+            <p>Lightweight tripod (essential); spare batteries (cold kills battery life); head torch with red-light mode; dew heater for lens (Himalayan nights); intervalometer; extra memory cards. A fast prime lens (14mm f/1.8, 20mm f/1.8, or 24mm f/1.4) is your most valuable astrophotography purchase.</p>
+          </div>
+
+          <div class="photo-card">
+            <div class="photo-icon nebula">🖥️</div>
+            <h3>Editing Night Images</h3>
+            <p>Lightroom and Capture One are standard. Boost shadows carefully. Reduce chromatic aberration (visible in wide-angle shots). Use Noise Reduction (Luminance and Color). Enhance Milky Way: Texture and Clarity sliders at moderate settings. Avoid over-saturation — the human eye doesn't see stars in high colour.</p>
+          </div>
+
+        </div>
+
+        <div style="margin-top:2.5rem;">
+          <h3 style="margin-bottom:1rem; font-size:1.1rem;">Quick Reference: DSLR Settings for Common Noctourism Scenarios</h3>
+          <table class="settings-table">
+            <thead>
+              <tr>
+                <th>Scenario</th>
+                <th>Aperture</th>
+                <th>ISO</th>
+                <th>Shutter Speed</th>
+                <th>Focal Length</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Milky Way (wide)</td>
+                <td>f/1.8–f/2.8</td>
+                <td>3200–6400</td>
+                <td>15–25 sec</td>
+                <td>14–24mm</td>
+              </tr>
+              <tr>
+                <td>Star Trails</td>
+                <td>f/2.8–f/4</td>
+                <td>800–1600</td>
+                <td>Stacked 4-min</td>
+                <td>14–24mm</td>
+              </tr>
+              <tr>
+                <td>Wildlife Spotlight</td>
+                <td>f/4–f/5.6</td>
+                <td>6400–12800</td>
+                <td>1/200–1/500</td>
+                <td>200–500mm</td>
+              </tr>
+              <tr>
+                <td>Bioluminescence</td>
+                <td>f/2.8</td>
+                <td>3200</td>
+                <td>20–30 sec</td>
+                <td>14–35mm</td>
+              </tr>
+              <tr>
+                <td>Night Architecture</td>
+                <td>f/8–f/11</td>
+                <td>400–1600</td>
+                <td>10–60 sec</td>
+                <td>16–35mm</td>
+              </tr>
+              <tr>
+                <td>Fireflies</td>
+                <td>f/2.8</td>
+                <td>1600–3200</td>
+                <td>15–30 sec</td>
+                <td>24–50mm</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================
+     SECTION 6: SAFETY
+============================================ -->
+<section id="safety">
+  <div class="container--wide">
+    <div class="section-header">
+      <span class="section-number" aria-hidden="true">06</span>
+      <div class="section-label">Stay Safe</div>
+      <h2>Safety Guide for Noctourism in India</h2>
+      <div class="section-rule"></div>
+    </div>
+
+    <div class="safety-section">
+      <div class="container">
+        <div class="prose" style="margin-bottom:2rem;">
+          <p>Noctourism in India is overwhelmingly safe when planned properly, but night travel does introduce specific risk categories that require awareness and preparation. The following guidelines apply across most night travel scenarios.</p>
+        </div>
+
+        <div class="safety-grid">
+
+          <div class="safety-card">
+            <h3>🧭 Personal Safety</h3>
+            <ul class="safety-list">
+              <li>Always share your itinerary and location with someone back home or at your accommodation</li>
+              <li>Carry a fully charged phone with offline maps downloaded (Google Maps works offline)</li>
+              <li>In cities, use verified ride-hailing apps after dark rather than hailing vehicles</li>
+              <li>For solo travellers — especially women — join guided group tours for night experiences in remote areas</li>
+              <li>Keep emergency contacts (local police, hospital, tour operator) accessible offline</li>
+            </ul>
+          </div>
+
+          <div class="safety-card">
+            <h3>🏔️ Remote Area Precautions</h3>
+            <ul class="safety-list">
+              <li>In Ladakh and Spiti, altitude sickness can manifest acutely at night when temperatures drop — know the symptoms (headache, nausea, confusion)</li>
+              <li>Inform your accommodation of your planned night schedule; never go solo into high-altitude terrain after dark</li>
+              <li>Carry a satellite communicator (SPOT or Garmin inReach) in areas without mobile coverage</li>
+              <li>Know the route back before you leave — headtorches fail and phone batteries die</li>
+            </ul>
+          </div>
+
+          <div class="safety-card">
+            <h3>🐅 Wildlife Awareness</h3>
+            <ul class="safety-list">
+              <li>Never exit a safari vehicle without guide permission — leopards and tigers are unpredictable</li>
+              <li>Keep noise low; animals react to sudden sounds more strongly at night</li>
+              <li>On night walks, stay in single file behind your guide — do not overtake</li>
+              <li>If you encounter a snake on a night trail, freeze, alert your guide, and do not use a bright torch directly on the animal</li>
+              <li>Mosquito repellent is non-negotiable in jungle environments at night</li>
+            </ul>
+          </div>
+
+          <div class="safety-card">
+            <h3>🌦️ Weather &amp; Temperature</h3>
+            <ul class="safety-list">
+              <li>High-altitude temperatures drop dramatically after sunset — Spiti nights in August can be 2–5°C; Hanle in winter drops to -30°C</li>
+              <li>Always carry layers beyond what you think you need; thermal base layers, down jacket, windproof outer</li>
+              <li>Desert nights in Rajasthan are cold despite hot days (Nov–Jan: 5–12°C); pack accordingly</li>
+              <li>Check weather forecasts obsessively — cloud cover ruins stargazing and can be sudden</li>
+            </ul>
+          </div>
+
+          <div class="safety-card">
+            <h3>🚗 Transportation Planning</h3>
+            <ul class="safety-list">
+              <li>Mountain roads in Ladakh, Spiti, and the Northeast are significantly more dangerous at night — avoid driving after dark in unfamiliar terrain</li>
+              <li>Arrange confirmed return transport before your night experience; last-minute bookings fail after midnight</li>
+              <li>For Andaman island hopping, confirm ferry schedules — they stop well before dusk</li>
+              <li>Carry extra fuel in remote desert and mountain zones; petrol stations close at night</li>
+            </ul>
+          </div>
+
+          <div class="safety-card">
+            <h3>🆘 Emergency Preparedness</h3>
+            <ul class="safety-list">
+              <li>India emergency numbers: Police 100 · Ambulance 108 · Fire 101 · Tourist Helpline 1363</li>
+              <li>Travel insurance with emergency evacuation coverage is essential for remote noctourism</li>
+              <li>Carry a basic first aid kit: blister plasters, antiseptic, pain relief, altitude medication (Diamox with doctor's advice), antihistamines</li>
+              <li>Know the location of the nearest hospital before you depart for remote destinations</li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================
+     SECTION 7: FUTURE OF NOCTOURISM
+============================================ -->
+<section id="future">
+  <div class="container--wide">
+    <div class="section-header">
+      <span class="section-number" aria-hidden="true">07</span>
+      <div class="section-label">What's Coming</div>
+      <h2>The Future of Noctourism in India</h2>
+      <div class="section-rule"></div>
+    </div>
+
+    <div class="future-section">
+      <div class="container">
+        <div class="prose" style="margin-bottom:2rem;">
+          <p>
+            India's noctourism industry is at an inflection point. The ingredients — extraordinary dark skies, a massive domestic travel market, unparalleled biodiversity, ancient heritage, and a growing community of astronomy and photography enthusiasts — are all present. What's emerging now is the infrastructure to activate them.
+          </p>
+        </div>
+
+        <div class="future-grid">
+
+          <div class="future-card">
+            <div class="future-icon">🌑</div>
+            <h3>Dark Sky Reserve Expansion</h3>
+            <p>Following Hanle's designation as India's first Dark Sky Reserve in 2022, advocacy groups are pushing for similar designations in Spiti, Kutch, and the Thar. IDA certification would bring global visibility and infrastructure investment to these regions.</p>
+          </div>
+
+          <div class="future-card">
+            <div class="future-icon">🔭</div>
+            <h3>Astrotourism Infrastructure</h3>
+            <p>Several state tourism boards — Himachal Pradesh, Ladakh, Gujarat — are developing astrotourism circuits with observation platforms, interpretive centres, and guided astronomy programs. These will be critical for making dark-sky experiences accessible to non-expert travellers.</p>
+          </div>
+
+          <div class="future-card">
+            <div class="future-icon">🌿</div>
+            <h3>Sustainable Night Tourism</h3>
+            <p>The major environmental risk of noctourism growth is light pollution. Responsible noctourism operators are adopting dark-sky-friendly lighting (amber-spectrum, fully shielded fixtures) and educating guests. The concept of "Leave No Photon" is entering Indian eco-tourism vocabulary.</p>
+          </div>
+
+          <div class="future-card">
+            <div class="future-icon">🎭</div>
+            <h3>Nighttime Cultural Tourism</h3>
+            <p>India's massive heritage tourism sector is beginning to recognise the night as an asset. Sound and light shows at Red Fort, Qutub Minar, and Mysore Palace are well-established; the next generation of nighttime heritage tours will incorporate AR overlays, constellation storytelling, and immersive theatre.</p>
+          </div>
+
+          <div class="future-card">
+            <div class="future-icon">💰</div>
+            <h3>Economic Impact</h3>
+            <p>Night tourism generates premium revenue: stargazing camps in Ladakh command 3–4× the rate of standard accommodation. Astronomy camps, guided firefly tours, and bioluminescence experiences have proven willing-to-pay demographics among urban millennials and international tourists.</p>
+          </div>
+
+          <div class="future-card">
+            <div class="future-icon">📡</div>
+            <h3>Emerging Technology</h3>
+            <p>Portable planetarium apps, AI-powered sky guides, and wide-field electronic viewfinders are making astronomy accessible without expert knowledge. The next decade will see night sky tourism become self-sufficient for the curious traveller with only a smartphone and curiosity.</p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================
+     PULL QUOTE
+============================================ -->
+<div class="container" style="padding: 2rem 0;">
+  <div class="pull-quote">
+    <p>"India's night sky is one of the last great wildernesses — not a place you go to, but a dimension you enter. It is not about seeing stars. It is about being reminded, suddenly and permanently, of what you are."</p>
+    <cite>— Traveller's Paradise</cite>
+  </div>
+</div>
+
+<!-- ============================================
+     FAQ SECTION
+============================================ -->
+<section class="faq-section" id="faq">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-number" aria-hidden="true">FAQ</span>
+      <div class="section-label">Common Questions</div>
+      <h2>Frequently Asked Questions</h2>
+      <div class="section-rule"></div>
+    </div>
+
+    <div class="faq-list" style="margin-top:2rem;" itemscope itemtype="https://schema.org/FAQPage">
+
+      <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <button class="faq-question" aria-expanded="false" onclick="toggleFAQ(this)">
+          <span itemprop="name">What is noctourism?</span>
+          <div class="faq-chevron">▾</div>
+        </button>
+        <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+          <div itemprop="text">
+            <p>Noctourism refers to a category of travel experiences that are specifically designed for, or best enjoyed during, nighttime hours. Unlike simply staying out late, noctourism is intentional: it plans, curates, and celebrates what happens after sunset as the central feature of the travel experience. Activities include stargazing, night safaris, bioluminescent beach visits, full moon trekking, firefly watching, night kayaking, and nocturnal wildlife observation.</p>
+            <p>The term gained mainstream use in the global travel industry around 2019 and has grown rapidly since, driven by increasing interest in astronomy, nature photography, wildlife observation, and the desire to experience destinations without daytime crowds.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <button class="faq-question" aria-expanded="false" onclick="toggleFAQ(this)">
+          <span itemprop="name">Is noctourism popular in India?</span>
+          <div class="faq-chevron">▾</div>
+        </button>
+        <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+          <div itemprop="text">
+            <p>Noctourism is growing rapidly in India, particularly among urban millennials and international tourists. The establishment of India's first Dark Sky Reserve in Hanle, Ladakh (2022), the explosive growth of firefly tourism in Maharashtra, the increasing popularity of night safaris in Madhya Pradesh, and the emergence of astronomy camps in Ladakh and Spiti all reflect a strong upward trend.</p>
+            <p>Domestic travel platforms report double-digit year-on-year growth in bookings for stargazing camps, night safari experiences, and bioluminescence tours. India's combination of dark-sky altitudes, diverse wildlife, ancient heritage, and bioluminescent coastlines makes it uniquely well-suited for noctourism at every budget level.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <button class="faq-question" aria-expanded="false" onclick="toggleFAQ(this)">
+          <span itemprop="name">What are the best night experiences in India?</span>
+          <div class="faq-chevron">▾</div>
+        </button>
+        <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+          <div itemprop="text">
+            <p>The 15 best night experiences in India span a wide range: (1) Stargazing at Hanle Dark Sky Reserve, Ladakh — India's premier dark sky destination. (2) Bioluminescent beach experiences in Andaman Islands. (3) Night safaris in Satpura and Pench National Parks. (4) Firefly festivals in Maharashtra's Sahyadri forests. (5) Desert stargazing in the Rann of Kutch. (6) Moonlit exploration of Hampi, Karnataka. (7) Full moon trekking in the Himalayas. (8) Night sky photography in Spiti Valley. (9) Olive Ridley turtle nesting in Odisha. (10) Astronomy camps in Nubra Valley, Ladakh.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <button class="faq-question" aria-expanded="false" onclick="toggleFAQ(this)">
+          <span itemprop="name">Where can I see the Milky Way in India?</span>
+          <div class="faq-chevron">▾</div>
+        </button>
+        <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+          <div itemprop="text">
+            <p>The Milky Way is visible from many locations in India, but the best experiences are in high-altitude, low-light-pollution zones. The top locations include Hanle (Ladakh) — rated Bortle Class 1–2 and India's darkest accessible sky; Spiti Valley (Himachal Pradesh) — easily accessible, Bortle 2–3; Nubra Valley (Ladakh) — Bortle 2, with spectacular foreground of sand dunes and mountains; Rann of Kutch (Gujarat) — flat white salt pan creates an extraordinary stargazing environment; and Tirthan Valley (Himachal Pradesh) — a quieter, less-visited option.</p>
+            <p>The Milky Way core is best visible in India from April to September. The core rises higher in the southern sky and is best seen after midnight from May to August. Moonless nights (new moon phase) are essential for the best displays.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <button class="faq-question" aria-expanded="false" onclick="toggleFAQ(this)">
+          <span itemprop="name">Are night safaris safe in India?</span>
+          <div class="faq-chevron">▾</div>
+        </button>
+        <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+          <div itemprop="text">
+            <p>Night safaris in India are generally safe when conducted by authorised operators through accredited jungle lodges and resorts. The most established night safari destinations — Satpura, Pench, Kabini, Kanha buffer zones — have experienced naturalist guides and well-maintained vehicles. The risks associated with night safaris (wildlife encounters, terrain navigation) are managed through strict protocols that experienced operators follow rigorously.</p>
+            <p>Key safety practices include: never exiting the vehicle without explicit guide permission; maintaining silence; keeping lights and noise to a minimum; following the guide's instructions exactly; and booking only through Forest Department-authorised operators. Night walks (available in Satpura) carry slightly higher risk and are conducted only with expert guides and in groups.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <button class="faq-question" aria-expanded="false" onclick="toggleFAQ(this)">
+          <span itemprop="name">Which Indian beaches show bioluminescence?</span>
+          <div class="faq-chevron">▾</div>
+        </button>
+        <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+          <div itemprop="text">
+            <p>Bioluminescence is most reliably observed in the Andaman and Nicobar Islands, particularly at Radhanagar Beach (Beach No. 7) and in the mangrove creeks of Havelock Island (Swaraj Dweep) and Neil Island (Shaheed Dweep). The phenomenon is caused by bioluminescent dinoflagellates (Noctiluca scintillans) that emit light when disturbed by wave action or movement.</p>
+            <p>The phenomenon is most vivid on new moon nights (when the sky is darkest) during the October–May window (outside the monsoon season). Occasional bioluminescent events are also reported along the Kerala coastline (particularly around Varkala and Kovalam) and some beaches in Goa, though the Andamans provide the most consistent and dramatic displays.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <button class="faq-question" aria-expanded="false" onclick="toggleFAQ(this)">
+          <span itemprop="name">What is the best destination for stargazing in India?</span>
+          <div class="faq-chevron">▾</div>
+        </button>
+        <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+          <div itemprop="text">
+            <p>Hanle in eastern Ladakh is widely considered the best destination for stargazing in India. Located at 4,500 metres above sea level with Bortle Class 1–2 skies (the darkest possible rating), minimal atmospheric moisture, and home to the Indian Astronomical Observatory, it offers conditions that rival professional observatory sites worldwide. The Hanle Dark Sky Reserve, designated in 2022, formalises this status.</p>
+            <p>For those who cannot obtain the Inner Line Permit required for Hanle, Spiti Valley (Himachal Pradesh) is an outstanding alternative with Bortle 2–3 skies, excellent homestay accommodation, and no special permits required. It is accessible by road from both Shimla and Manali between June and October.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <button class="faq-question" aria-expanded="false" onclick="toggleFAQ(this)">
+          <span itemprop="name">Is noctourism suitable for families with children?</span>
+          <div class="faq-chevron">▾</div>
+        </button>
+        <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+          <div itemprop="text">
+            <p>Many noctourism experiences are excellent for families with children. Firefly festivals in Maharashtra are particularly child-friendly — the displays begin around 8–9 PM and last 1–2 hours, manageable for younger children. Stargazing sessions at Rann of Kutch Tent City are family-oriented experiences with telescope access and guided explanations. Night kayaking through mangroves (for children above 8 with life jackets) and turtle nesting viewings in Odisha are both genuinely memorable for children.</p>
+            <p>Experiences less suitable for young children include high-altitude stargazing (altitude sickness risk), night safaris requiring silence over extended periods, and remote dark-sky destinations requiring long drives. Always check minimum age requirements with operators; reputable operators specify them clearly.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <button class="faq-question" aria-expanded="false" onclick="toggleFAQ(this)">
+          <span itemprop="name">What is astrotourism and how is it different from noctourism?</span>
+          <div class="faq-chevron">▾</div>
+        </button>
+        <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+          <div itemprop="text">
+            <p>Astrotourism is a subset of noctourism focused specifically on astronomical experiences: stargazing, Milky Way photography, telescope observation, astronomy camps, and visiting dark sky reserves. Noctourism is the broader category that includes all nighttime travel experiences — wildlife, culture, heritage, natural phenomena (bioluminescence, fireflies), and adventure activities that take place after sunset.</p>
+            <p>India's astrotourism sector has been growing significantly since the establishment of the Hanle Dark Sky Reserve in 2022 and is expected to become a significant component of Himalayan tourism circuits over the next decade.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <button class="faq-question" aria-expanded="false" onclick="toggleFAQ(this)">
+          <span itemprop="name">When is the best time to see fireflies in India?</span>
+          <div class="faq-chevron">▾</div>
+        </button>
+        <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+          <div itemprop="text">
+            <p>Firefly season in India peaks between mid-May and mid-June, specifically in the pre-monsoon period when humidity and temperature conditions trigger synchronised mating displays. The primary hotspots are in the Sahyadri hill ranges of Maharashtra — particularly around Purushwadi, Bhandardara, Rajmachi, and Igatpuri.</p>
+            <p>The display typically runs from around 8 PM to 10 PM. New moon nights produce the most dramatic displays as the fireflies' light is more visible against a completely dark sky. Bookings for firefly camps fill up 2–3 months in advance; early reservation is essential.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <button class="faq-question" aria-expanded="false" onclick="toggleFAQ(this)">
+          <span itemprop="name">Do I need special permits for noctourism in India?</span>
+          <div class="faq-chevron">▾</div>
+        </button>
+        <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+          <div itemprop="text">
+            <p>Permit requirements vary by destination. Hanle (Ladakh) requires an Inner Line Permit (ILP), obtainable online via the Ladakh Tourism website or in Leh; the process takes 1–2 hours and costs approximately ₹400–600. Nubra Valley also requires an ILP. Spiti Valley (Himachal Pradesh) does not require a special permit for most areas, though Sumdo (near the Tibet border) is restricted.</p>
+            <p>Night safaris in National Parks are conducted through authorised resorts and operators who handle permits. Turtle nesting viewings in Odisha require Forest Department permission obtained through registered operators. The Andaman Islands require a permit for foreign nationals (issued on arrival at Port Blair); no special night-activity permits are needed for beaches or kayaking tours.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <button class="faq-question" aria-expanded="false" onclick="toggleFAQ(this)">
+          <span itemprop="name">What camera equipment do I need for night photography in India?</span>
+          <div class="faq-chevron">▾</div>
+        </button>
+        <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+          <div itemprop="text">
+            <p>The essentials for night photography: a camera with manual exposure control (DSLR, mirrorless, or a recent smartphone with Pro/Night mode); a sturdy tripod; a wide-angle lens with a large maximum aperture (f/1.8 to f/2.8) for starscapes and Milky Way photography; a remote shutter release (or use the camera's self-timer to avoid shake); spare batteries (cold temperatures drain batteries rapidly); and a red-light headtorch to preserve night vision while navigating.</p>
+            <p>For wildlife night photography, a telephoto lens (200–500mm) with good high-ISO performance is essential. Apps worth downloading before your trip: PhotoPills (Milky Way planning), Stellarium (sky map), Light Pollution Map (bortle levels), and ClearOutside (cloud forecasting).</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <button class="faq-question" aria-expanded="false" onclick="toggleFAQ(this)">
+          <span itemprop="name">What should I wear for noctourism in India?</span>
+          <div class="faq-chevron">▾</div>
+        </button>
+        <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+          <div itemprop="text">
+            <p>Clothing requirements vary dramatically by destination and season. For Himalayan stargazing (Hanle, Spiti, Nubra): thermal base layers, fleece mid-layer, down jacket (700 fill power minimum), windproof/waterproof outer shell, thermal gloves, balaclava, and wool socks. Night temperatures in Ladakh can drop to -5°C even in summer and -30°C in winter.</p>
+            <p>For jungle night safaris: muted earth tones (olive, khaki, tan), long sleeves and trousers (insect protection), closed-toe shoes, and a light fleece. For coastal/beach experiences: light layers for the breeze; temperatures are mild. For Rajasthan desert nights (winter): medium layers — it gets cold (5–15°C) despite hot days. Always prioritise insect repellent in jungle and coastal environments.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <button class="faq-question" aria-expanded="false" onclick="toggleFAQ(this)">
+          <span itemprop="name">How can I find ethical and responsible noctourism operators in India?</span>
+          <div class="faq-chevron">▾</div>
+        </button>
+        <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+          <div itemprop="text">
+            <p>Look for operators affiliated with the Responsible Tourism India network or certificated by ECOTOURISM India. For wildlife experiences, choose operators working with Forest Department permits and employing NAWA (Nature Guides Association) certified naturalists. For stargazing and astronomy experiences, look for partnerships with scientific institutions such as the Indian Institute of Astrophysics or amateur astronomy clubs (BAA India, SPACE India).</p>
+            <p>Red flags to avoid: operators who use white spotlights on wildlife, drive vehicles off established tracks, permit flash photography of nesting turtles or nocturnal animals, or offer night safaris in core zones of National Parks (which are prohibited). Booking through established eco-lodges rather than generic travel aggregators generally offers better ethical assurance.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <button class="faq-question" aria-expanded="false" onclick="toggleFAQ(this)">
+          <span itemprop="name">What is the Hanle Dark Sky Reserve?</span>
+          <div class="faq-chevron">▾</div>
+        </button>
+        <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+          <div itemprop="text">
+            <p>The Hanle Dark Sky Reserve is India's first dark sky reserve, established in 2022 in the Changthang region of eastern Ladakh. It covers approximately 1,073 square kilometres and was created through a collaboration between the Ladakh Autonomous Hill Development Council, the Indian Astronomical Observatory (IAO), and local communities.</p>
+            <p>The reserve aims to minimise artificial light pollution in the region to protect both the world-class astronomical research conducted at the IAO — which hosts a 2-metre Himalayan Chandra Telescope at 4,500 metres altitude — and to develop sustainable astrotourism with local communities as the primary beneficiaries. The reserve incorporates community guidelines limiting external lighting, training local homestay owners as astronomy guides, and creating dedicated stargazing zones for visitors.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     BONUS: INTERNAL LINKS, SOCIAL, PINTEREST
+============================================ -->
+<section style="padding: 2rem 0 4rem;">
+  <div class="container">
+
+    <div class="bonus-section">
+      <h3>📎 Internal Linking Suggestions</h3>
+      <ul class="link-list">
+        <li><a href="#">Complete Guide to Visiting Ladakh</a></li>
+        <li><a href="#">Best Time to Visit Andaman Islands</a></li>
+        <li><a href="#">Spiti Valley Travel Guide: Everything You Need to Know</a></li>
+        <li><a href="#">Top 10 National Parks in India for Wildlife Safaris</a></li>
+        <li><a href="#">Rann of Kutch: The Ultimate Traveller's Guide</a></li>
+        <li><a href="#">Best Weekend Getaways from Mumbai</a></li>
+        <li><a href="#">Hampi Travel Guide: Temples, Ruins &amp; Beyond</a></li>
+        <li><a href="#">Night Photography Tips for Travel Photographers</a></li>
+        <li><a href="#">Ethical Wildlife Tourism in India: A Practical Guide</a></li>
+        <li><a href="#">Best Camping Destinations in India</a></li>
+      </ul>
+    </div>
+
+    <div class="bonus-section" style="margin-top:1.5rem;">
+      <h3>🔗 External Source Suggestions</h3>
+      <ul class="link-list">
+        <li><a href="https://www.iiap.res.in" target="_blank" rel="noopener">Indian Institute of Astrophysics (iiap.res.in)</a></li>
+        <li><a href="https://www.darksky.org" target="_blank" rel="noopener">International Dark-Sky Association (darksky.org)</a></li>
+        <li><a href="https://www.moefcc.gov.in" target="_blank" rel="noopener">Ministry of Environment, Forest &amp; Climate Change</a></li>
+        <li><a href="https://www.ladakhtourism.in" target="_blank" rel="noopener">Ladakh Tourism Official Website</a></li>
+        <li><a href="https://www.wildlifeinstitute.org" target="_blank" rel="noopener">Wildlife Institute of India (WII)</a></li>
+      </ul>
+    </div>
+
+    <div class="bonus-section" style="margin-top:1.5rem;">
+      <h3>📱 Social Media Caption</h3>
+      <div class="social-caption">
+        🌌 India after dark is a world most travellers never see — and one that will change how you see everything.<br /><br />
+        From Milky Way skies so dense they cast shadows in Ladakh, to beaches that glow blue-green with every step you take in Andaman — noctourism in India is the travel trend you need to experience before everyone else finds out about it.<br /><br />
+        We've mapped out 15 incredible night experiences. Your nights just got a lot more interesting. 🔭✨<br /><br />
+        #Noctourism #IndiaNights #Stargazing #MilkyWayIndia #NightSafari #Bioluminescence #DarkSkyIndia #Astrotourism #TravellersParadise #NightTravel
+      </div>
+    </div>
+
+    <div class="bonus-section" style="margin-top:1.5rem;">
+      <h3>📌 Pinterest Pin Description</h3>
+      <div class="social-caption">
+        ✨ NOCTOURISM IN INDIA: 15 Night Experiences That Will Change Everything<br /><br />
+        Ready to explore India after dark? From the world-class dark skies of Hanle in Ladakh (India's first Dark Sky Reserve!) to bioluminescent beaches in the Andamans, firefly forests in Maharashtra, and night safaris in Satpura — this guide covers 15 unforgettable night experiences across India. Includes photography tips, safety advice, best seasons, costs, and how to get there. Save this for your next trip! 🌙<br /><br />
+        Keywords: noctourism India · stargazing India · night safari India · things to do at night India · dark sky India · bioluminescence India
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================
+     CONCLUSION
+============================================ -->
+<section class="conclusion">
+  <div class="conclusion-star">✦</div>
+  <h2>India Awaits After Dark</h2>
+  <p>
+    The India that most travellers know is a sunlit one — colourful, loud, vivid, and magnificent. But the India that reveals itself after sunset is a different country entirely: quieter, more intimate, and charged with a kind of wonder that only darkness can unlock. A sky that holds ten thousand stars. A sea that answers your steps with fire. A forest that hums with life invisible to the day.
+  </p>
+  <p style="margin-top:-0.5rem;">
+    Noctourism is not about staying up late. It's about choosing, deliberately and with anticipation, to be present in a place when most people are asleep — and discovering that the world, in those hours, is at its most extraordinary. India is among the finest stages in the world for that discovery. All it asks is that you show up after dark.
+  </p>
+  <a href="#experiences" class="cta-btn">Explore All 15 Experiences ✦</a>
+</section>
+
+<!-- ============================================
+     FOOTER
+============================================ -->
+<footer class="site-footer">
+  <p>© 2024 Traveller's Paradise · Written for India's night explorers<br />
+  <span style="font-size:0.75rem; opacity:0.6;">Primary keyword: Noctourism in India · URL: /noctourism-in-india-night-experiences</span></p>
+</footer>
+
+<!-- ============================================
+     SCRIPTS
+============================================ -->
+<script>
+  /* ---- Star Field Canvas ---- */
+  (function () {
+    const canvas = document.getElementById('star-canvas');
+    const ctx = canvas.getContext('2d');
+    let stars = [];
+    let W, H;
+
+    function resize() {
+      W = canvas.width = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+
+    function createStars(count) {
+      stars = [];
+      for (let i = 0; i < count; i++) {
+        stars.push({
+          x: Math.random() * W,
+          y: Math.random() * H,
+          r: Math.random() * 1.4 + 0.2,
+          alpha: Math.random(),
+          speed: Math.random() * 0.008 + 0.002,
+          dir: Math.random() > 0.5 ? 1 : -1
+        });
+      }
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      stars.forEach(s => {
+        s.alpha += s.speed * s.dir;
+        if (s.alpha >= 1 || s.alpha <= 0) s.dir *= -1;
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(220, 230, 255, ${s.alpha})`;
+        ctx.fill();
+      });
+      requestAnimationFrame(draw);
+    }
+
+    window.addEventListener('resize', () => { resize(); createStars(260); });
+    resize();
+    createStars(260);
+    draw();
+  })();
+
+  /* ---- FAQ Accordion ---- */
+  function toggleFAQ(btn) {
+    const item = btn.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(el => {
+      el.classList.remove('open');
+      el.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+    });
+    if (!isOpen) {
+      item.classList.add('open');
+      btn.setAttribute('aria-expanded', 'true');
+    }
+  }
+
+  /* ---- Scroll-triggered section reveals ---- */
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.style.opacity = '1';
+          e.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.08 });
+
+    document.querySelectorAll('.exp-card, .sky-card, .photo-card, .safety-card, .future-card').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(24px)';
+      el.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
+      observer.observe(el);
+    });
+  }
+</script>
+
+</body>
+</html>
